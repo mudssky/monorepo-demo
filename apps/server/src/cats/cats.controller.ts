@@ -28,8 +28,10 @@ export class CatsController {
   constructor(private catsService: CatsService) {}
   @Get()
   async findAll(): Promise<Cat[]> {
+    // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN)
     return this.catsService.findAll()
   }
+
   @Post()
   async create(@Body() createCatDto: CreateCatDto) {
     console.log({ createCatDto })
