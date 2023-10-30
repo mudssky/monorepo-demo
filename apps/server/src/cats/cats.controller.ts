@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Injectable,
   Param,
   Post,
   Query,
