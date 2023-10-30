@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "path": "apps/web",
+      "name": "frontend"
+    },
+    {
+      "path": "apps/server",
+      "name": "backend"
+    },
+    {
+      "path": "packages/eslint-config-custom",
+      "name": "eslint"
+    },
+    {
+      "path": "packages/tsconfig",
+      "name": "tsconfig"
+    },
+    {
+      "path": ".",
+      "name": "root"
+    }
+  ]
+}
