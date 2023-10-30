@@ -2,17 +2,14 @@ import {
   Body,
   Controller,
   Get,
-  Header,
-  HttpCode,
   Param,
   Post,
   Query,
   Redirect,
-  Req,
 } from '@nestjs/common'
 import { ApiProperty, ApiTags } from '@nestjs/swagger'
-import { Request } from 'express'
-import { pick } from 'lodash'
+import { CatsService } from './cats.service'
+import { Cat } from './interfaces/cat.interface'
 
 export class CreateCatDto {
   @ApiProperty({
@@ -28,19 +25,16 @@ export class CreateCatDto {
 @Controller('cats')
 @ApiTags('cats')
 export class CatsController {
+  constructor(private catsService: CatsService) {}
   @Get()
-  findAll(@Req() req: Request) {
-    console.log({
-      ...pick(req, ['body', 'query']),
-    })
-    return 'This action returns all cats'
+  async findAll(): Promise<Cat[]> {
+    return this.catsService.findAll()
   }
   @Post()
-  @HttpCode(204)
-  @Header('Cache-Control', 'none')
   async create(@Body() createCatDto: CreateCatDto) {
     console.log({ createCatDto })
-    return 'This action adds a new cat'
+    // return 'This action adds a new cat'
+    this.catsService.create(createCatDto)
   }
 
   /**
