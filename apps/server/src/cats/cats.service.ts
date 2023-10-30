@@ -8,8 +8,10 @@ export class CatsService {
   create(cat: Cat) {
     this.cats.push(cat)
   }
-
   findAll(): Cat[] {
     return this.cats
+  }
+  findOne(id: number) {
+    console.log({ id })
   }
 }

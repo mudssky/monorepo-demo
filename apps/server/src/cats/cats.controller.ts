@@ -2,16 +2,28 @@ import {
   Body,
   Controller,
   Get,
-  Injectable,
   Param,
+  ParseIntPipe,
   Post,
   Query,
   Redirect,
+  UsePipes,
 } from '@nestjs/common'
 import { ApiProperty, ApiTags } from '@nestjs/swagger'
 import { CatsService } from './cats.service'
 import { Cat } from './interfaces/cat.interface'
+import { z } from 'zod'
+import { ZodValidationPipe } from '@/common/pipes/zod-validation/zod-validation.pipe'
 
+export const createCatSchema = z
+  .object({
+    name: z.string(),
+    age: z.number(),
+    breed: z.string(),
+  })
+  .required()
+
+// export type CreateCatDto = z.infer<typeof createCatSchema>;
 export class CreateCatDto {
   @ApiProperty({
     description: '名字',
@@ -34,6 +46,7 @@ export class CatsController {
   }
 
   @Post()
+  @UsePipes(new ZodValidationPipe(createCatSchema))
   async create(@Body() createCatDto: CreateCatDto) {
     console.log({ createCatDto })
     // return 'This action adds a new cat'
@@ -61,9 +74,8 @@ export class CatsController {
   }
 
   @Get(':id')
-  findOne(@Param() params: any): string {
-    console.log(params.id)
-    return `This action returns a #${params.id} cat`
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.catsService.findOne(id)
   }
 }
 
