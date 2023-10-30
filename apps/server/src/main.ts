@@ -4,7 +4,8 @@ import { AppModule } from './app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
-
+  // 这里可以注册全局中间件
+  // app.use(logger);
   const config = new DocumentBuilder()
     .setTitle('server example')
     .setDescription('The server API description')
