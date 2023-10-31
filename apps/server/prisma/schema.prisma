@@ -6,22 +6,23 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  // provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+enum UserStatus {
+  ACTIVE //正常
+  INACTIVE //暂时未使用
+  DISABLE //禁用
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model User {
+  id        Int        @id @default(autoincrement())
+  // 邮箱
+  email     String     @unique
+  // 用户名
+  name      String     @unique
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
 }
