@@ -4,11 +4,14 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common'
-import { CatsModule } from './cats/cats.module'
-import { PigsModule } from './pigs/pigs.module'
-import { LoggerMiddleware } from './common/middlewares/logger/logger.middleware'
+import { CatsModule } from '@/modules/cats/cats.module'
+import { PigsModule } from '@/modules/pigs/pigs.module'
+import { LoggerMiddleware } from '@/common/middlewares/logger/logger.middleware'
+import { PrismaService } from '@/modules/prisma/prisma.service'
+import { UserModule } from '@/modules/user/user.module'
 @Module({
-  imports: [CatsModule, PigsModule],
+  imports: [CatsModule, PigsModule, UserModule],
+  providers: [PrismaService],
 })
 
 // 需要实现NestModule 才能注册中间件

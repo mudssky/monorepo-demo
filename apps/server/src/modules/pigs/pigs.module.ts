@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { PigsController } from './pigs.controller'
+import { PigsController } from '@/modules/pigs/pigs.controller'
 
 @Module({
   controllers: [PigsController],
