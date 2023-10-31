@@ -9,8 +9,17 @@ import { PigsModule } from '@/modules/pigs/pigs.module'
 import { LoggerMiddleware } from '@/common/middlewares/logger/logger.middleware'
 import { PrismaService } from '@/modules/prisma/prisma.service'
 import { UserModule } from '@/modules/user/user.module'
+import { ConfigModule } from '@nestjs/config'
+import { AuthModule } from './modules/auth/auth.module'
+
 @Module({
-  imports: [CatsModule, PigsModule, UserModule],
+  imports: [
+    CatsModule,
+    PigsModule,
+    UserModule,
+    ConfigModule.forRoot(),
+    AuthModule,
+  ],
   providers: [PrismaService],
 })
 
