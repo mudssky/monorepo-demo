@@ -21,7 +21,10 @@ import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-va
     CatsModule,
     PigsModule,
     UserModule,
-    ConfigModule.forRoot(),
+    // 全局加载环境变量配置
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AuthModule,
     PrismaModule,
   ],

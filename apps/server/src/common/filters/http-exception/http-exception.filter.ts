@@ -16,8 +16,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     console.log({ exception })
 
     response.status(status).json(
-      // @ts-ignore
-      GlobalApiResponse.Fail(exception.response.message, {
+      GlobalApiResponse.Fail(exception.message, {
         statusCode: status,
         // path:request.url
       }),
