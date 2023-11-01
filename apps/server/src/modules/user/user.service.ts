@@ -22,6 +22,7 @@ export class UserService {
     orderBy?: Prisma.UserOrderByWithRelationInput
   }): Promise<User[]> {
     const { skip, take, cursor, where, orderBy } = params
+    // await new Promise((resolve) => setTimeout(resolve, 3000))
     return this.prisma.user.findMany({
       skip,
       take,

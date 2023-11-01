@@ -19,6 +19,7 @@
   "name": "monorepo-demo",
   "dependencies": {
     "@mudssky/jsutils": "^0.4.0",
+    "dayjs": "^1.11.10",
     "lodash": "^4.17.21"
   }
 }

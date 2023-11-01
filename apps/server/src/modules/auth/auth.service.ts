@@ -4,11 +4,15 @@ import { CreateUserDto } from '../user/dto/user.dto'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { DatabaseException } from '@/common/exceptions/database'
 import { LoginDto } from './dto/auth.dto'
+import { GlobalLoggerService } from '@/modules/logger/logger.service'
 
 @Injectable()
 export class AuthService {
   //  private readonly logger = new Logger()
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly logger: GlobalLoggerService,
+  ) {}
   async register(createUserDto: CreateUserDto) {
     try {
       return await this.prisma.user.create({
@@ -26,33 +30,30 @@ export class AuthService {
       throw error
     }
   }
-  async login(loginDto: LoginDto) {
-    const res = await this.prisma.user.findMany({
+  /**
+   * 登陆时，可以输入用户名或邮箱作为登录的用户名
+   * @param username
+   */
+  private async findUserByNameOrEmail(username: string) {
+    return await this.prisma.user.findMany({
       where: {
         OR: [
           {
-            email: { equals: loginDto.username },
+            email: { equals: username },
           },
           {
-            name: { equals: loginDto.username },
+            name: { equals: username },
           },
         ],
       },
     })
-    if (res.length > 0) {
+  }
+  async login(loginDto: LoginDto) {
+    const userlist = await this.findUserByNameOrEmail(loginDto.username)
+    this.logger.debug({ data: userlist, msg: '登录查找用户' })
+    // 查找不到用户时
+    if (userlist.length < 1) {
+      throw new DatabaseException('该用户不存在')
     }
-    // {
-    //   where: {
-    //     OR: [
-    //       {
-    //         email: { equals: loginDto.username },
-    //       },
-    //       {
-    //         name: { equals: loginDto.username },
-    //       },
-    //     ],
-    //   },
-    // }
-    console.log({ res })
   }
 }
