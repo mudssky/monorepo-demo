@@ -10,6 +10,9 @@ export class AuthController {
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     // console.log({ createUserDto })
-    this.authService.register(createUserDto)
+    // const res = await this.authService.register(createUserDto)
+    // console.log({ res })
+
+    return this.authService.register(createUserDto)
   }
 }

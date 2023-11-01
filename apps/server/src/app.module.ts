@@ -7,10 +7,13 @@ import {
 import { CatsModule } from '@/modules/cats/cats.module'
 import { PigsModule } from '@/modules/pigs/pigs.module'
 import { LoggerMiddleware } from '@/common/middlewares/logger/logger.middleware'
-import { PrismaService } from '@/modules/prisma/prisma.service'
+
 import { UserModule } from '@/modules/user/user.module'
 import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './modules/auth/auth.module'
+import { PrismaModule } from './modules/prisma/prisma.module'
+import { APP_INTERCEPTOR } from '@nestjs/core'
+import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 
 @Module({
   imports: [
@@ -19,8 +22,16 @@ import { AuthModule } from './modules/auth/auth.module'
     UserModule,
     ConfigModule.forRoot(),
     AuthModule,
+    PrismaModule,
   ],
-  providers: [PrismaService],
+
+  providers: [
+    {
+      // 全局响应拦截器，用于封装统一的消息格式 {code,msg,data}
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
+    },
+  ],
 })
 
 // 需要实现NestModule 才能注册中间件
