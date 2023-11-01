@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common'
+import { HttpStatus, Injectable } from '@nestjs/common'
 import { PrismaService } from '@/modules/prisma/prisma.service'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { DatabaseException } from '@/common/exceptions/database'
 import { LoginDto } from './dto/auth.dto'
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
+import { omit } from 'lodash'
+import { UserService } from '../user/user.service'
 
 @Injectable()
 export class AuthService {
@@ -12,6 +14,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly logger: GlobalLoggerService,
+    private readonly userSevice: UserService,
   ) {}
   async register(createUserDto: CreateUserDto) {
     try {
@@ -30,30 +33,21 @@ export class AuthService {
       throw error
     }
   }
-  /**
-   * 登陆时，可以输入用户名或邮箱作为登录的用户名
-   * @param username
-   */
-  private async findUserByNameOrEmail(username: string) {
-    return await this.prisma.user.findMany({
-      where: {
-        OR: [
-          {
-            email: { equals: username },
-          },
-          {
-            name: { equals: username },
-          },
-        ],
-      },
-    })
-  }
-  async login(loginDto: LoginDto) {
-    const userlist = await this.findUserByNameOrEmail(loginDto.username)
+
+  async validateUser(loginDto: LoginDto) {
+    const userlist = await this.userSevice.findUserByNameOrEmail(
+      loginDto.username,
+    )
     this.logger.debug({ data: userlist, msg: '登录查找用户' })
     // 查找不到用户时
     if (userlist.length < 1) {
-      throw new DatabaseException('该用户不存在')
+      throw new DatabaseException('该用户不存在', HttpStatus.UNAUTHORIZED)
     }
+    // 暂不考虑重复数据的情况
+    const user = userlist[0]
+    if (user.password !== loginDto.password) {
+      throw new DatabaseException('用户名或密码错误', HttpStatus.UNAUTHORIZED)
+    }
+    return omit(user, ['password'])
   }
 }

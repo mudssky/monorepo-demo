@@ -54,4 +54,22 @@ export class UserService {
       where,
     })
   }
+  /**
+   * 登陆时，可以输入用户名或邮箱作为登录的用户名
+   * @param username
+   */
+  async findUserByNameOrEmail(username: string) {
+    return await this.prisma.user.findMany({
+      where: {
+        OR: [
+          {
+            email: { equals: username },
+          },
+          {
+            name: { equals: username },
+          },
+        ],
+      },
+    })
+  }
 }
