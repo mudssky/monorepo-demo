@@ -1,13 +1,13 @@
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from './app.module'
-import { ValidationPipe } from '@nestjs/common/pipes'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   // 这里可以注册全局中间件
   // app.use(logger);
-  app.useGlobalPipes(new ValidationPipe())
+  // 改为在app.module注册
+  // app.useGlobalPipes(new ValidationPipe())
   const config = new DocumentBuilder()
     .setTitle('server example')
     .setDescription('The server API description')

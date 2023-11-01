@@ -1,4 +1,4 @@
-import { GlobalApiResponse } from '@/common/response.dto'
+import { GlobalApiResponse } from '@/common/dto/response.dto'
 import {
   CallHandler,
   ExecutionContext,

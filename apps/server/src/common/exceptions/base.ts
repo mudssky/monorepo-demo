@@ -1,5 +1,5 @@
 import { HttpException, HttpExceptionOptions, HttpStatus } from '@nestjs/common'
-import { GlobalApiResponse } from '../response.dto'
+import { GlobalApiResponse } from '../dto/response.dto'
 
 export class BaseException extends HttpException {
   constructor(

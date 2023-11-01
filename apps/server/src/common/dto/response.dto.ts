@@ -3,7 +3,7 @@ import { HttpStatus } from '@nestjs/common'
 interface OkResponse<T = any> {
   code: API_CODE
   data: T | null
-  msg: string
+  msg: string | string[]
 }
 interface ErrorResponse extends OkResponse {
   error: {

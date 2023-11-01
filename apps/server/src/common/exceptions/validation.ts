@@ -1,7 +1,7 @@
-import { HttpExceptionOptions, HttpStatus } from '@nestjs/common'
+import { HttpStatus, HttpExceptionOptions } from '@nestjs/common'
 import { BaseException } from './base'
 
-export class DatabaseException extends BaseException {
+export class ValidationException extends BaseException {
   constructor(
     message: string,
     statusCode?: HttpStatus,

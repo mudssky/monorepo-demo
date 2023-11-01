@@ -12,8 +12,9 @@ import { UserModule } from '@/modules/user/user.module'
 import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './modules/auth/auth.module'
 import { PrismaModule } from './modules/prisma/prisma.module'
-import { APP_INTERCEPTOR } from '@nestjs/core'
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
+import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
 
 @Module({
   imports: [
@@ -27,10 +28,18 @@ import { ResponseInterceptor } from '@/common/interceptors/response/response.int
 
   providers: [
     {
+      provide: APP_PIPE,
+      useClass: GlobalValidationPipe,
+    },
+    {
       // 全局响应拦截器，用于封装统一的消息格式 {code,msg,data}
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
     },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: GlobalExceptionFilter,
+    // },
   ],
 })
 
