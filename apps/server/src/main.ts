@@ -3,6 +3,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { AppModule } from './app.module'
 import { ConfigService } from '@nestjs/config'
 import { INestApplication } from '@nestjs/common'
+import { GlobalLoggerService } from './modules/logger/logger.service'
+
 /**
  * 配置swagger
  * @param app
@@ -26,8 +28,10 @@ async function bootstrap() {
 
   // 获取配置
   const configService = app.get(ConfigService)
+  app.useLogger(app.get(GlobalLoggerService))
   setupSwagger(app)
 
   await app.listen(configService.get<number>('PORT') ?? 33101)
 }
+
 bootstrap()

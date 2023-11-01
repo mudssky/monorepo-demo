@@ -15,6 +15,7 @@ import { PrismaModule } from './modules/prisma/prisma.module'
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
+import { LoggerModule } from './modules/logger/logger.module'
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-va
     }),
     AuthModule,
     PrismaModule,
+    LoggerModule,
   ],
 
   providers: [
