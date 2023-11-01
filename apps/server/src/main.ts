@@ -28,10 +28,16 @@ async function bootstrap() {
 
   // 获取配置
   const configService = app.get(ConfigService)
-  app.useLogger(app.get(GlobalLoggerService))
+  const globalLogger = app.get(GlobalLoggerService)
+  app.useLogger(globalLogger)
+  globalLogger.info('global logger setup succeed')
   setupSwagger(app)
+  globalLogger.info('swagger setup succeed')
 
-  await app.listen(configService.get<number>('PORT') ?? 33101)
+  const port = configService.get<number>('PORT') ?? 33101
+  globalLogger.info(`server start at http://localhost:${port}`)
+  globalLogger.info(`docs at http://localhost:${port}/docs`)
+  await app.listen(port)
 }
 
 bootstrap()

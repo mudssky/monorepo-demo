@@ -54,6 +54,9 @@ export class GlobalLoggerService implements LoggerService {
     this.logger.info(message)
   }
 
+  info(message: string) {
+    this.logger.info(message)
+  }
   warn(message: string) {
     this.logger.warn(message)
   }
