@@ -39,6 +39,7 @@ import config from '@/common/config/config'
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
     },
+    // 全局jwt认证，使用@public装饰器可以绕过
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
