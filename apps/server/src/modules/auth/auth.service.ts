@@ -8,6 +8,8 @@ import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { omit } from 'lodash'
 import { UserService } from '../user/user.service'
 import * as bcrypt from 'bcrypt'
+import { JwtService } from '@nestjs/jwt'
+import { User } from '@prisma/client'
 @Injectable()
 export class AuthService {
   //  private readonly logger = new Logger()
@@ -15,6 +17,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly logger: GlobalLoggerService,
     private readonly userSevice: UserService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async hashPassword(password: string) {
@@ -64,5 +67,12 @@ export class AuthService {
       throw new DatabaseException('用户名或密码错误', HttpStatus.UNAUTHORIZED)
     }
     return omit(user, ['password'])
+  }
+
+  async login(user: User) {
+    const payload = { username: user.name, sub: user.id }
+    return {
+      access_token: this.jwtService.sign(payload),
+    }
   }
 }

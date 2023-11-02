@@ -11,7 +11,6 @@ import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
 import { GlobalLoggerModule } from '@/modules/logger/logger.module'
-
 @Module({
   imports: [
     CatsModule,
