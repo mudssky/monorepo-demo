@@ -1,8 +1,8 @@
 {
   "folders": [
     {
-      "path": "apps/web",
-      "name": "frontend"
+      "path": "apps/web-admin",
+      "name": "web-admin"
     },
     {
       "path": "apps/server",
