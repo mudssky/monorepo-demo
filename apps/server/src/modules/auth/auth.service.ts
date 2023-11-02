@@ -7,7 +7,7 @@ import { LoginDto } from './dto/auth.dto'
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { omit } from 'lodash'
 import { UserService } from '../user/user.service'
-
+import * as bcrypt from 'bcrypt'
 @Injectable()
 export class AuthService {
   //  private readonly logger = new Logger()
@@ -16,10 +16,20 @@ export class AuthService {
     private readonly logger: GlobalLoggerService,
     private readonly userSevice: UserService,
   ) {}
+
+  async hashPassword(password: string) {
+    const saltOrRounds = 10
+    const hash = await bcrypt.hash(password, saltOrRounds)
+    return hash
+  }
+
   async register(createUserDto: CreateUserDto) {
     try {
       return await this.prisma.user.create({
-        data: createUserDto,
+        data: {
+          ...createUserDto,
+          password: await this.hashPassword(createUserDto.password),
+        },
       })
     } catch (error) {
       if (
@@ -45,7 +55,12 @@ export class AuthService {
     }
     // 暂不考虑重复数据的情况
     const user = userlist[0]
-    if (user.password !== loginDto.password) {
+
+    const isPasswordCorrect = await bcrypt.compare(
+      loginDto.password,
+      user.password,
+    )
+    if (!isPasswordCorrect) {
       throw new DatabaseException('用户名或密码错误', HttpStatus.UNAUTHORIZED)
     }
     return omit(user, ['password'])
