@@ -12,6 +12,7 @@ import { ResponseInterceptor } from '@/common/interceptors/response/response.int
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
 import { GlobalLoggerModule } from '@/modules/logger/logger.module'
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth/jwt-auth.guard'
+import config from '@/common/config/config'
 @Module({
   imports: [
     CatsModule,
@@ -20,6 +21,8 @@ import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth/jwt-auth.guard'
     // 全局加载环境变量配置
     ConfigModule.forRoot({
       isGlobal: true,
+      load: [config],
+      cache: true, //缓存，提升访问.env的性能
     }),
     PrismaModule,
     GlobalLoggerModule,

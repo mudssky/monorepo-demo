@@ -20,8 +20,6 @@ import { JwtStrategy } from './jwt.strategy'
             expiresIn: configService.get<number>('JWT_EXPIRATION'),
           },
         }
-        console.log({ config })
-
         return config
       },
       inject: [ConfigService], // 注入 ConfigService

@@ -33,6 +33,10 @@ async function bootstrap() {
   const globalLogger = app.get(GlobalLoggerService)
   app.useLogger(globalLogger)
   globalLogger.info('global logger setup succeed')
+  globalLogger.info({
+    message: 'config setup success',
+    config: configService,
+  })
   setupSwagger(app)
   globalLogger.info('swagger setup succeed')
 
