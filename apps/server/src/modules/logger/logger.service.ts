@@ -46,19 +46,19 @@ export class GlobalLoggerService implements LoggerService {
     }
   }
 
-  error(message: string, trace: string) {
-    this.logger.error(message, trace)
+  error(message: any, ...optionalParams: any[]) {
+    this.logger.error(message, optionalParams)
   }
 
-  log(message: string) {
-    this.logger.info(message)
+  log(message: any, ...optionalParams: any[]) {
+    this.logger.info(message, optionalParams)
   }
 
-  info(message: string) {
-    this.logger.info(message)
+  info(message: any, ...optionalParams: any[]) {
+    this.logger.info(message, optionalParams)
   }
-  warn(message: string) {
-    this.logger.warn(message)
+  warn(message: any, ...optionalParams: any[]) {
+    this.logger.warn(message, optionalParams)
   }
   debug(message: any, ...optionalParams: any[]) {
     this.logger.debug(message, optionalParams)

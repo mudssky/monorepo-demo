@@ -7,10 +7,11 @@ import { UserModule } from '@/modules/user/user.module'
 import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './modules/auth/auth.module'
 import { PrismaModule } from './modules/prisma/prisma.module'
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
 import { GlobalLoggerModule } from '@/modules/logger/logger.module'
+import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth/jwt-auth.guard'
 @Module({
   imports: [
     CatsModule,
@@ -34,6 +35,10 @@ import { GlobalLoggerModule } from '@/modules/logger/logger.module'
       // 全局响应拦截器，用于封装统一的消息格式 {code,msg,data}
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
     // {
     //   provide: APP_FILTER,

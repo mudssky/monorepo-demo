@@ -4,7 +4,6 @@ import { AppModule } from './app.module'
 import { ConfigService } from '@nestjs/config'
 import { INestApplication } from '@nestjs/common'
 import { GlobalLoggerService } from './modules/logger/logger.service'
-import { NestExpressApplication } from '@nestjs/platform-express'
 
 /**
  * 配置swagger
@@ -21,10 +20,9 @@ function setupSwagger(app: INestApplication<any>) {
   SwaggerModule.setup('docs', app, document)
 }
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+  const app = await NestFactory.create(AppModule, {
     bufferLogs: true, //先缓存，等flush命令调用才会写入,这样保证日志用后续初始化完的logger使用
   })
-  app.set('trust proxy', 1)
   // 这里可以注册全局中间件
   // app.use(logger);
   // 改为在app.module注册
