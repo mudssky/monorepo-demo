@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { NotFound } from '@/pages/not-found/index'
 import App from '@/App'
 import { AppLayout } from '@/layout/appLayout'
+import { Login } from '@/pages/login'
 
 export const globalRouter = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export const globalRouter = createBrowserRouter([
         element: <App />,
       },
     ],
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
   // 404页面配置
   {
