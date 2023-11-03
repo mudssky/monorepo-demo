@@ -17,7 +17,10 @@ type FieldType = {
 export function Login() {
   return (
     <div className="w-screen h-screen bg-blue-300 flex items-center justify-center">
-      <div className="bg-slate-100 w-1/4 h-[400px] rounded-lg flex items-center justify-center">
+      <div className="bg-slate-100 w-1/4 h-[400px] rounded-lg flex flex-col items-center justify-center">
+        <div className="text-3xl flex justify-center mb-4">
+          <span>系统登陆</span>
+        </div>
         <Form
           name="basic"
           labelCol={{ span: 8 }}
