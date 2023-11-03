@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      port: parseInt(env.VITE_PORT),
+      port: parseInt(env.VITE_PORT ?? '21101'),
       proxy: {
         '/api': {
           target: env.VITE_PROXY_TARGET, //开发环境

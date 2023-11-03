@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Checkbox, Form, Input } from 'antd'
 
 const onFinish = (values: any) => {
@@ -16,9 +15,9 @@ type FieldType = {
 }
 export function Login() {
   return (
-    <div className="w-screen h-screen bg-blue-300 flex items-center justify-center">
-      <div className="bg-slate-100 w-1/4 h-[400px] rounded-lg flex flex-col items-center justify-center">
-        <div className="text-3xl flex justify-center mb-4">
+    <div className="flex h-screen w-screen items-center justify-center bg-blue-300">
+      <div className="flex h-[400px] w-1/4 flex-col items-center justify-center rounded-lg bg-slate-100">
+        <div className="mb-4 flex justify-center text-3xl">
           <span>系统登陆</span>
         </div>
         <Form

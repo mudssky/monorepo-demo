@@ -8,7 +8,10 @@ import {
 } from '@ant-design/icons'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import styles from './style.module.css'
+
 const { Header, Content, Footer, Sider } = Layout
+
 type MenuItem = Required<MenuProps>['items'][number]
 
 function getItem(
@@ -47,7 +50,7 @@ export function AppLayout() {
   } = theme.useToken()
 
   return (
-    <Layout className="w-screen min-h-screen m-0">
+    <Layout className={styles['layout-container']}>
       <Sider
         collapsible
         collapsed={collapsed}
@@ -69,15 +72,6 @@ export function AppLayout() {
             <Breadcrumb.Item>Bill</Breadcrumb.Item>
           </Breadcrumb>
           <Outlet></Outlet>
-          {/* <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-            }}
-          >
-            Bill is a cat.
-          </div> */}
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           Ant Design ©2023 Created by Ant UED
