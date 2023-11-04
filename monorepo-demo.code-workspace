@@ -5,6 +5,10 @@
       "name": "web-admin"
     },
     {
+      "path": "apps/jsbookmark",
+      "name": "jsbookmark"
+    },
+    {
       "path": "apps/server",
       "name": "backend"
     },

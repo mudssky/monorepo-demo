@@ -1,0 +1,9 @@
+{
+  "extends": ["tsconfig/jsbookmark.json"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist/tsoutput",
+    "removeComments": true
+  },
+  "include": ["src"]
+}
