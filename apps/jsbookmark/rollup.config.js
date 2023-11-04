@@ -51,7 +51,6 @@ const baseConfig = {
 }
 
 export default glob.globSync('src/scripts/*.{ts,js}').map((item) => {
-  const basename = path.basename(item, path.extname(item))
   return {
     input: item,
     ...baseConfig,
