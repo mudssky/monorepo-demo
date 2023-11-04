@@ -1,4 +1,4 @@
-import { jumpBuyArea } from './southplus-JumpBuy'
+import { jumpBuyArea } from './deprecated/southplus-JumpBuy'
 
 const buyArea = jumpBuyArea()
 

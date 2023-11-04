@@ -17,6 +17,10 @@
       "name": "eslint"
     },
     {
+      "path": "packages/stylelint-config-custom",
+      "name": "stylelint"
+    },
+    {
       "path": "packages/tsconfig",
       "name": "tsconfig"
     },
