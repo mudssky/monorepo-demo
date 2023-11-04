@@ -1,5 +1,10 @@
-import { Button, Checkbox, Form, Input } from 'antd'
+import { Button, Checkbox, Form, Input, Pagination } from 'antd'
 import styles from './styles.module.css'
+
+import { useTranslation } from 'react-i18next'
+import React from 'react'
+import { LangSwitch } from '@/components/LangSwitch'
+import { debugRenderLog } from '@/global/debug'
 const onFinish = (values: any) => {
   console.log('Success:', values)
 }
@@ -13,14 +18,19 @@ type FieldType = {
   password?: string
   remember?: string
 }
-export function Login() {
+export const Login = React.memo(function Login() {
+  const { t } = useTranslation()
+
+  debugRenderLog('login')
   return (
     <div className={styles['login-container']}>
       <div className="card glass w-96">
         <div className="card-title justify-center">
-          <span>系统登陆</span>
+          <span>{t('System Login')}</span>
+          <LangSwitch></LangSwitch>
         </div>
         <div className="card-body">
+          <Pagination showSizeChanger></Pagination>
           <Form
             name="basic"
             labelCol={{ span: 8 }}
@@ -32,7 +42,7 @@ export function Login() {
             autoComplete="off"
           >
             <Form.Item<FieldType>
-              label="用户名"
+              label={t('username')}
               name="username"
               rules={[
                 { required: true, message: 'Please input your username!' },
@@ -69,4 +79,4 @@ export function Login() {
       </div>
     </div>
   )
-}
+})

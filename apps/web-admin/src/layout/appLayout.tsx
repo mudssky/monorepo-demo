@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout, Menu, MenuProps, theme } from 'antd'
+import { Breadcrumb, Layout, Menu, MenuProps, Space, theme } from 'antd'
 import {
   DesktopOutlined,
   FileOutlined,
@@ -9,6 +9,8 @@ import {
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import styles from './style.module.css'
+import { debugRenderLog } from '@/global/debug'
+import { LangSwitch } from '@/components/LangSwitch'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -45,10 +47,8 @@ const items: MenuItem[] = [
 
 export function AppLayout() {
   const [collapsed, setCollapsed] = useState(false)
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken()
 
+  debugRenderLog('layout')
   return (
     <Layout className={styles['layout-container']}>
       <Sider
@@ -65,7 +65,11 @@ export function AppLayout() {
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
+        <Header className="flex justify-end">
+          <Space>
+            <LangSwitch></LangSwitch>
+          </Space>
+        </Header>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>

@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { NotFound } from '@/pages/not-found/index'
-import App from '@/App'
 import { AppLayout } from '@/layout/appLayout'
 import { Login } from '@/pages/login'
 
@@ -15,7 +14,7 @@ export const globalRouter = createBrowserRouter([
       {
         // index路由是outlet路由匹配但是没有组件默认显示的路由
         index: true,
-        element: <App />,
+        element: <NotFound />,
       },
     ],
   },

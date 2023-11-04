@@ -28,5 +28,12 @@
       "path": ".",
       "name": "root"
     }
-  ]
+  ],
+  "settings": {
+    "i18n-ally.localesPaths": [
+      "D:/coding/Projects/frontend/turbo/monorepo-demo/apps/web-admin/src/locales/json"
+    ],
+    "i18n-ally.keystyle": "flat",
+    "i18n-ally.sourceLanguage": "en-US"
+  }
 }
