@@ -57,6 +57,7 @@ export function useManageI18n() {
         },
       })
     const detectedLanguage = (i18n.language ?? fallBackLng) as localeKey
+    // LanguageDetector 检测的语言，会在localstorage里设置
     // console.log({ detectedLanguage })
     dayjs.locale(resources[detectedLanguage].dayjs.locale)
     if (currentLocaleKey !== detectedLanguage) {

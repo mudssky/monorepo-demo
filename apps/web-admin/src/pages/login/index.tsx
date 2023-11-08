@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Pagination } from 'antd'
+import { Button, Form, Input } from 'antd'
 import styles from './styles.module.css'
 
 import { useTranslation } from 'react-i18next'
@@ -30,50 +30,50 @@ export const Login = React.memo(function Login() {
           <LangSwitch></LangSwitch>
         </div>
         <div className="card-body">
-          <Pagination showSizeChanger></Pagination>
           <Form
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            style={{ maxWidth: 600 }}
-            initialValues={{ remember: true }}
+            size="large"
+            // labelCol={{ span: 8 }}
+            // wrapperCol={{ span: 16 }}
+            // style={{ maxWidth: 600 }}
+            // initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            autoComplete="off"
+            // autoComplete="off"
           >
             <Form.Item<FieldType>
-              label={t('username')}
+              // label={t('username')}
               name="username"
               rules={[
-                { required: true, message: t('please-input-your-username') },
+                {
+                  required: true,
+                  message: t('please-input-your-email-or-username'),
+                },
               ]}
             >
-              <Input />
+              <Input placeholder={t('username')} />
             </Form.Item>
 
             <Form.Item<FieldType>
-              label={t('password')}
+              // label={t('password')}
               name="password"
               rules={[
                 { required: true, message: t('please-input-your-password') },
               ]}
             >
-              <Input.Password />
+              <Input.Password placeholder={t('password')} />
             </Form.Item>
 
-            <Form.Item<FieldType>
+            {/* <Form.Item<FieldType>
               name="remember"
               valuePropName="checked"
               wrapperCol={{ offset: 8, span: 16 }}
             >
-              <Checkbox>t('remember-me')</Checkbox>
-            </Form.Item>
+              <Checkbox>{t('remember-me')}</Checkbox>
+            </Form.Item> */}
 
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
-                {t('submit')}{' '}
-              </Button>
-            </Form.Item>
+            <Button type="primary" htmlType="submit" block>
+              {t('submit')}
+            </Button>
           </Form>
         </div>
       </div>

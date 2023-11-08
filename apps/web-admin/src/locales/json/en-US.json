@@ -4,9 +4,9 @@
   "login": "login",
   "Back to home": "Back to home",
   "password": "password",
-  "please-input-your-username": "Please input your username!",
   "please-input-your-password": "Please input your password!",
   "remember-me": "Remember me",
   "submit": "Submit",
-  "system-login": "System Login"
+  "system-login": "System Login",
+  "please-input-your-email-or-username": "please input your email or username"
 }

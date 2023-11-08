@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout, Menu, MenuProps, Space, theme } from 'antd'
+import { Breadcrumb, Layout, Menu, MenuProps } from 'antd'
 import {
   DesktopOutlined,
   FileOutlined,
@@ -10,9 +10,9 @@ import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import styles from './style.module.css'
 import { debugRenderLog } from '@/global/debug'
-import { LangSwitch } from '@/components/LangSwitch'
+import HeaderLayout from './headerLayout'
 
-const { Header, Content, Footer, Sider } = Layout
+const { Content, Footer, Sider } = Layout
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -65,11 +65,7 @@ export function AppLayout() {
         />
       </Sider>
       <Layout>
-        <Header className="flex justify-end">
-          <Space>
-            <LangSwitch></LangSwitch>
-          </Space>
-        </Header>
+        <HeaderLayout></HeaderLayout>
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>
