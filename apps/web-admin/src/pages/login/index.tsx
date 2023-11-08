@@ -52,7 +52,7 @@ export const Login = React.memo(function Login() {
             </Form.Item>
 
             <Form.Item<FieldType>
-              label="Password"
+              label={t('password')}
               name="password"
               rules={[
                 { required: true, message: 'Please input your password!' },
