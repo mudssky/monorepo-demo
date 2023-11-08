@@ -20,6 +20,7 @@ export class LoggerMiddleware implements NestMiddleware {
         userAgent: req.get('User-Agent'),
         body: req.body,
         params: req.params,
+        header: req.headers,
         cost,
       })
     })

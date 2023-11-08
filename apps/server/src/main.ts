@@ -15,6 +15,17 @@ function setupSwagger(app: INestApplication<any>) {
     .setDescription('The server API description')
     .setVersion('1.0')
     .addBearerAuth()
+    .addSecurityRequirements('bearer') //给所有标签添加字段，不然需要每个控制器上面用@ApiBearerAuth()
+    // .addSecurity('ApiKeyAuth', {
+    //   type: 'http',
+    //   in: 'header',
+    //   name: 'Authorization',
+    // })
+
+    // .addGlobalParameters({
+    //   name: 'Authorization',
+    //   in: 'header',
+    // })
     .build()
   const document = SwaggerModule.createDocument(app, docConfig)
   SwaggerModule.setup('docs', app, document)

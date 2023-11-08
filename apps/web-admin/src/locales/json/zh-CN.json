@@ -8,5 +8,6 @@
   "remember-me": "记住我",
   "submit": "提交",
   "system-login": "系统登录",
-  "please-input-your-email-or-username": "请输入邮箱或用户名"
+  "please-input-your-email-or-username": "请输入邮箱或用户名",
+  "need login": "请登录"
 }
