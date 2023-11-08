@@ -151,13 +151,13 @@ export class Request {
     for (const reqi of interceptors?.requestInterceptors ?? []) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      this.instance.interceptors.request.use(reqi)
+      this.instance.interceptors.request.use(...reqi)
     }
 
     for (const resi of interceptors?.requestInterceptors ?? []) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      this.instance.interceptors.response.use(resi)
+      this.instance.interceptors.response.use(...resi)
     }
   }
 }
