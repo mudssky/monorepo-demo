@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next'
 import React from 'react'
 import { LangSwitch } from '@/components/LangSwitch'
 import { debugRenderLog } from '@/global/debug'
-const onFinish = (values: any) => {
+const onFinish = (values: unknown) => {
   console.log('Success:', values)
 }
 
-const onFinishFailed = (errorInfo: any) => {
+const onFinishFailed = (errorInfo: unknown) => {
   console.log('Failed:', errorInfo)
 }
 
@@ -26,7 +26,7 @@ export const Login = React.memo(function Login() {
     <div className={styles['login-container']}>
       <div className="card glass w-96">
         <div className="card-title justify-center">
-          <span>{t('System Login')}</span>
+          <span>{t('system-login')}</span>
           <LangSwitch></LangSwitch>
         </div>
         <div className="card-body">
@@ -45,7 +45,7 @@ export const Login = React.memo(function Login() {
               label={t('username')}
               name="username"
               rules={[
-                { required: true, message: 'Please input your username!' },
+                { required: true, message: t('please-input-your-username') },
               ]}
             >
               <Input />
@@ -55,7 +55,7 @@ export const Login = React.memo(function Login() {
               label={t('password')}
               name="password"
               rules={[
-                { required: true, message: 'Please input your password!' },
+                { required: true, message: t('please-input-your-password') },
               ]}
             >
               <Input.Password />
@@ -66,12 +66,12 @@ export const Login = React.memo(function Login() {
               valuePropName="checked"
               wrapperCol={{ offset: 8, span: 16 }}
             >
-              <Checkbox>Remember me</Checkbox>
+              <Checkbox>t('remember-me')</Checkbox>
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button type="primary" htmlType="submit">
-                Submit
+                {t('submit')}{' '}
               </Button>
             </Form.Item>
           </Form>

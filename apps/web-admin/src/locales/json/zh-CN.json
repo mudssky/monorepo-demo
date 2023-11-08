@@ -2,7 +2,11 @@
   "username": "用户名",
   "system": "系统",
   "login": "登录",
-  "System Login": "系统登录",
   "Back to home": "返回首页",
-  "password": "密码"
+  "password": "密码",
+  "please-input-your-username": "请输入用户名",
+  "please-input-your-password": "请输入密码",
+  "remember-me": "记住我",
+  "submit": "提交",
+  "system-login": "系统登录"
 }
