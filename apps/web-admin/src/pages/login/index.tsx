@@ -20,7 +20,7 @@ export const Login = React.memo(function Login() {
   debugRenderLog('login')
   return (
     <div className={styles['login-container']}>
-      <div className="card glass w-96">
+      <div className="card glass w-[450px]">
         <div className="card-title justify-center">
           {pathname === '/login' ? (
             <span>{t('system-login')}</span>

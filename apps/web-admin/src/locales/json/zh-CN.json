@@ -17,5 +17,6 @@
   "go to login": "前往登录",
   "repassword": "确认密码",
   "please input": "请输入",
-  "email": "邮箱"
+  "email": "邮箱",
+  "the-new-password-that-you-entered-do-not-match": "密码不匹配"
 }

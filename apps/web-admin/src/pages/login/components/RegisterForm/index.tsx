@@ -1,21 +1,29 @@
 import { Button, Form, FormInstance, Input } from 'antd'
 import { useSetupHook } from './hooks'
+import { equalValidate } from '@/utils/formValidator'
+import PasswordStrengthChecker from '../PasswordStrengthChecker'
 
 export interface Props {
   form?: FormInstance
 }
 
-type FieldType = {
+export type FieldType = {
   name?: string
   password?: string
   repassword?: string
   email?: string
 }
+
 export default function RegisterForm(props: Props) {
-  //   const { form } = props
   const { t, form, navigate, handleRegister } = useSetupHook(props)
+  const currentPassword = Form.useWatch('password', form)
   return (
-    <Form size="large" form={form}>
+    <Form
+      size="large"
+      form={form}
+      labelCol={{ span: 6 }}
+      wrapperCol={{ span: 18 }}
+    >
       <Form.Item<FieldType>
         label={t('username')}
         name="name"
@@ -48,11 +56,17 @@ export default function RegisterForm(props: Props) {
       >
         <Input.Password placeholder={t('please input')} />
       </Form.Item>
-
+      <PasswordStrengthChecker password={currentPassword} />
       <Form.Item<FieldType>
         label={t('repassword')}
         name="repassword"
-        rules={[{ required: true, message: t('please input') }]}
+        rules={[
+          { required: true, message: t('please input') },
+          equalValidate({
+            filedName: 'password',
+            errMsg: t('the-new-password-that-you-entered-do-not-match'),
+          }),
+        ]}
       >
         <Input.Password placeholder={t('please input')} />
       </Form.Item>
