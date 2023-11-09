@@ -9,5 +9,13 @@
   "submit": "提交",
   "system-login": "系统登录",
   "please-input-your-email-or-username": "请输入邮箱或用户名",
-  "need login": "请登录"
+  "need login": "请登录",
+  "login success": "登陆成功",
+  "user register": "用户注册",
+  "go to register": "前往注册",
+  "register": "注册",
+  "go to login": "前往登录",
+  "repassword": "确认密码",
+  "please input": "请输入",
+  "email": "邮箱"
 }

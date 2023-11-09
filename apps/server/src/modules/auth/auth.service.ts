@@ -10,6 +10,11 @@ import { UserService } from '../user/user.service'
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
+
+export interface LoginRes extends User {
+  access_token: string
+}
+
 @Injectable()
 export class AuthService {
   //  private readonly logger = new Logger()
@@ -51,7 +56,7 @@ export class AuthService {
     const userlist = await this.userSevice.findUserByNameOrEmail(
       loginDto.username,
     )
-    this.logger.debug({ data: userlist, msg: '登录查找用户' })
+    this.logger.debug({ data: userlist, msg: '登录查找用户', loginDto })
     // 查找不到用户时
     if (userlist.length < 1) {
       throw new DatabaseException('该用户不存在', HttpStatus.UNAUTHORIZED)
@@ -72,7 +77,8 @@ export class AuthService {
   async login(user: User) {
     const payload = { username: user.name, sub: user.id }
     return {
+      ...user,
       access_token: this.jwtService.sign(payload),
-    }
+    } satisfies LoginRes
   }
 }

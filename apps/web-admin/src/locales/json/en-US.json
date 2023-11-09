@@ -9,5 +9,13 @@
   "submit": "Submit",
   "system-login": "System Login",
   "please-input-your-email-or-username": "please input your email or username",
-  "need login": "need login"
+  "need login": "need login",
+  "login success": "login success",
+  "user register": "Register",
+  "go to register": "register",
+  "register": "register",
+  "go to login": "go to login",
+  "repassword": "confirm password",
+  "please input": "please input",
+  "email": "email"
 }

@@ -1,19 +1,20 @@
+import { CheckLogin } from '@/api/auth'
+import { GlobalStorage } from '@/global/storage'
 import { globalRouter } from '@/router'
-// import { redirect, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export function useSetupHook() {
-  //   const navigate = useNavigate()
-  //   const [form] = Form.useForm()
   const handleLogoutClick = async () => {
-    // dispatch(setUserInfoAction(undefined))
-    // delLocalStorage('userInfo')
-    // window.location.reload()
-    // redirect(globalRouter.navigat)
+    GlobalStorage.removeStorageSync('TOKEN')
     globalRouter.navigate('/login')
-    // navigate('/login')
   }
+  useEffect(() => {
+    CheckLogin()
+
+    return () => {}
+  }, [])
+
   return {
-    // form,
     handleLogoutClick,
   }
 }

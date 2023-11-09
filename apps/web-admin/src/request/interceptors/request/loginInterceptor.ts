@@ -3,15 +3,23 @@ import { CustomInterceptor } from '@/request/request'
 import { globalRouter } from '@/router'
 import { InternalAxiosRequestConfig } from 'axios'
 import { t } from 'i18next'
+const loginPath = '/login'
+const loginWhiteList = ['/auth/login']
+
 export const LoginInterceptor: CustomInterceptor<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   InternalAxiosRequestConfig<any>
 > = [
   function (config) {
+    // 白名单
+    if (loginWhiteList.includes(config.url ?? '')) {
+      return config
+    }
     const token = GlobalStorage.getStorageSync('TOKEN')
+    console.log({ config })
 
     if (!token) {
-      globalRouter.navigate('/login', {
+      globalRouter.navigate(loginPath, {
         replace: true,
       })
       return Promise.reject(t('need login'))

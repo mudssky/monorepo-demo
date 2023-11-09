@@ -5,6 +5,8 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  console.log('port', env.VITE_PORT, env.VITE_PROXY_TARGET)
+
   return {
     resolve: {
       alias: {
@@ -17,8 +19,10 @@ export default defineConfig(({ mode }) => {
         '/api': {
           target: env.VITE_PROXY_TARGET, //开发环境
           changeOrigin: true,
-          rewrite: (path) => {
-            return path
+          rewrite: (path: string) => {
+            // console.log({ path })
+            // 移除前缀
+            return path.replace(/^\/api/, '')
           },
         },
         '/static': {

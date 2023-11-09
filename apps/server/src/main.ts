@@ -48,6 +48,9 @@ async function bootstrap() {
     message: 'config setup success',
     config: configService,
   })
+
+  // 前缀感觉太累赘了，还是去掉
+  // app.setGlobalPrefix(configService.get('GLOBAL_PREFIX') ?? '/api')
   setupSwagger(app)
   globalLogger.info('swagger setup succeed')
 

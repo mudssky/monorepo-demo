@@ -2,7 +2,8 @@ import { ApiProperty } from '@nestjs/swagger'
 import { User } from '@prisma/client'
 import { IsNotEmpty } from 'class-validator'
 
-export class LoginDto implements Pick<User, 'password'> {
+export type LoginReq = Pick<User, 'password'>
+export class LoginDto implements LoginReq {
   @ApiProperty()
   @IsNotEmpty()
   password: string

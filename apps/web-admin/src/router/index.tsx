@@ -22,6 +22,10 @@ export const globalRouter = createBrowserRouter([
     path: '/login',
     element: <Login />,
   },
+  {
+    path: '/register',
+    element: <Login />,
+  },
   // 404页面配置
   {
     path: '*',
