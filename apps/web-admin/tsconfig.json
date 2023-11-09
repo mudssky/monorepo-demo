@@ -5,8 +5,13 @@
     "paths": {
       "@/*": ["src/*"],
       "@server/*": ["../server/*"]
-    }
+    },
+    "experimentalDecorators": true
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["../server/"],
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "../server/tsconfig.json" }
+  ]
 }

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { localeKey } from '@/i18n'
-import { LoginRes } from '@server/src/modules/auth/auth.service'
+import { LoginRes } from '@server/src/modules/auth/types'
 interface AppState {
   locale: localeKey
   setAntdLocale: (locale: localeKey) => void

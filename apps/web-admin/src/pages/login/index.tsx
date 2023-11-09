@@ -78,9 +78,7 @@ export const Login = React.memo(function Login() {
               </Button>
             </Form>
           ) : null}
-          {pathname === '/register' ? (
-            <RegisterForm form={form}></RegisterForm>
-          ) : null}
+          {pathname === '/register' ? <RegisterForm></RegisterForm> : null}
         </div>
       </div>
     </div>

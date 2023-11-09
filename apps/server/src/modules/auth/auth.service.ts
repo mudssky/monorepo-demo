@@ -10,10 +10,7 @@ import { UserService } from '../user/user.service'
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
-
-export interface LoginRes extends User {
-  access_token: string
-}
+import { LoginRes } from './types'
 
 @Injectable()
 export class AuthService {

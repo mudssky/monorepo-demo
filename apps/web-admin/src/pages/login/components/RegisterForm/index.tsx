@@ -14,8 +14,8 @@ export type FieldType = {
   email?: string
 }
 
-export default function RegisterForm(props: Props) {
-  const { t, form, navigate, handleRegister } = useSetupHook(props)
+export default function RegisterForm() {
+  const { t, form, navigate, handleRegister } = useSetupHook()
   const currentPassword = Form.useWatch('password', form)
   return (
     <Form

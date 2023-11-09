@@ -1,13 +1,12 @@
 import { Form, message } from 'antd'
-import { FieldType, Props } from '.'
+import { FieldType } from '.'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { REGISTER } from '@/api/auth'
-// import { omit } from 'lodash'
 import { omit } from '@mudssky/jsutils'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function useSetupHook(props: Props) {
+export function useSetupHook() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [form] = Form.useForm()
