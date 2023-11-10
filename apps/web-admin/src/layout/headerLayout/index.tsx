@@ -1,10 +1,10 @@
 import { LangSwitch } from '@/components/LangSwitch'
-import { DownOutlined } from '@ant-design/icons'
-import { Dropdown, Layout, MenuProps, Space } from 'antd'
+import { DownOutlined, UserOutlined } from '@ant-design/icons'
+import { Avatar, Dropdown, Layout, MenuProps, Space } from 'antd'
 import { useSetupHook } from './hooks'
 
 export default function HeaderLayout() {
-  const { handleLogoutClick } = useSetupHook()
+  const { userInfo, handleLogoutClick } = useSetupHook()
   const items: MenuProps['items'] = [
     {
       key: '1',
@@ -14,11 +14,17 @@ export default function HeaderLayout() {
 
   return (
     <Layout.Header className="flex justify-end">
-      <Space>
+      <Space align="center" size="middle">
         <LangSwitch></LangSwitch>
+        <Avatar
+          shape="circle"
+          size="default"
+          className="bg-purple-400 text-green-400"
+          icon={<UserOutlined />}
+        />
         <Dropdown menu={{ items }}>
           <Space className="text-[16px] text-white">
-            <span className="text-white">用户名</span>
+            <span className="text-white">{userInfo?.name ?? 'xxx'}</span>
             <DownOutlined />
           </Space>
         </Dropdown>

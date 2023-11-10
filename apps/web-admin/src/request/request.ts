@@ -164,7 +164,7 @@ export class Request {
       // @ts-ignore
       this.instance.interceptors.response.use(...resi)
     }
-    console.log('ins', this.instance.interceptors)
+    // console.log('ins', this.instance.interceptors)
   }
 }
 

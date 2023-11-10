@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '@/modules/prisma/prisma.service'
 import { User, Prisma } from '@prisma/client'
+import { JwtUser } from '../auth/types'
+import { GlobalLoggerService } from '../logger/logger.service'
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly logger: GlobalLoggerService,
+  ) {}
 
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
@@ -69,6 +74,14 @@ export class UserService {
             name: { equals: username },
           },
         ],
+      },
+    })
+  }
+
+  async getUserInfo(user: JwtUser) {
+    return await this.prisma.user.findUnique({
+      where: {
+        id: user.userId,
       },
     })
   }

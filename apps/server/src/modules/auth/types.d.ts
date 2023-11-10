@@ -6,3 +6,13 @@ export interface LoginRes extends User {
 }
 
 export type RegisterReq = Pick<User, 'email' | 'name' | 'password'>
+
+export type JwtUser = {
+  username: string
+  userId: number
+}
+
+export type JwtPayload = {
+  username: string
+  sub: number
+}

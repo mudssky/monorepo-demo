@@ -215,6 +215,9 @@ importers:
       i18next-http-backend:
         specifier: ^2.3.1
         version: 2.3.1
+      immer:
+        specifier: ^10.0.3
+        version: 10.0.3
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -232,7 +235,7 @@ importers:
         version: 6.18.0(react-dom@18.2.0)(react@18.2.0)
       zustand:
         specifier: ^4.4.6
-        version: 4.4.6(@types/react@18.2.34)(react@18.2.0)
+        version: 4.4.6(@types/react@18.2.34)(immer@10.0.3)(react@18.2.0)
     devDependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.10
@@ -5935,6 +5938,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immer@10.0.3:
+    resolution: {integrity: sha512-pwupu3eWfouuaowscykeckFmVTpqbzW+rXFCX8rQLkZzM9ftBmU/++Ra+o+L27mz03zJTlyV4UUr+fdKNffo4A==}
+    dev: false
+
   /immutable@4.3.4:
     resolution: {integrity: sha512-fsXeu4J4i6WNWSikpI88v/PcVflZz+6kMhUfIwc5SY+poQRPnaf5V7qds6SUyUN3cVxEzuCab7QIoLOQ+DQ1wA==}
     dev: true
@@ -10919,7 +10926,7 @@ packages:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: false
 
-  /zustand@4.4.6(@types/react@18.2.34)(react@18.2.0):
+  /zustand@4.4.6(@types/react@18.2.34)(immer@10.0.3)(react@18.2.0):
     resolution: {integrity: sha512-Rb16eW55gqL4W2XZpJh0fnrATxYEG3Apl2gfHTyDSE965x/zxslTikpNch0JgNjJA9zK6gEFW8Fl6d1rTZaqgg==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -10935,6 +10942,7 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.2.34
+      immer: 10.0.3
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
