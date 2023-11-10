@@ -13,6 +13,7 @@ import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-va
 import { GlobalLoggerModule } from '@/modules/logger/logger.module'
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth/jwt-auth.guard'
 import config from '@/common/config/config'
+import { SystemMonitorGatewayModule } from './gateways/system-monitor/system-monitor.module'
 @Module({
   imports: [
     CatsModule,
@@ -27,6 +28,8 @@ import config from '@/common/config/config'
     PrismaModule,
     GlobalLoggerModule,
     AuthModule,
+    // websocket 网关
+    SystemMonitorGatewayModule,
   ],
 
   providers: [
