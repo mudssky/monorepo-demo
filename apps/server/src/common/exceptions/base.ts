@@ -4,7 +4,7 @@ import { GlobalApiResponse } from '../dto/response.dto'
 export class BaseException extends HttpException {
   constructor(
     message: string,
-    statusCode = HttpStatus.BAD_REQUEST,
+    statusCode = HttpStatus.OK,
     options?: HttpExceptionOptions,
   ) {
     super(

@@ -2,6 +2,7 @@ import { Button, Form, FormInstance, Input } from 'antd'
 import { useSetupHook } from './hooks'
 import { equalValidate } from '@/utils/formValidator'
 import PasswordStrengthChecker from '../PasswordStrengthChecker'
+import { regexChecker } from '@/global/regex'
 
 export interface Props {
   form?: FormInstance
@@ -45,6 +46,10 @@ export default function RegisterForm() {
             required: true,
             message: t('please input'),
           },
+          {
+            pattern: regexChecker.emailPattern,
+            message: t('email invalid'),
+          },
         ]}
       >
         <Input placeholder={t('please input')} />
@@ -53,10 +58,11 @@ export default function RegisterForm() {
         label={t('password')}
         name="password"
         rules={[{ required: true, message: t('please-input-your-password') }]}
+        help={<PasswordStrengthChecker password={currentPassword} />}
       >
         <Input.Password placeholder={t('please input')} />
       </Form.Item>
-      <PasswordStrengthChecker password={currentPassword} />
+
       <Form.Item<FieldType>
         label={t('repassword')}
         name="repassword"

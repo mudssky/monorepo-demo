@@ -10,17 +10,18 @@ export function checkPasswordStrength(password: string) {
 
   let strengthLevel = 0
   if (!regexArr[0].test(password ?? '')) {
-    return 1
+    return 0
   }
-  strengthLevel++
 
   for (let i = 1; i < regexArr.length; i++) {
     if (regexArr[i].test(password)) {
       strengthLevel++
     }
   }
-  console.log({ strengthLevel })
-
   // 返回密码强度等级
   return strengthLevel
+}
+
+export function calcPercent(current: number, max: number) {
+  return (current * 100) / max
 }

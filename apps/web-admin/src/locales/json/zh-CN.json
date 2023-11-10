@@ -18,5 +18,7 @@
   "repassword": "确认密码",
   "please input": "请输入",
   "email": "邮箱",
-  "the-new-password-that-you-entered-do-not-match": "密码不匹配"
+  "the-new-password-that-you-entered-do-not-match": "密码不匹配",
+  "email invalid": "邮箱格式不对",
+  "register success": "注册成功"
 }

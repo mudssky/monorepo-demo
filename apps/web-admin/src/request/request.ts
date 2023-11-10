@@ -9,12 +9,15 @@ import type {
   InternalAxiosRequestConfig,
 } from 'axios'
 import { LoginInterceptor } from './interceptors/request/loginInterceptor'
+import { ResInterceptor } from './interceptors/response/resInterceptor'
+import { LogInterceptor } from './interceptors/response/logInterceptor'
 
 // 封装后端返回值类型
 export type ResponseData<T> = {
   code: number
   msg: string
   data: T
+  info?: Omit<AxiosResponse, 'data'>
 }
 
 export function downloadFile(res: Blob, filename: string) {
@@ -95,8 +98,8 @@ export type CustomInterceptor<V> = [
 
 // export type requestInterceptor = CustomInterceptor<AxiosRequestConfig>[0]
 export type CustomInterceptors = {
-  requestInterceptors?: [CustomInterceptor<InternalAxiosRequestConfig<any>>]
-  responseInterceptors?: [CustomInterceptor<AxiosResponse<unknown>>]
+  requestInterceptors?: CustomInterceptor<InternalAxiosRequestConfig<any>>[]
+  responseInterceptors?: CustomInterceptor<AxiosResponse<unknown>>[]
 }
 export interface CustomRequestConfig extends AxiosRequestConfig {
   custom_interceptors?: CustomInterceptors
@@ -148,17 +151,20 @@ export class Request {
     return this.instance.delete(url, config)
   }
   setInterceptors(interceptors: CustomInterceptors) {
+    // console.log({ interceptors })
     for (const reqi of interceptors?.requestInterceptors ?? []) {
+      // console.log({ reqi })
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.instance.interceptors.request.use(...reqi)
     }
 
-    for (const resi of interceptors?.requestInterceptors ?? []) {
+    for (const resi of interceptors?.responseInterceptors ?? []) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.instance.interceptors.response.use(...resi)
     }
+    console.log('ins', this.instance.interceptors)
   }
 }
 
@@ -172,6 +178,7 @@ const globalRequest = new Request({
   ...baseConfig,
   custom_interceptors: {
     requestInterceptors: [LoginInterceptor],
+    responseInterceptors: [LogInterceptor, ResInterceptor],
   },
 })
 export default globalRequest

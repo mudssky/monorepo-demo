@@ -17,9 +17,11 @@ export function useSetupHook() {
     const res = await REGISTER({
       ...omit(formValues, ['repassword']),
     })
+    console.log({ res })
+
     if (res.code === 0) {
-      // navigate('/login')
-      console.log('register success')
+      message.success(t('register success'))
+      navigate('/login')
     } else {
       message.error(res.msg)
     }

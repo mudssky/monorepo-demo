@@ -1,19 +1,23 @@
 import { Progress } from 'antd'
-import { checkPasswordStrength } from './hooks'
+import { calcPercent, checkPasswordStrength } from './hooks'
+import { passwordStrengthEnum } from '@/global/enums'
 interface Props {
   password: string
 }
 
 export default function PasswordStrengthChecker(props: Props) {
   const { password } = props
+
+  const passwordStrength = checkPasswordStrength(password)
   return (
     <div>
       <span> 密码强度:</span>
       <Progress
-        percent={(checkPasswordStrength(password) * 100) / 5}
+        percent={calcPercent(passwordStrength, 4)}
         steps={5}
-        strokeColor={['red', 'red', 'orange', 'orange', 'green']}
+        strokeColor={['red', 'orange', 'orange', 'green']}
       />
+      <span>{passwordStrengthEnum.getLabelByValue(passwordStrength)}</span>
     </div>
   )
 }

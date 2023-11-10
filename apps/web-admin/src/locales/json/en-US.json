@@ -18,5 +18,7 @@
   "repassword": "confirm password",
   "please input": "please input",
   "email": "email",
-  "the-new-password-that-you-entered-do-not-match": "The new password that you entered do not match!"
+  "the-new-password-that-you-entered-do-not-match": "The new password that you entered do not match!",
+  "email invalid": "invalid email",
+  "register success": "register success"
 }
