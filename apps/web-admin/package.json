@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "css:lint": "stylelint \"**/*.css\"",
     "css:fix": "stylelint \"**/*.css\" --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "do-admin-dev": "pnpm dev"
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",

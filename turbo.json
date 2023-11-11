@@ -10,6 +10,11 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    // 管理后台，同时启动前端和后端
+    "do-admin-dev": {
+      "cache": false,
+      "persistent": true
     }
   }
 }

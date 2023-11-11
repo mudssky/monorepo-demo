@@ -11,6 +11,7 @@ import type {
 import { LoginInterceptor } from './interceptors/request/loginInterceptor'
 import { ResInterceptor } from './interceptors/response/resInterceptor'
 import { LogInterceptor } from './interceptors/response/logInterceptor'
+import { UnauthrizedInterceptor } from './interceptors/response/unauthrizedInterceptor'
 
 // 封装后端返回值类型
 export type ResponseData<T> = {
@@ -178,7 +179,11 @@ const globalRequest = new Request({
   ...baseConfig,
   custom_interceptors: {
     requestInterceptors: [LoginInterceptor],
-    responseInterceptors: [LogInterceptor, ResInterceptor],
+    responseInterceptors: [
+      LogInterceptor,
+      UnauthrizedInterceptor,
+      ResInterceptor,
+    ],
   },
 })
 export default globalRequest
