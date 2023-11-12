@@ -1,4 +1,4 @@
-import { Injectable, LoggerService } from '@nestjs/common'
+import { Injectable, LoggerService, Scope } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 
 // const winston = require('winston')
@@ -9,7 +9,10 @@ const winston = {
   createLogger,
 }
 
-@Injectable()
+// 配置每个logger实例有不同的作用域，这样每个依赖注入的logger都是新的实例
+@Injectable({
+  scope: Scope.TRANSIENT,
+})
 export class GlobalLoggerService implements LoggerService {
   private logger: Logger
   constructor(private configService: ConfigService) {
@@ -17,6 +20,7 @@ export class GlobalLoggerService implements LoggerService {
       level: this.configService.get('LOG_LEVEL') ?? 'debug',
       format: winston.format.combine(
         // winston.format.colorize(),
+
         winston.format.timestamp(),
         winston.format.json(),
       ),
@@ -30,6 +34,8 @@ export class GlobalLoggerService implements LoggerService {
         }),
       ],
     })
+    console.log('log1111')
+
     // 开发环境添加控制台输出
     if (process.env.NODE_ENV !== 'production') {
       this.logger.add(
@@ -44,8 +50,18 @@ export class GlobalLoggerService implements LoggerService {
         }),
       )
     }
-  }
 
+    console.log('log222')
+  }
+  /**
+   * 设置完后，当前logger实例都会输出
+   * @param obj
+   */
+  setContext(obj: { label: string }) {
+    this.logger.defaultMeta = {
+      ...obj,
+    }
+  }
   error(message: any, ...optionalParams: any[]) {
     this.logger.error(message, optionalParams)
   }
