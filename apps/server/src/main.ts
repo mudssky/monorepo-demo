@@ -11,7 +11,7 @@ import { GlobalLoggerService } from './modules/logger/logger.service'
  */
 function setupSwagger(app: INestApplication<any>) {
   const docConfig = new DocumentBuilder()
-    .setTitle('server example')
+    .setTitle('admin server')
     .setDescription('The server API description')
     .setVersion('1.0')
     .addBearerAuth()

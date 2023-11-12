@@ -1,4 +1,3 @@
-import { CheckLogin } from '@/api/auth'
 import { GlobalStorage } from '@/global/storage'
 import { globalRouter } from '@/router'
 import { useAppStore } from '@/store/appStore'
@@ -14,7 +13,6 @@ export function useSetupHook() {
   }
 
   useEffect(() => {
-    CheckLogin()
     getUserInfo()
     return () => {}
     // eslint-disable-next-line react-hooks/exhaustive-deps

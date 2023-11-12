@@ -3,11 +3,16 @@ import { createBrowserRouter } from 'react-router-dom'
 import { NotFound } from '@/pages/not-found/index'
 import { AppLayout } from '@/layout/appLayout'
 import { Login } from '@/pages/login'
+import AuthRouter from '@/components/AuthRouter'
 
 export const globalRouter = createBrowserRouter([
   {
     path: '/',
-    element: <AppLayout />,
+    element: (
+      <AuthRouter>
+        <AppLayout />
+      </AuthRouter>
+    ),
     // 是报错时显示的页面，找不到路由的情况也会显示
     // errorElement: <NotFound></NotFound>,
     children: [
