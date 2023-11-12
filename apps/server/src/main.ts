@@ -39,13 +39,12 @@ async function bootstrap() {
   // 改为在app.module注册
   // app.useGlobalPipes(new ValidationPipe())
 
-  console.log('1111')
-
   // 获取配置
   const configService = app.get(ConfigService)
-  console.log('2222')
-  const globalLogger = app.get(GlobalLoggerService)
-  console.log('3333')
+  // const globalLogger = app.get(GlobalLoggerService)
+  // 非单例依赖的作用域，需要使用resolve来创建实例
+  const globalLogger = await app.resolve(GlobalLoggerService)
+
   app.useLogger(globalLogger)
   globalLogger.info('global logger setup succeed')
   globalLogger.info({

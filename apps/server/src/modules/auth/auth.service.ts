@@ -20,7 +20,9 @@ export class AuthService {
     private readonly logger: GlobalLoggerService,
     private readonly userSevice: UserService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) {
+    this.logger.setContext({ label: AuthService.name })
+  }
 
   async hashPassword(password: string) {
     const saltOrRounds = 10

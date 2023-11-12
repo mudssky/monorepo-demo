@@ -10,6 +10,7 @@ const winston = {
 }
 
 // 配置每个logger实例有不同的作用域，这样每个依赖注入的logger都是新的实例
+// 这样可以给每个类中注入的logger有不同的上下文。(牺牲了一些内存，换取log定位的便利)
 @Injectable({
   scope: Scope.TRANSIENT,
 })
@@ -34,8 +35,6 @@ export class GlobalLoggerService implements LoggerService {
         }),
       ],
     })
-    console.log('log1111')
-
     // 开发环境添加控制台输出
     if (process.env.NODE_ENV !== 'production') {
       this.logger.add(
@@ -50,8 +49,6 @@ export class GlobalLoggerService implements LoggerService {
         }),
       )
     }
-
-    console.log('log222')
   }
   /**
    * 设置完后，当前logger实例都会输出
