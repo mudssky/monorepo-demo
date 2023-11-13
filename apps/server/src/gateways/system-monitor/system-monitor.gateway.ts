@@ -1,8 +1,6 @@
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
 import { WsJwtAuthGuard } from '@/modules/auth/guards/ws-jwt-auth/ws-jwt-auth.guard'
-
-import { UseGuards } from '@nestjs/common'
 import {
   MessageBody,
   SubscribeMessage,
@@ -33,6 +31,7 @@ export class SystemMonitorGateway
   constructor(
     private readonly prisma: PrismaService,
     private readonly logger: GlobalLoggerService,
+    private readonly jwtAuthGuard: WsJwtAuthGuard,
   ) {
     this.logger.setContext({
       label: SystemMonitorGateway.name,
@@ -56,8 +55,16 @@ export class SystemMonitorGateway
    * @param client
    * @param args
    */
-  handleConnection(client: Socket, ...args: any[]) {
-    console.log(client.request.headers)
+  async handleConnection(client: Socket, ...args: any[]) {
+    const canAc = await this.jwtAuthGuard.canActivate({
+      switchToWs: () => ({ getClient: () => client }),
+    } as any)
+
+    if (!canAc) {
+      client.disconnect()
+      this.logger.info('auth failed')
+      return
+    }
 
     this.logger.debug({
       info: 'connected',
@@ -80,7 +87,6 @@ export class SystemMonitorGateway
 
   // 事件名，发送消息时要指定
   @SubscribeMessage('message')
-  @UseGuards(WsJwtAuthGuard)
   handleMessage(@MessageBody() body: any) {
     const sendMsg = 'Hello world!'
     // client.emit('message', sendMsg)

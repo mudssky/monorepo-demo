@@ -1,8 +1,6 @@
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { IS_PUBLIC_KEY } from '../../auth.decorator'
-import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { JwtPayload } from '../../types'
 
@@ -11,7 +9,6 @@ export class WsJwtAuthGuard implements CanActivate {
   constructor(
     private logger: GlobalLoggerService,
     private reflector: Reflector,
-    private configService: ConfigService,
     private jwtService: JwtService,
   ) {
     this.logger.setContext({ label: WsJwtAuthGuard.name })
@@ -20,13 +17,13 @@ export class WsJwtAuthGuard implements CanActivate {
     // Add your custom authentication logic here
     // for example, call super.logIn(request) to establish a session.
     // 判断是否是public装饰器，添加这个装饰器的请求，直接通过校验
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ])
-    if (isPublic) {
-      return true
-    }
+    // const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+    //   context.getHandler(),
+    //   context.getClass(),
+    // ])
+    // if (isPublic) {
+    //   return true
+    // }
 
     const client = context.switchToWs().getClient()
     const { handshake } = client
