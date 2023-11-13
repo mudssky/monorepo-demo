@@ -53,6 +53,10 @@ export default defineConfig(({ mode }) => {
           target: env.VITE_PROXY_TARGET, //开发环境
           changeOrigin: true,
         },
+        // '/socket.io': {
+        //   target: env.VITE_WS_TARGET,
+        //   ws: true,
+        // },
       },
     },
     build: {

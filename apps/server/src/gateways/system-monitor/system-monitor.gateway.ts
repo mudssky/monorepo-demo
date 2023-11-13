@@ -14,12 +14,16 @@ import {
 } from '@nestjs/websockets'
 
 import { Server, Socket } from 'socket.io'
+import { GlobalWsExceptionFilter } from '@/common/filters/ws-exception/ws-exception.filter'
+import { UseFilters } from '@nestjs/common'
+import { IS_NOT_PROD } from '@/common/global/env'
 
 // 默认端口和nest启动端口一致，可以通过 127.0.0.1:33101连接，注意要用socket.io协议
 // 因为nest默认使用socket.io
 // 也可以安装@nestjs/platform-ws,之后使用适配器 app.useWebSocketAdapter(new WsAdapter(app))
 // ，这样就可以 切换到ws
 
+@UseFilters(new GlobalWsExceptionFilter())
 @WebSocketGateway({
   cors: {
     origin: '*',
@@ -57,7 +61,10 @@ export class SystemMonitorGateway
    */
   async handleConnection(client: Socket, ...args: any[]) {
     const canAc = await this.jwtAuthGuard.canActivate({
-      switchToWs: () => ({ getClient: () => client }),
+      switchToWs: () => ({
+        getClient: () => client,
+        getData: () => client.data,
+      }),
     } as any)
 
     if (!canAc) {
@@ -65,11 +72,20 @@ export class SystemMonitorGateway
       this.logger.info('auth failed')
       return
     }
-
+    if (IS_NOT_PROD) {
+      client.onAny((eventName, ...args) => {
+        this.logger.debug({
+          type: 'onAny',
+          eventName,
+          args,
+        })
+      })
+    }
     this.logger.debug({
       info: 'connected',
       args,
       id: client.id,
+      data: client.data,
     })
   }
 
@@ -121,6 +137,7 @@ export class SystemMonitorGateway
       receive: body,
       send: sendMsg,
     })
+
     // 广播
     // this.server.emit(event, sendMsg)
     socket.emit(event, sendMsg)

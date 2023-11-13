@@ -4,6 +4,7 @@ import { NotFound } from '@/pages/not-found/index'
 import { AppLayout } from '@/layout/appLayout'
 import { Login } from '@/pages/login'
 import AuthRouter from '@/components/AuthRouter'
+import SystemMonitor from '@/pages/system-monitor'
 
 export const globalRouter = createBrowserRouter([
   {
@@ -19,7 +20,7 @@ export const globalRouter = createBrowserRouter([
       {
         // index路由是outlet路由匹配但是没有组件默认显示的路由
         index: true,
-        element: <NotFound />,
+        element: <SystemMonitor />,
       },
     ],
   },
