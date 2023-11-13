@@ -1,5 +1,8 @@
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
+import { WsJwtAuthGuard } from '@/modules/auth/guards/ws-jwt-auth/ws-jwt-auth.guard'
+
+import { UseGuards } from '@nestjs/common'
 import {
   MessageBody,
   SubscribeMessage,
@@ -14,18 +17,16 @@ import {
 
 import { Server, Socket } from 'socket.io'
 
-// @WebSocketGateway({
-//   cors: {
-//     origin: '*',
-//   },
-// })
-
 // 默认端口和nest启动端口一致，可以通过 127.0.0.1:33101连接，注意要用socket.io协议
 // 因为nest默认使用socket.io
 // 也可以安装@nestjs/platform-ws,之后使用适配器 app.useWebSocketAdapter(new WsAdapter(app))
 // ，这样就可以 切换到ws
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
 export class SystemMonitorGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
@@ -79,6 +80,7 @@ export class SystemMonitorGateway
 
   // 事件名，发送消息时要指定
   @SubscribeMessage('message')
+  @UseGuards(WsJwtAuthGuard)
   handleMessage(@MessageBody() body: any) {
     const sendMsg = 'Hello world!'
     // client.emit('message', sendMsg)
