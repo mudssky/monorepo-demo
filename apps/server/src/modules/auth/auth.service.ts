@@ -58,7 +58,8 @@ export class AuthService {
     this.logger.debug({ data: userlist, msg: '登录查找用户', loginDto })
     // 查找不到用户时
     if (userlist.length < 1) {
-      throw new DatabaseException('该用户不存在', HttpStatus.UNAUTHORIZED)
+      // throw new DatabaseException('该用户不存在')
+      throw new DatabaseException('用户名或密码错误')
     }
     // 暂不考虑重复数据的情况
     const user = userlist[0]
@@ -68,7 +69,7 @@ export class AuthService {
       user.password,
     )
     if (!isPasswordCorrect) {
-      throw new DatabaseException('用户名或密码错误', HttpStatus.UNAUTHORIZED)
+      throw new DatabaseException('用户名或密码错误')
     }
     return omit(user, ['password'])
   }

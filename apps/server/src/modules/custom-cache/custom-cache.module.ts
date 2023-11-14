@@ -8,14 +8,23 @@ import { redisStore } from 'cache-manager-ioredis-yet'
   imports: [
     CacheModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        store: redisStore,
-        host: configService.get('REDIS_HOST'),
-        port: configService.get('REDIS_PORT'),
-        ttl: 5000, //5秒过期时间
-        max: 1000, //最多缓存项目数
-        isGlobal: true, //注册为全局模块，这样就不需要在其他模块导入了
-      }),
+      useFactory: async (configService: ConfigService) => {
+        if (configService.get('CACHE_TYPE') === 'memory') {
+          return {
+            ttl: 5000, //5秒过期时间
+            max: 1000, //最多缓存项目数
+            isGlobal: true, //注册为全局模块，这样就不需要在其他模块导入了
+          }
+        }
+        return {
+          store: redisStore,
+          host: configService.get('REDIS_HOST'),
+          port: configService.get('REDIS_PORT'),
+          ttl: 5000, //5秒过期时间
+          max: 1000, //最多缓存项目数
+          isGlobal: true, //注册为全局模块，这样就不需要在其他模块导入了
+        }
+      },
       inject: [ConfigService],
     }),
   ],
