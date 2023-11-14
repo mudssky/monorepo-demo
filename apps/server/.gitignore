@@ -38,3 +38,6 @@ lerna-debug.log*
 .env
 prisma/db
 prisma/migrations
+
+# compodoc生成的文档
+documentation

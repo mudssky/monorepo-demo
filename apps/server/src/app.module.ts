@@ -2,7 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { CatsModule } from '@/modules/cats/cats.module'
 // import { PigsModule } from '@/modules/pigs/pigs.module'
 import { LoggerMiddleware } from '@/common/middlewares/logger/logger.middleware'
-import { CacheModule } from '@nestjs/cache-manager'
+import { CacheInterceptor } from '@nestjs/cache-manager'
 import { UserModule } from '@/modules/user/user.module'
 import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './modules/auth/auth.module'
@@ -14,6 +14,7 @@ import { GlobalLoggerModule } from '@/modules/logger/logger.module'
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth/jwt-auth.guard'
 import config from '@/common/config/config'
 import { SystemMonitorModule } from '@/modules/system-monitor/system-monitor.module'
+import { CustomCacheModule } from './modules/custom-cache/custom-cache.module'
 @Module({
   imports: [
     CatsModule,
@@ -25,7 +26,7 @@ import { SystemMonitorModule } from '@/modules/system-monitor/system-monitor.mod
       load: [config],
       cache: true, //缓存，提升访问.env的性能
     }),
-    CacheModule.register(),
+    CustomCacheModule,
     PrismaModule,
     GlobalLoggerModule,
     AuthModule,
@@ -47,6 +48,12 @@ import { SystemMonitorModule } from '@/modules/system-monitor/system-monitor.mod
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+
+    // 所有GET请求加缓存
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor,
     },
     // {
     //   provide: APP_FILTER,

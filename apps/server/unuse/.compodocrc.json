@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/@compodoc/compodoc/src/config/schema.json",
+  "title": "My NestJS Application",
+  "overview": "This is the documentation for my NestJS application.",
+  "source": {
+    "include": ["./src"],
+    "exclude": ["**/*.spec.ts"]
+  },
+  "exportFormat": "html",
+  "port": 33301,
+  "tsconfig": "./tsconfig.json"
+}
