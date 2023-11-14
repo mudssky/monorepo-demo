@@ -1,8 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { CatsModule } from '@/modules/cats/cats.module'
-import { PigsModule } from '@/modules/pigs/pigs.module'
+// import { PigsModule } from '@/modules/pigs/pigs.module'
 import { LoggerMiddleware } from '@/common/middlewares/logger/logger.middleware'
-
+import { CacheModule } from '@nestjs/cache-manager'
 import { UserModule } from '@/modules/user/user.module'
 import { ConfigModule } from '@nestjs/config'
 import { AuthModule } from './modules/auth/auth.module'
@@ -13,11 +13,11 @@ import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-va
 import { GlobalLoggerModule } from '@/modules/logger/logger.module'
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth/jwt-auth.guard'
 import config from '@/common/config/config'
-import { SystemMonitorGatewayModule } from './gateways/system-monitor/system-monitor.module'
+import { SystemMonitorModule } from '@/modules/system-monitor/system-monitor.module'
 @Module({
   imports: [
     CatsModule,
-    PigsModule,
+    // PigsModule,
     UserModule,
     // 全局加载环境变量配置
     ConfigModule.forRoot({
@@ -25,11 +25,12 @@ import { SystemMonitorGatewayModule } from './gateways/system-monitor/system-mon
       load: [config],
       cache: true, //缓存，提升访问.env的性能
     }),
+    CacheModule.register(),
     PrismaModule,
     GlobalLoggerModule,
     AuthModule,
     // websocket 网关
-    SystemMonitorGatewayModule,
+    SystemMonitorModule,
   ],
 
   providers: [
