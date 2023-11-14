@@ -1,4 +1,4 @@
-import { CheckLogin } from '@/api/auth'
+import { checkLogin } from '@/api/auth'
 import { ReactNode, useEffect, useState } from 'react'
 
 interface Props {
@@ -12,7 +12,7 @@ export default function AuthRouter(props: Props) {
 
   //目前只进行登录鉴权
   useEffect(() => {
-    if (CheckLogin()) {
+    if (checkLogin()) {
       setIsLogin(true)
     }
 

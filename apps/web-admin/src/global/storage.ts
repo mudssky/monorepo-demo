@@ -8,3 +8,7 @@ export type GlobalStorageKey = 'TOKEN'
 export const GlobalStorage = new WebLocalStorage<GlobalStorageKey>({
   enableCahce: true,
 })
+
+// export const GlobalStorageWithoutCahce = new WebLocalStorage<GlobalStorageKey>({
+//   enableCahce: false,
+// })

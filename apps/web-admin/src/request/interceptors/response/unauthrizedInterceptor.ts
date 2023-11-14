@@ -1,3 +1,4 @@
+import { GlobalStorage } from '@/global/storage'
 import { CustomInterceptor } from '@/request/request'
 import { globalRouter } from '@/router'
 import { message } from 'antd'
@@ -22,6 +23,8 @@ export const UnauthrizedInterceptor: CustomInterceptor<
     // axios 默认401状态码会报错
     if (error.code === 'ERR_BAD_REQUEST') {
       message.error(t('login-outdated-please-login-again'))
+      // 未登录状态需要清除缓存
+      GlobalStorage.clearStorageSync()
       globalRouter.navigate('/login')
     }
     return Promise.reject(error)

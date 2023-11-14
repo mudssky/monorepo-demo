@@ -19,7 +19,7 @@
   "packageManager": "pnpm@8.6.10",
   "name": "monorepo-demo",
   "dependencies": {
-    "@mudssky/jsutils": "^0.6.0",
+    "@mudssky/jsutils": "^0.7.0",
     "dayjs": "^1.11.10",
     "lodash": "^4.17.21"
   }

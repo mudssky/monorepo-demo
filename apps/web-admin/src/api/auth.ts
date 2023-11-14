@@ -13,9 +13,13 @@ export function REGISTER(params: RegisterReq) {
   return request.post<LoginRes>('/auth/register', params)
 }
 
-export function CheckLogin() {
+export function isLogin() {
   const token = GlobalStorage.getStorageSync('TOKEN')
-  if (!token) {
+  return !!token
+}
+
+export function checkLogin() {
+  if (!isLogin()) {
     message.success(t('need login'))
     globalRouter.navigate('/login', {
       replace: true,
