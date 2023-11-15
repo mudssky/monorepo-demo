@@ -17,6 +17,10 @@
       "name": "eslint"
     },
     {
+      "path": "packages/prettier-config-custom",
+      "name": "prettier"
+    },
+    {
       "path": "packages/stylelint-config-custom",
       "name": "stylelint"
     },
