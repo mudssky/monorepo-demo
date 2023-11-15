@@ -1,16 +1,16 @@
 {
   "name": "web-admin",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "css:lint": "stylelint \"**/*.css\"",
     "css:fix": "stylelint \"**/*.css\" --fix",
-    "preview": "vite preview",
-    "do-admin-dev": "pnpm dev"
+    "css:lint": "stylelint \"**/*.css\"",
+    "dev": "vite",
+    "do-admin-dev": "pnpm dev",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
@@ -41,6 +41,7 @@
     "eslint-config-custom": "workspace:*",
     "postcss": "^8.4.31",
     "postcss-import": "^15.1.0",
+    "prettier-config-custom": "workspace:*",
     "prettier-plugin-tailwindcss": "^0.5.6",
     "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.69.5",

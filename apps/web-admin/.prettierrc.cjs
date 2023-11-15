@@ -1,5 +1,6 @@
+const prettierConfigCustom = require('prettier-config-custom')
+
 module.exports = {
-  semi: false,
-  singleQuote: true,
-  plugins: ['prettier-plugin-tailwindcss'],
+  ...prettierConfigCustom,
+  plugins: [...prettierConfigCustom.plugins, 'prettier-plugin-tailwindcss'],
 }

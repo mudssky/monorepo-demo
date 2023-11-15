@@ -1,4 +1,3 @@
-module.exports = {
-  semi: false,
-  singleQuote: true,
-}
+const prettierConfigCustom = require('prettier-config-custom')
+
+module.exports = prettierConfigCustom

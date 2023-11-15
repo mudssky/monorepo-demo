@@ -1,26 +1,27 @@
 {
+  "name": "monorepo-demo",
   "private": true,
   "scripts": {
+    "admin-dev": "turbo run do-admin-dev",
     "build": "turbo run build --filter=!docs",
     "dev": "turbo run dev --filter=web",
-    "server:dev": "turbo run dev --filter=server",
-    "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "admin-dev": "turbo run do-admin-dev"
+    "lint": "turbo run lint",
+    "server:dev": "turbo run dev --filter=server"
+  },
+  "dependencies": {
+    "@mudssky/jsutils": "^0.7.0",
+    "dayjs": "^1.11.10",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.201",
     "@types/node": "^20.9.0",
     "eslint": "^8.53.0",
-    "prettier": "^3.0.3",
+    "prettier": "^3.1.0",
+    "prettier-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "turbo": "^1.10.16"
   },
-  "packageManager": "pnpm@8.6.10",
-  "name": "monorepo-demo",
-  "dependencies": {
-    "@mudssky/jsutils": "^0.7.0",
-    "dayjs": "^1.11.10",
-    "lodash": "^4.17.21"
-  }
+  "packageManager": "pnpm@8.6.10"
 }
