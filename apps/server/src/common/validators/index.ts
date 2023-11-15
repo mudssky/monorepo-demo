@@ -9,8 +9,6 @@ export function IsPortNum(validationOptions?: ValidationOptions) {
       options: validationOptions,
       validator: {
         validate(value: any) {
-          console.log({ value })
-
           return typeof value === 'number' && value >= 1224 && value <= 65535
         },
       },
