@@ -1,20 +1,20 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { CatsModule } from '@/modules/cats/cats.module'
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 // import { PigsModule } from '@/modules/pigs/pigs.module'
-import { LoggerMiddleware } from '@/common/middlewares/logger/logger.middleware'
-import { CacheInterceptor } from '@nestjs/cache-manager'
-import { UserModule } from '@/modules/user/user.module'
-import { ConfigModule } from '@nestjs/config'
-import { AuthModule } from './modules/auth/auth.module'
-import { PrismaModule } from './modules/prisma/prisma.module'
-import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import config, { validate } from '@/common/config/config'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
+import { LoggerMiddleware } from '@/common/middlewares/logger/logger.middleware'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
-import { GlobalLoggerModule } from '@/modules/logger/logger.module'
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth/jwt-auth.guard'
-import config from '@/common/config/config'
+import { GlobalLoggerModule } from '@/modules/logger/logger.module'
 import { SystemMonitorModule } from '@/modules/system-monitor/system-monitor.module'
+import { UserModule } from '@/modules/user/user.module'
+import { CacheInterceptor } from '@nestjs/cache-manager'
+import { ConfigModule } from '@nestjs/config'
+import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { AuthModule } from './modules/auth/auth.module'
 import { CustomCacheModule } from './modules/custom-cache/custom-cache.module'
+import { PrismaModule } from './modules/prisma/prisma.module'
 @Module({
   imports: [
     CatsModule,
@@ -22,9 +22,11 @@ import { CustomCacheModule } from './modules/custom-cache/custom-cache.module'
     UserModule,
     // 全局加载环境变量配置
     ConfigModule.forRoot({
+      envFilePath: ['.env.development'],
       isGlobal: true,
       load: [config],
       cache: true, //缓存，提升访问.env的性能
+      validate,
     }),
     CustomCacheModule,
     PrismaModule,

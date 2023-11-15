@@ -19,7 +19,7 @@
     "prestart": "pnpm prisma:migrate-dev",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
-    "start:dev": "dotenv -e .env.development -- node dist/main",
+    "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
     "test": "jest",
     "test:cov": "jest --coverage",
@@ -52,8 +52,7 @@
     "rxjs": "^7.8.1",
     "socket.io": "^4.7.2",
     "systeminformation": "^5.21.17",
-    "winston": "^3.11.0",
-    "zod": "^3.22.4"
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.2.1",
