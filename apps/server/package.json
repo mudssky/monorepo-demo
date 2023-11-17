@@ -59,6 +59,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@automock/adapters.nestjs": "^2.0.0",
+    "@automock/jest": "^2.0.0",
     "@nestjs/cli": "^10.2.1",
     "@nestjs/schematics": "^10.0.3",
     "@nestjs/terminus": "^10.1.1",
