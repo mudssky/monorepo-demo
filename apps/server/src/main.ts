@@ -1,10 +1,17 @@
-import { NestFactory } from '@nestjs/core'
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
-import { AppModule } from './app.module'
-import { ConfigService } from '@nestjs/config'
 import { INestApplication } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { NestFactory } from '@nestjs/core'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { AppModule } from './app.module'
 import { GlobalLoggerService } from './modules/logger/logger.service'
 
+declare const module: any
+function configHotReload(app: INestApplication<any>) {
+  if (module.hot) {
+    module.hot.accept()
+    module.hot.dispose(() => app.close())
+  }
+}
 /**
  * 配置swagger
  * @param app
@@ -61,6 +68,7 @@ async function bootstrap() {
   globalLogger.info(`server start at http://localhost:${port}`)
   globalLogger.info(`docs at http://localhost:${port}/docs`)
   await app.listen(port)
+  configHotReload(app)
 }
 
 bootstrap()
