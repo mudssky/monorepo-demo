@@ -12,6 +12,8 @@ import { UserModule } from '@/modules/user/user.module'
 import { CacheInterceptor } from '@nestjs/cache-manager'
 import { ConfigModule } from '@nestjs/config'
 import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
 import { AuthModule } from './modules/auth/auth.module'
 import { CustomCacheModule } from './modules/custom-cache/custom-cache.module'
 import { HealthModule } from './modules/health/health.module'
@@ -41,7 +43,7 @@ import { PrismaModule } from './modules/prisma/prisma.module'
     SystemMonitorModule,
     HealthModule,
   ],
-
+  controllers: [AppController],
   providers: [
     {
       provide: APP_PIPE,
@@ -67,6 +69,7 @@ import { PrismaModule } from './modules/prisma/prisma.module'
     //   provide: APP_FILTER,
     //   useClass: GlobalExceptionFilter,
     // },
+    AppService,
   ],
 })
 

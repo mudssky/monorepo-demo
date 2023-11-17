@@ -41,3 +41,6 @@ prisma/migrations
 
 # compodoc生成的文档
 documentation
+
+# nestjs repl 历史记录
+.nestjs_repl_history
