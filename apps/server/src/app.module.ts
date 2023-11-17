@@ -14,6 +14,7 @@ import { ConfigModule } from '@nestjs/config'
 import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { AuthModule } from './modules/auth/auth.module'
 import { CustomCacheModule } from './modules/custom-cache/custom-cache.module'
+import { HealthModule } from './modules/health/health.module'
 import { PrismaModule } from './modules/prisma/prisma.module'
 
 @Module({
@@ -38,6 +39,7 @@ import { PrismaModule } from './modules/prisma/prisma.module'
     AuthModule,
     // websocket 网关
     SystemMonitorModule,
+    HealthModule,
   ],
 
   providers: [
