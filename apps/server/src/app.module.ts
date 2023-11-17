@@ -15,6 +15,7 @@ import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { AuthModule } from './modules/auth/auth.module'
 import { CustomCacheModule } from './modules/custom-cache/custom-cache.module'
 import { PrismaModule } from './modules/prisma/prisma.module'
+
 @Module({
   imports: [
     CatsModule,
@@ -22,7 +23,10 @@ import { PrismaModule } from './modules/prisma/prisma.module'
     UserModule,
     // 全局加载环境变量配置
     ConfigModule.forRoot({
-      envFilePath: ['.env.development'],
+      envFilePath:
+        process.env.NODE_ENV === 'production'
+          ? ['.env.production', '.env']
+          : ['.env.local', '.env.development'],
       isGlobal: true,
       load: [config],
       cache: true, //缓存，提升访问.env的性能
