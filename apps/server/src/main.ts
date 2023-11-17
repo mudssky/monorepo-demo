@@ -2,9 +2,9 @@ import { INestApplication } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import helmet from 'helmet'
 import { AppModule } from './app.module'
 import { GlobalLoggerService } from './modules/logger/logger.service'
-
 declare const module: any
 function configHotReload(app: INestApplication<any>) {
   if (module.hot) {
@@ -58,6 +58,9 @@ async function bootstrap() {
     message: 'config setup success',
     config: configService,
   })
+
+  // Helmet 可以通过适当设置 HTTP 标头来帮助保护你的应用免受一些众所周知的 Web 漏洞的侵害。
+  app.use(helmet())
 
   // 前缀感觉太累赘了，还是去掉
   // app.setGlobalPrefix(configService.get('GLOBAL_PREFIX') ?? '/api')
