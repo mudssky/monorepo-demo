@@ -16,7 +16,7 @@ import { LoginRes } from './types'
 export class AuthService {
   //  private readonly logger = new Logger()
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly prismaService: PrismaService,
     private readonly logger: GlobalLoggerService,
     private readonly userSevice: UserService,
     private readonly jwtService: JwtService,
@@ -32,12 +32,13 @@ export class AuthService {
 
   async register(createUserDto: CreateUserDto) {
     try {
-      return await this.prisma.user.create({
+      const data = await this.prismaService.user.create({
         data: {
           ...createUserDto,
           password: await this.hashPassword(createUserDto.password),
         },
       })
+      return this.prismaService.exclude(data, ['password'])
     } catch (error) {
       if (
         error instanceof PrismaClientKnownRequestError &&

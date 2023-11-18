@@ -1,9 +1,10 @@
+import { ApiCustomResponse } from '@/common/decorators/swagger'
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common'
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { Public } from './auth.decorator'
 import { AuthService } from './auth.service'
-import { LoginDto, LoginResDto } from './dto/auth.dto'
+import { LoginDto, LoginResDto, RegisterResDto } from './dto/auth.dto'
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard'
 
 @ApiTags('auth')
@@ -17,6 +18,7 @@ export class AuthController {
    */
   @Public()
   @ApiOperation({ summary: '用户注册' })
+  @ApiCustomResponse({ type: RegisterResDto })
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto)
@@ -25,7 +27,7 @@ export class AuthController {
   @Public()
   @ApiOperation({ summary: '用户登录' })
   @ApiBody({ type: LoginDto })
-  @ApiResponse({
+  @ApiCustomResponse({
     type: LoginResDto,
   })
   @UseGuards(LocalAuthGuard)

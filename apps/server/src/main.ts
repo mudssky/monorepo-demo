@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import helmet from 'helmet'
 import { AppModule } from './app.module'
+import { CustomResponseDto } from './common/dto/response.dto'
 import metadata from './metadata'
 import { GlobalLoggerService } from './modules/logger/logger.service'
 
@@ -14,6 +15,7 @@ function configHotReload(app: INestApplication<any>) {
     module.hot.dispose(() => app.close())
   }
 }
+
 /**
  * 配置swagger
  * @param app
@@ -37,8 +39,23 @@ async function setupSwagger(app: INestApplication<any>) {
     // })
     .build()
   await SwaggerModule.loadPluginMetadata(metadata)
-  const document = SwaggerModule.createDocument(app, docConfig)
-  SwaggerModule.setup('docs', app, document)
+  const document = SwaggerModule.createDocument(app, docConfig, {
+    extraModels: [CustomResponseDto], //导入全局用到的额外模型类
+  })
+  SwaggerModule.setup('docs', app, document, {
+    // explorer: true,
+    swaggerOptions: {
+      docExpansion: 'list', //文档展开配置(默认是列表展开)  "list", "full", "none"
+      defaultModelsExpandDepth: 3, //配置schema列表默认的展开深度， 默认是1,设为-1是完全隐藏
+      defaultModelExpandDepth: 3, //配置response之类地方schema默认展开深度，默认是1,设为-1是完全隐藏
+      persistAuthorization: true, //保留授权数据，不会在浏览器关闭/刷新时丢失
+      filter: true, //增加一个根据tag过滤的搜索框
+      tryItOutEnabled: false, //自动开启试用
+      defaultModelRendering: 'example', //默认展示示例值还是模型 "example", "model"
+      // maxDisplayedTags: 3,最多展示tag数，超出的会隐藏，但是还是可以通过filter筛选到
+      displayRequestDuration: true, //展示请求耗时
+    },
+  })
 }
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

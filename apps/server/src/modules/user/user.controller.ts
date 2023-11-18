@@ -29,7 +29,7 @@ export class UserController {
 
   @ApiOperation({ summary: '获取当前登录用户信息' })
   @ApiCustomResponse({
-    model: UserDto,
+    type: UserDto,
   })
   @Get('userInfo')
   async login(@Request() req) {

@@ -9,11 +9,11 @@ import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger'
  */
 export const ApiCustomResponse = <TModel extends Type<any>>(options: {
   description?: string
-  model: TModel
+  type: TModel
 }) => {
-  const { model, description } = options
+  const { type, description } = options
   return applyDecorators(
-    ApiExtraModels(model),
+    ApiExtraModels(type),
     ApiOkResponse({
       schema: {
         // title: `CustomResponseOf${model.name}`,
@@ -25,7 +25,7 @@ export const ApiCustomResponse = <TModel extends Type<any>>(options: {
                 default: API_CODE.SUCCESS,
               },
               data: {
-                $ref: getSchemaPath(model),
+                $ref: getSchemaPath(type),
                 description: description,
               },
               msg: {

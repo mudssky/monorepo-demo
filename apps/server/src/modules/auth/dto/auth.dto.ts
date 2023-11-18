@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
 
 import { $Enums } from '@prisma/client'
 import { IsNotEmpty } from 'class-validator'
@@ -24,10 +24,15 @@ export class LoginResDto implements LoginRes {
   id: number
   email: string
   name: string
-  password: string
   @ApiProperty({ enum: $Enums.Role })
   role: $Enums.Role
   @ApiProperty({ enum: $Enums.UserStatus })
   status: $Enums.UserStatus
   createdAt: Date
 }
+
+/**
+ * 注册返回值
+ */
+
+export class RegisterResDto extends OmitType(LoginResDto, ['access_token']) {}
