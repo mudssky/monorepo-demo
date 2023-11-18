@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-import { $Enums, User } from '@prisma/client'
+import { $Enums } from '@prisma/client'
 import { IsNotEmpty } from 'class-validator'
 import { LoginReq, LoginRes } from '../types'
 
@@ -16,20 +16,6 @@ export class LoginDto implements LoginReq {
   username: string
 }
 
-export class UserDto implements Omit<User, 'password'> {
-  @ApiProperty()
-  id: number
-  @ApiProperty()
-  email: string
-  @ApiProperty()
-  name: string
-  @ApiProperty()
-  role: $Enums.Role
-  @ApiProperty()
-  status: $Enums.UserStatus
-  @ApiProperty()
-  createdAt: Date
-}
 export class LoginResDto implements LoginRes {
   @ApiProperty({
     description: 'jwt token',

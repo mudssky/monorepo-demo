@@ -6,7 +6,7 @@ import {
   IsString,
   validateSync,
 } from 'class-validator'
-import { IsPortNum } from '../validators'
+import { IsPortNum } from '../decorators/validators'
 enum Environment {
   Development = 'development',
   Production = 'production',
