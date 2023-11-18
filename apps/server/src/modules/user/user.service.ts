@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common'
 import { PrismaService } from '@/modules/prisma/prisma.service'
-import { User, Prisma } from '@prisma/client'
+import { Injectable } from '@nestjs/common'
+import { Prisma, User } from '@prisma/client'
 import { JwtUser } from '../auth/types'
 import { GlobalLoggerService } from '../logger/logger.service'
 
@@ -79,10 +79,11 @@ export class UserService {
   }
 
   async getUserInfo(user: JwtUser) {
-    return await this.prisma.user.findUnique({
+    const data = await this.prisma.user.findUnique({
       where: {
         id: user.userId,
       },
     })
+    return this.prisma.exclude(data, ['password'])
   }
 }

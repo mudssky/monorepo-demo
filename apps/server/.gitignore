@@ -44,3 +44,6 @@ documentation
 
 # nestjs repl 历史记录
 .nestjs_repl_history
+
+# 移除swagger插件生成的类型源文件
+src/metadata.ts

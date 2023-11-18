@@ -16,15 +16,13 @@ export class LoginDto implements LoginReq {
   username: string
 }
 
-export class UserDto implements User {
+export class UserDto implements Omit<User, 'password'> {
   @ApiProperty()
   id: number
   @ApiProperty()
   email: string
   @ApiProperty()
   name: string
-  @ApiProperty()
-  password: string
   @ApiProperty()
   role: $Enums.Role
   @ApiProperty()
@@ -41,7 +39,9 @@ export class LoginResDto implements LoginRes {
   email: string
   name: string
   password: string
+  @ApiProperty({ enum: $Enums.Role })
   role: $Enums.Role
+  @ApiProperty({ enum: $Enums.UserStatus })
   status: $Enums.UserStatus
   createdAt: Date
 }
