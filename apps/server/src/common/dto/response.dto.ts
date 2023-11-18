@@ -12,7 +12,7 @@ interface ErrorResponse extends OkResponse {
   }
 }
 
-export class ApiResponse {
+export class CustomResponse {
   Success<T = any>(data: T, msg = API_MSG[API_CODE.SUCCESS]) {
     return this.Result({
       code: API_CODE.SUCCESS,
@@ -34,4 +34,4 @@ export class ApiResponse {
   }
 }
 
-export const GlobalApiResponse = new ApiResponse()
+export const GlobalApiResponse = new CustomResponse()
