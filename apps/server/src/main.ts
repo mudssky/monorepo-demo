@@ -4,7 +4,9 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import helmet from 'helmet'
 import { AppModule } from './app.module'
+import metadata from './metadata'
 import { GlobalLoggerService } from './modules/logger/logger.service'
+
 declare const module: any
 function configHotReload(app: INestApplication<any>) {
   if (module.hot) {
@@ -16,7 +18,7 @@ function configHotReload(app: INestApplication<any>) {
  * 配置swagger
  * @param app
  */
-function setupSwagger(app: INestApplication<any>) {
+async function setupSwagger(app: INestApplication<any>) {
   const docConfig = new DocumentBuilder()
     .setTitle('admin server')
     .setDescription('The server API description')
@@ -34,6 +36,7 @@ function setupSwagger(app: INestApplication<any>) {
     //   in: 'header',
     // })
     .build()
+  await SwaggerModule.loadPluginMetadata(metadata)
   const document = SwaggerModule.createDocument(app, docConfig)
   SwaggerModule.setup('docs', app, document)
 }
@@ -64,7 +67,7 @@ async function bootstrap() {
 
   // 前缀感觉太累赘了，还是去掉
   // app.setGlobalPrefix(configService.get('GLOBAL_PREFIX') ?? '/api')
-  setupSwagger(app)
+  await setupSwagger(app)
   globalLogger.info('swagger setup succeed')
 
   const port = configService.get<number>('PORT') ?? 33101

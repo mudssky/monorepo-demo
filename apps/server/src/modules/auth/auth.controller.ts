@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common'
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { Public } from './auth.decorator'
 import { AuthService } from './auth.service'
-import { LoginDto } from './dto/auth.dto'
+import { LoginDto, LoginResDto } from './dto/auth.dto'
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard'
 
 @ApiTags('auth')
@@ -25,6 +25,9 @@ export class AuthController {
   @Public()
   @ApiOperation({ summary: '用户登录' })
   @ApiBody({ type: LoginDto })
+  @ApiResponse({
+    type: LoginResDto,
+  })
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
