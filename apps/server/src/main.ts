@@ -46,7 +46,7 @@ async function setupSwagger(app: INestApplication<any>) {
     // explorer: true,
     swaggerOptions: {
       docExpansion: 'list', //文档展开配置(默认是列表展开)  "list", "full", "none"
-      defaultModelsExpandDepth: 3, //配置schema列表默认的展开深度， 默认是1,设为-1是完全隐藏
+      defaultModelsExpandDepth: 0, //配置schema列表默认的展开深度， 默认是1,设为-1是完全隐藏,这里设为0，默认是折叠状态比较好，因为这个用的不多
       defaultModelExpandDepth: 3, //配置response之类地方schema默认展开深度，默认是1,设为-1是完全隐藏
       persistAuthorization: true, //保留授权数据，不会在浏览器关闭/刷新时丢失
       filter: true, //增加一个根据tag过滤的搜索框,也可以配置字符串
