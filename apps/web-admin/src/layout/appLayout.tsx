@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout, Menu, MenuProps } from 'antd'
+import { debugRenderLog } from '@/global/debug'
 import {
   DesktopOutlined,
   FileOutlined,
@@ -6,13 +6,11 @@ import {
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
+import { Layout, Menu, MenuProps } from 'antd'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import styles from './style.module.css'
-import { debugRenderLog } from '@/global/debug'
 import HeaderLayout from './headerLayout'
-
-const { Content, Footer, Sider } = Layout
+import styles from './style.module.css'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
@@ -51,7 +49,7 @@ export function AppLayout() {
   debugRenderLog('layout')
   return (
     <Layout className={styles['layout-container']}>
-      <Sider
+      <Layout.Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
@@ -63,19 +61,19 @@ export function AppLayout() {
           mode="inline"
           items={items}
         />
-      </Sider>
+      </Layout.Sider>
       <Layout>
         <HeaderLayout></HeaderLayout>
-        <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
+        <Layout.Content className="overflow-auto px-2">
+          {/* <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>
             <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <Outlet></Outlet>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>
+        </Layout.Content>
+        {/* <Footer style={{ textAlign: 'center' }}>
           Ant Design ©2023 Created by Ant UED
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   )

@@ -3,7 +3,11 @@ import { ApiCustomResponse } from '@/common/decorators/swagger'
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager'
 import { Controller, Get, UseInterceptors } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { DynamicDataDto, StaticDataDto } from './dto/system-monitor.dto'
+import {
+  DynamicDataDto,
+  ProcessesDataDto,
+  StaticDataDto,
+} from './dto/system-monitor.dto'
 import { SystemMonitorService } from './system-monitor.service'
 
 @ApiTags('system-monitor')
@@ -32,5 +36,16 @@ export class SystemMonitorController {
   @Get('getDynamicData')
   async getDynamicData() {
     return this.systemMonitorService.getDynamicData()
+  }
+
+  @ApiOperation({ summary: '获取进程信息' })
+  @ApiCustomResponse({
+    type: ProcessesDataDto,
+  })
+  @CacheTTL(3 * SECOND)
+  @UseInterceptors(CacheInterceptor)
+  @Get('getProcesses')
+  async getProcesses() {
+    return this.systemMonitorService.getProcesses()
   }
 }

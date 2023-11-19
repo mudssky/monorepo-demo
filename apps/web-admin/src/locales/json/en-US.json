@@ -21,5 +21,6 @@
   "the-new-password-that-you-entered-do-not-match": "The new password that you entered do not match!",
   "email invalid": "invalid email",
   "register success": "register success",
-  "login-outdated-please-login-again": "login outdated,please login again"
+  "login-outdated-please-login-again": "login outdated,please login again",
+  "Process Name": "Process Name"
 }

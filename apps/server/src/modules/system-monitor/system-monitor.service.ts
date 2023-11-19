@@ -4,6 +4,9 @@ import { Cache } from 'cache-manager'
 import si from 'systeminformation'
 @Injectable()
 export class SystemMonitorService {
+  async getProcesses() {
+    return await si.processes()
+  }
   async getDynamicData() {
     const staticData = await si.getDynamicData()
     return staticData

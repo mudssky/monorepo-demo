@@ -244,6 +244,31 @@ export class UserDataDto implements Systeminformation.UserData {
   ip: string
   command: string
 }
+
+// ProcessesProcessData
+export class ProcessesProcessDataDto
+  implements Systeminformation.ProcessesProcessData
+{
+  pid: number
+  parentPid: number
+  name: string
+  cpu: number
+  cpuu: number
+  cpus: number
+  mem: number
+  priority: number
+  memVsz: number
+  memRss: number
+  nice: number
+  started: string
+  state: string
+  tty: string
+  user: string
+  command: string
+  params: string
+  path: string
+}
+
 // ProcessesData
 export class ProcessesDataDto implements Systeminformation.ProcessesData {
   all: number
@@ -251,6 +276,7 @@ export class ProcessesDataDto implements Systeminformation.ProcessesData {
   blocked: number
   sleeping: number
   unknown: number
+  @ApiProperty({ type: [ProcessesProcessDataDto] })
   list: Systeminformation.ProcessesProcessData[]
 }
 

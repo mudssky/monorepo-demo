@@ -21,5 +21,6 @@
   "the-new-password-that-you-entered-do-not-match": "密码不匹配",
   "email invalid": "邮箱格式不对",
   "register success": "注册成功",
-  "login-outdated-please-login-again": "未登录或登录过期，请重新登录"
+  "login-outdated-please-login-again": "未登录或登录过期，请重新登录",
+  "Process Name": "进程名"
 }
