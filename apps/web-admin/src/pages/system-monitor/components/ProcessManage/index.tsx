@@ -1,7 +1,8 @@
+import CustomTable from '@/components/CustomTable'
 import { bytesInstance } from '@mudssky/jsutils'
 import { Systeminformation } from '@server/node_modules/systeminformation'
 import { Progress, Space } from 'antd'
-import Table, { ColumnsType } from 'antd/es/table'
+import { ColumnsType } from 'antd/es/table'
 import { useSetupHook } from './hooks'
 
 const percentFormater = (percent?: number) => percent?.toFixed(1) + '%'
@@ -45,7 +46,7 @@ export default function ProcessManage() {
       //   className: styles['table-cell'],
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.mem - b.mem,
-      render: (text, record) => {
+      render: (text) => {
         return (
           <Space>
             <Progress
@@ -53,9 +54,6 @@ export default function ProcessManage() {
               format={percentFormater}
               size={progressSize}
             ></Progress>
-            {/* <span>
-              {bytesInstance.format((record.memRss + record.memVsz) * 1000)}
-            </span> */}
           </Space>
         )
       },
@@ -68,8 +66,8 @@ export default function ProcessManage() {
       width: 200,
       //   className: styles['table-cell'],
       sorter: (a, b) => a.memRss - b.memRss,
-      render: (text, record) => {
-        return <span>{bytesInstance.format(record.memRss * 1024)}</span>
+      render: (text) => {
+        return <span>{bytesInstance.format(text * 1024)}</span>
       },
     },
     // 虚拟内存大小
@@ -80,20 +78,16 @@ export default function ProcessManage() {
       width: 200,
       //   className: styles['table-cell'],
       sorter: (a, b) => a.memVsz - b.memVsz,
-      render: (text, record) => {
+      render: (text) => {
         //   memRss 单位是字节，所以这里转为b
-        return <span>{bytesInstance.format(record.memVsz * 1024)}</span>
+        return <span>{bytesInstance.format(text * 1024)}</span>
       },
     },
   ]
   return (
     <div>
-      <div>进程管理</div>
-
-      <div>{data?.all}</div>
-
       <div className="">
-        <Table
+        <CustomTable
           loading={query.isLoading}
           columns={columns}
           sortDirections={['descend', 'ascend']}
@@ -103,9 +97,10 @@ export default function ProcessManage() {
           //   scroll={{
           //     y: 800,
           //   }}
-          //   pagination={{
-          //     defaultPageSize: 50,
-          //   }}
+          pagination={{
+            // defaultPageSize: 50,
+            showTotal: (total) => `Total ${total} items`,
+          }}
         />
       </div>
     </div>
