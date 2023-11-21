@@ -29,6 +29,10 @@
       "name": "tsconfig"
     },
     {
+      "path": "packages/react-ui",
+      "name": "react-ui"
+    },
+    {
       "path": ".",
       "name": "root"
     }
