@@ -4,6 +4,9 @@ import { Cache } from 'cache-manager'
 import si from 'systeminformation'
 @Injectable()
 export class SystemMonitorService {
+  async getCurrentLoad() {
+    return await si.currentLoad()
+  }
   async getCpu() {
     return await si.cpu()
   }

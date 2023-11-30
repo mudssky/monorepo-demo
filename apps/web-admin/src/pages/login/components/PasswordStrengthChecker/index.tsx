@@ -1,6 +1,7 @@
-import { Progress } from 'antd'
-import { calcPercent, checkPasswordStrength } from './hooks'
 import { passwordStrengthEnum } from '@/global/enums'
+import { calcPercent } from '@/utils/calc'
+import { Progress } from 'antd'
+import { checkPasswordStrength } from './hooks'
 interface Props {
   password: string
 }

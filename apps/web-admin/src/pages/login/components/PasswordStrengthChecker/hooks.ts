@@ -21,7 +21,3 @@ export function checkPasswordStrength(password: string) {
   // 返回密码强度等级
   return strengthLevel
 }
-
-export function calcPercent(current: number, max: number) {
-  return (current * 100) / max
-}

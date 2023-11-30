@@ -5,6 +5,7 @@ import { Controller, Get, UseInterceptors } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import {
   CpuDataDto,
+  CurrentLoadDataDto,
   DynamicDataDto,
   MemDataDto,
   ProcessesDataDto,
@@ -55,7 +56,7 @@ export class SystemMonitorController {
   @ApiCustomResponse({
     type: MemDataDto,
   })
-  @CacheTTL(4 * SECOND)
+  @CacheTTL(2 * SECOND)
   @UseInterceptors(CacheInterceptor)
   @Get('getMem')
   async getMem() {
@@ -71,5 +72,16 @@ export class SystemMonitorController {
   @Get('getCpu')
   async getCpu() {
     return await this.systemMonitorService.getCpu()
+  }
+
+  @ApiOperation({ summary: '获取当前系统负载' })
+  @ApiCustomResponse({
+    type: CurrentLoadDataDto,
+  })
+  @CacheTTL(1 * SECOND)
+  @UseInterceptors(CacheInterceptor)
+  @Get('getCurrentLoad')
+  async getCurrentLoad() {
+    return await this.systemMonitorService.getCurrentLoad()
   }
 }
