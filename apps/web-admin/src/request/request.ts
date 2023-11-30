@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from 'axios'
 import type {
   AxiosInstance,
+  AxiosInterceptorOptions,
   AxiosProgressEvent,
   AxiosRequestConfig,
-  AxiosInterceptorOptions,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios'
+import axios from 'axios'
 import { LoginInterceptor } from './interceptors/request/loginInterceptor'
-import { ResInterceptor } from './interceptors/response/resInterceptor'
 import { LogInterceptor } from './interceptors/response/logInterceptor'
+import { ResInterceptor } from './interceptors/response/resInterceptor'
 import { UnauthrizedInterceptor } from './interceptors/response/unauthrizedInterceptor'
 
 // 封装后端返回值类型
@@ -20,6 +20,8 @@ export type ResponseData<T> = {
   data: T
   info?: Omit<AxiosResponse, 'data'>
 }
+
+export type PromiseResponseData<T> = Promise<ResponseData<T>>
 
 export function downloadFile(res: Blob, filename: string) {
   const blobUrl = window.URL.createObjectURL(new Blob([res]))
@@ -125,7 +127,7 @@ export class Request {
   public get<T = any>(
     url: string,
     config?: CustomRequestConfig,
-  ): Promise<ResponseData<T>> {
+  ): PromiseResponseData<T> {
     return this.instance.get(url, config)
   }
 
@@ -133,7 +135,7 @@ export class Request {
     url: string,
     data?: any,
     config?: CustomRequestConfig,
-  ): Promise<ResponseData<T>> {
+  ): PromiseResponseData<T> {
     return this.instance.post(url, data, config)
   }
 
@@ -141,14 +143,14 @@ export class Request {
     url: string,
     data?: any,
     config?: CustomRequestConfig,
-  ): Promise<ResponseData<T>> {
+  ): PromiseResponseData<T> {
     return this.instance.put(url, data, config)
   }
 
   public delete<T = any>(
     url: string,
     config?: CustomRequestConfig,
-  ): Promise<ResponseData<T>> {
+  ): PromiseResponseData<T> {
     return this.instance.delete(url, config)
   }
   setInterceptors(interceptors: CustomInterceptors) {

@@ -1,4 +1,5 @@
 import { calcPercent, percentColor } from '@/utils/calc'
+import { bytesInstance } from '@mudssky/jsutils'
 import { Card, Col, Row, Statistic } from 'antd'
 import { useSetupHook } from './hooks'
 
@@ -10,7 +11,7 @@ export default function PerformanceView() {
     <div>
       <Row gutter={16}>
         <Col span={6}>
-          <Card bordered={false}>
+          <Card bordered={false} className="min-w-[200px]">
             <Statistic
               title="CPU占用"
               value={currentLoadQuery.data?.currentLoad}
@@ -23,13 +24,17 @@ export default function PerformanceView() {
           </Card>
         </Col>
         <Col span={6}>
-          <Card bordered={false}>
+          <Card bordered={false} className="min-w-[200px]">
             <Statistic
               title="内存占用"
               value={memPercent}
               precision={2}
               valueStyle={{ color: percentColor(memPercent) }}
-              suffix="%"
+              suffix={`%(${bytesInstance.format(memData?.used ?? 0, {
+                decimalPlaces: 0,
+              })}/${bytesInstance.format(memData?.total ?? 0, {
+                decimalPlaces: 0,
+              })})`}
             />
           </Card>
         </Col>

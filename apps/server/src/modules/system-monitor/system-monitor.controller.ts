@@ -56,7 +56,7 @@ export class SystemMonitorController {
   @ApiCustomResponse({
     type: MemDataDto,
   })
-  @CacheTTL(2 * SECOND)
+  @CacheTTL(4 * SECOND)
   @UseInterceptors(CacheInterceptor)
   @Get('getMem')
   async getMem() {
@@ -78,7 +78,7 @@ export class SystemMonitorController {
   @ApiCustomResponse({
     type: CurrentLoadDataDto,
   })
-  @CacheTTL(1 * SECOND)
+  @CacheTTL(4 * SECOND)
   @UseInterceptors(CacheInterceptor)
   @Get('getCurrentLoad')
   async getCurrentLoad() {

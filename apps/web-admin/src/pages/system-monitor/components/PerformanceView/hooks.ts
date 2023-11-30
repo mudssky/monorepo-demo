@@ -1,6 +1,6 @@
 import { getCurrentLoad, getMem } from '@/api/system-monitor'
 import { useQuery } from '@tanstack/react-query'
-const fetchInterval = 2000
+const fetchInterval = 4000
 export function useSetupHook() {
   const currentLoadQuery = useQuery({
     queryKey: ['/system-monitor/getCurrentLoad'],

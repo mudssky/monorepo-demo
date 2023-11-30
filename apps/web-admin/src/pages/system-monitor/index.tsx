@@ -18,7 +18,7 @@ export default function SystemMonitor() {
 
   return (
     <div>
-      <Tabs defaultActiveKey="2" items={items} />
+      <Tabs defaultActiveKey="2" items={items} destroyInactiveTabPane />
       <Row></Row>
     </div>
   )
