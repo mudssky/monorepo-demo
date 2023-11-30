@@ -4,7 +4,9 @@ import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager'
 import { Controller, Get, UseInterceptors } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import {
+  CpuDataDto,
   DynamicDataDto,
+  MemDataDto,
   ProcessesDataDto,
   StaticDataDto,
 } from './dto/system-monitor.dto'
@@ -35,17 +37,39 @@ export class SystemMonitorController {
   @UseInterceptors(CacheInterceptor)
   @Get('getDynamicData')
   async getDynamicData() {
-    return this.systemMonitorService.getDynamicData()
+    return await this.systemMonitorService.getDynamicData()
   }
 
   @ApiOperation({ summary: '获取进程信息' })
   @ApiCustomResponse({
     type: ProcessesDataDto,
   })
-  @CacheTTL(3 * SECOND)
+  @CacheTTL(4 * SECOND)
   @UseInterceptors(CacheInterceptor)
   @Get('getProcesses')
   async getProcesses() {
-    return this.systemMonitorService.getProcesses()
+    return await this.systemMonitorService.getProcesses()
+  }
+
+  @ApiOperation({ summary: '获取内存信息' })
+  @ApiCustomResponse({
+    type: MemDataDto,
+  })
+  @CacheTTL(4 * SECOND)
+  @UseInterceptors(CacheInterceptor)
+  @Get('getMem')
+  async getMem() {
+    return await this.systemMonitorService.getMem()
+  }
+
+  @ApiOperation({ summary: '获取cpu信息' })
+  @ApiCustomResponse({
+    type: CpuDataDto,
+  })
+  @CacheTTL(4 * SECOND)
+  @UseInterceptors(CacheInterceptor)
+  @Get('getCpu')
+  async getCpu() {
+    return await this.systemMonitorService.getCpu()
   }
 }

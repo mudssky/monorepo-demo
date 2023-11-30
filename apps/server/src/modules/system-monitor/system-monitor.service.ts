@@ -4,6 +4,13 @@ import { Cache } from 'cache-manager'
 import si from 'systeminformation'
 @Injectable()
 export class SystemMonitorService {
+  async getCpu() {
+    return await si.cpu()
+  }
+  async getMem() {
+    const memData = await si.mem()
+    return memData
+  }
   async getProcesses() {
     return await si.processes()
   }
