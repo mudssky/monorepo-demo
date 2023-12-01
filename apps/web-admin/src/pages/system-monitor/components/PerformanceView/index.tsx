@@ -31,9 +31,9 @@ export default function PerformanceView() {
               precision={2}
               valueStyle={{ color: percentColor(memPercent) }}
               suffix={`%(${bytesInstance.format(memData?.used ?? 0, {
-                decimalPlaces: 0,
+                decimalPlaces: 1,
               })}/${bytesInstance.format(memData?.total ?? 0, {
-                decimalPlaces: 0,
+                decimalPlaces: 1,
               })})`}
             />
           </Card>
