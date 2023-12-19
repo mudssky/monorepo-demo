@@ -1,19 +1,19 @@
 import { API_CODE, API_MSG } from '@/common/constant/response'
 import { HttpStatus } from '@nestjs/common'
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger'
-interface OkResponse<T = any> {
+interface APIResponse<T = any> {
   code: API_CODE
   data: T | null
   msg: string | string[]
 }
-interface ErrorResponse extends OkResponse {
+interface ErrorResponse extends APIResponse {
   error: {
     statusCode: HttpStatus
     // message: string
   }
 }
 
-export class CustomResponseDto<T> implements OkResponse {
+export class CustomResponseDto<T> implements APIResponse {
   @ApiProperty() //为了避免循环依赖，不使用API_CODE枚举
   code: number
   @ApiHideProperty() //隐藏data，避免造成循环依赖
@@ -40,7 +40,7 @@ export class CustomResponse {
       error,
     } as ErrorResponse
   }
-  private Result(res: OkResponse) {
+  private Result<T = any>(res: APIResponse<T>) {
     return res
   }
 }
