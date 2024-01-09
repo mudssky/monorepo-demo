@@ -1,14 +1,25 @@
 import { LangSwitch } from '@/components/LangSwitch'
 import { DownOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Dropdown, Layout, LayoutProps, MenuProps, Space } from 'antd'
+import UserInfoEditModal from './components/UserInfoEditModal'
 import { useSetupHook } from './hooks'
 interface Props extends LayoutProps {}
 export default function HeaderLayout(props: Props) {
-  const { userInfo, handleLogoutClick } = useSetupHook()
+  const {
+    userInfo,
+    isUserInfoEditModalOpen,
+    cancelUserInfoEditModal,
+    handleLogoutClick,
+    showUserInfoEditModal,
+  } = useSetupHook()
   const items: MenuProps['items'] = [
     {
       key: '1',
       label: <div onClick={handleLogoutClick}>退出登录</div>,
+    },
+    {
+      key: '2',
+      label: <div onClick={showUserInfoEditModal}>修改资料</div>,
     },
   ]
 
@@ -31,6 +42,10 @@ export default function HeaderLayout(props: Props) {
           </Dropdown>
         </Space>
       </div>
+      <UserInfoEditModal
+        open={isUserInfoEditModalOpen}
+        onCancel={cancelUserInfoEditModal}
+      ></UserInfoEditModal>
     </Layout.Header>
   )
 }
