@@ -3,6 +3,7 @@ import dayjs_zh_CN from 'dayjs/locale/zh-cn'
 import zh_CN from './json/zh-CN.json'
 export default {
   translation: zh_CN,
+  // otherNameSpace:'',
   dayjs: {
     locale: dayjs_zh_CN,
   },
