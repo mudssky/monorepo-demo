@@ -24,9 +24,7 @@ enum Role {
 
 enum FileTag {
   AVATAR //用户头像
-  COVER //用户封面
-  ARTICLE //文章
-  COMMENT //评论
+  NOTAG //无标签，默认值
 }
 
 model User {
@@ -53,5 +51,5 @@ model UploadFiles {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   // 表示文件使用模块的标签
-  fileTag   FileTag?
+  fileTag   FileTag? @default(NOTAG)
 }

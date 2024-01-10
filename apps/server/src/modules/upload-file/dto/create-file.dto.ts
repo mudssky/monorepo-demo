@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { $Enums, FileTag, UploadFiles } from '@prisma/client'
-import { IsEnum } from 'class-validator'
+import { IsEnum, IsOptional } from 'class-validator'
 
 export class CreateFileDto implements UploadFiles {
   id: number
@@ -20,10 +20,12 @@ export class FileUploadDto {
   @ApiProperty({ type: 'string', format: 'binary' })
   file: any
   @ApiProperty({ type: 'string' })
+  // 校验器
   @IsEnum(FileTag, {
     message: 'invalid fileTag',
   })
-  fileTag: $Enums.FileTag | null
+  @IsOptional()
+  fileTag: $Enums.FileTag = 'NOTAG'
 }
 
 export class FilesUploadDto {
