@@ -12,6 +12,8 @@ import { UserModule } from '@/modules/user/user.module'
 import { CacheInterceptor } from '@nestjs/cache-manager'
 import { ConfigModule } from '@nestjs/config'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import path from 'path'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { GlobalExceptionFilter } from './common/filters/http-exception/http-exception.filter'
@@ -35,6 +37,11 @@ import { FileModule } from './modules/upload-file/upload-file.module'
       load: [config],
       cache: true, //缓存，提升访问.env的性能
       validate,
+    }),
+    // 静态文件路径配置
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '..', 'static'),
+      // renderPath: '/static',
     }),
     CustomCacheModule,
     PrismaModule,

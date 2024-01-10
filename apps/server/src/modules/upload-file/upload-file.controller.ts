@@ -53,6 +53,7 @@ export class FileController {
     type: FileUploadDto,
   })
   async uploadFile(
+    @Body() fileUploadDto: FileUploadDto,
     @UploadedFile(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
@@ -66,7 +67,6 @@ export class FileController {
         }),
     )
     file: Express.Multer.File,
-    @Body() fileUploadDto: FileUploadDto,
   ) {
     console.log({ file, fileUploadDto })
 
