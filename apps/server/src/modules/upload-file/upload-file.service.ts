@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { CreateFileDto } from './dto/create-file.dto'
+import { CreateFileDto, FileUploadDto } from './dto/create-file.dto'
 import { UpdateFileDto } from './dto/update-file.dto'
-
 @Injectable()
 export class UploadFileService {
   private tempFilePath = 'temp'
@@ -13,7 +12,10 @@ export class UploadFileService {
    * 接收到上传文件后保存逻辑
    * @param file
    */
-  async saveFile(file: Express.Multer.File) {
+  async saveFile(file: FileUploadDto) {
+    //   if (await fs.promises.stat(this.tempFilePath))}{
+    //     fs.promises.mkdir(this.tempFilePath)
+    // }
     return true
   }
   findAll() {

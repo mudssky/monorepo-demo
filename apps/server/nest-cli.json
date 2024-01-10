@@ -18,8 +18,7 @@
           "introspectComments": true
         }
       }
-    ],
-    "assets": ["static/**/*"]
+    ]
   },
   "monorepo": true
 }

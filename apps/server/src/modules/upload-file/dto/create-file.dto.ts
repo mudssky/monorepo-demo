@@ -18,7 +18,7 @@ export class CreateFileDto implements UploadFiles {
 
 export class FileUploadDto {
   @ApiProperty({ type: 'string', format: 'binary' })
-  file: any
+  file: Express.Multer.File
   @ApiProperty({ type: 'string' })
   // 校验器
   @IsEnum(FileTag, {

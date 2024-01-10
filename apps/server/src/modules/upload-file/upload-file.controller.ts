@@ -68,9 +68,9 @@ export class FileController {
     )
     file: Express.Multer.File,
   ) {
-    console.log({ file, fileUploadDto })
-
-    // return await this.uploadFileService.saveFile(file)
+    // console.log({ file, fileUploadDto })
+    fileUploadDto.file = file
+    return await this.uploadFileService.saveFile(fileUploadDto)
   }
 
   // 上传多个文件
