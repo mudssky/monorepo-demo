@@ -22,6 +22,13 @@ enum Role {
   ADMIN
 }
 
+enum FileTag {
+  AVATAR //用户头像
+  COVER //用户封面
+  ARTICLE //文章
+  COMMENT //评论
+}
+
 model User {
   id        Int        @id @default(autoincrement())
   // 邮箱
@@ -37,7 +44,7 @@ model User {
 }
 
 // 文件上传表
-model File {
+model UploadFiles {
   id        Int      @id @default(autoincrement())
   fileName  String
   // 短路径
@@ -45,4 +52,6 @@ model File {
   fileSize  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  // 表示文件使用模块的标签
+  fileTag   FileTag?
 }

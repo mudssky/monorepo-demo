@@ -1,4 +1,4 @@
-import { HOUR, SECOND } from '@/common/constant/response'
+import { HOUR, SECOND } from '@/common/constant/index'
 import { ApiCustomResponse } from '@/common/decorators/swagger'
 import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager'
 import { Controller, Get, UseInterceptors } from '@nestjs/common'

@@ -14,7 +14,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     // const request = ctx.getRequest<Request>()
     const status = exception.getStatus()
     response.status(status).json(
-      GlobalApiResponse.Fail(exception.message, {
+      GlobalApiResponse.Fail(exception.getResponse(), {
         statusCode: status,
         // path:request.url
       }),

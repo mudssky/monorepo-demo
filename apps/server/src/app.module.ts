@@ -11,14 +11,15 @@ import { SystemMonitorModule } from '@/modules/system-monitor/system-monitor.mod
 import { UserModule } from '@/modules/user/user.module'
 import { CacheInterceptor } from '@nestjs/cache-manager'
 import { ConfigModule } from '@nestjs/config'
-import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { GlobalExceptionFilter } from './common/filters/http-exception/http-exception.filter'
 import { AuthModule } from './modules/auth/auth.module'
 import { CustomCacheModule } from './modules/custom-cache/custom-cache.module'
 import { HealthModule } from './modules/health/health.module'
 import { PrismaModule } from './modules/prisma/prisma.module'
-
+import { FileModule } from './modules/upload-file/upload-file.module'
 @Module({
   imports: [
     CatsModule,
@@ -42,6 +43,7 @@ import { PrismaModule } from './modules/prisma/prisma.module'
     // websocket 网关
     SystemMonitorModule,
     HealthModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [
@@ -65,10 +67,10 @@ import { PrismaModule } from './modules/prisma/prisma.module'
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
     },
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: GlobalExceptionFilter,
-    // },
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
     AppService,
   ],
 })

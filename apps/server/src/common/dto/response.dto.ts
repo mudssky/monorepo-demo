@@ -32,7 +32,7 @@ export class CustomResponse {
     })
   }
 
-  Fail(msg: string = API_MSG[API_CODE.Fail], error?: ErrorResponse['error']) {
+  Fail(msg: any = API_MSG[API_CODE.Fail], error?: ErrorResponse['error']) {
     return {
       code: API_CODE.Fail,
       data: null,
