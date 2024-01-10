@@ -31,4 +31,6 @@ export class UserDto implements Omit<User, 'password'> {
   status: $Enums.UserStatus
   @ApiProperty()
   createdAt: Date
+  @ApiProperty()
+  avatarUrl: string | null
 }

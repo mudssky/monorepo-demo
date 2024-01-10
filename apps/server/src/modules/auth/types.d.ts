@@ -1,7 +1,7 @@
 import { User } from '@prisma/client'
 export type LoginReq = Pick<User, 'password'>
 
-export interface LoginRes extends Omit<User, 'password'> {
+export interface LoginRes extends Omit<User, 'password' | 'avatarUrl'> {
   access_token: string
 }
 
