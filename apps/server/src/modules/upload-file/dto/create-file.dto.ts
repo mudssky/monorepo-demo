@@ -1,8 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, PickType } from '@nestjs/swagger'
 import { $Enums, FileTag, UploadFiles } from '@prisma/client'
 import { IsEnum, IsOptional } from 'class-validator'
 
 export class CreateFileDto implements UploadFiles {
+  @ApiProperty()
+  originalFilename: string
   id: number
   @ApiProperty()
   fileName: string
@@ -32,3 +34,10 @@ export class FilesUploadDto {
   @ApiProperty({ type: [String], format: 'binary' })
   files: any[]
 }
+
+export class UploadResDto extends PickType(CreateFileDto, [
+  'filePath',
+  'fileTag',
+  'originalFilename',
+  'fileName',
+] as const) {}

@@ -47,3 +47,6 @@ documentation
 
 # 移除swagger插件生成的类型源文件
 src/metadata.ts
+
+# 图片上传临时文件目录
+uploadTemp

@@ -1,5 +1,6 @@
 import { MB } from '@/common/constant'
 import { IMAGE_EXTENSION_PATTERN } from '@/common/constant/regex'
+import { ApiCustomResponse } from '@/common/decorators/swagger'
 import {
   Body,
   Controller,
@@ -20,9 +21,27 @@ import {
   CreateFileDto,
   FileUploadDto,
   FilesUploadDto,
+  UploadResDto,
 } from './dto/create-file.dto'
 import { UpdateFileDto } from './dto/update-file.dto'
 import { UploadFileService } from './upload-file.service'
+
+// 这东西有bug，没法从req中获取body的其他参数
+// export const storageOptions: MulterOptions = {
+//   storage: multer.diskStorage({
+//     destination: (req, file, cb) => {
+//       // cb(null, './uploads'); // 设置上传目录
+//       console.log({ body: JSON.stringify(req.body), file })
+//     },
+//     filename: (req, file, cb) => {
+//       const randomName = Array(32)
+//         .fill(null)
+//         .map(() => Math.round(Math.random() * 16).toString(16))
+//         .join('')
+//       cb(null, `${randomName}${path.extname(file.originalname)}`)
+//     },
+//   }),
+// }
 
 @ApiTags('文件上传')
 @Controller('upload-file')
@@ -52,6 +71,10 @@ export class FileController {
     description: '上传单个文件',
     type: FileUploadDto,
   })
+  @ApiCustomResponse({
+    type: UploadResDto,
+    description: '上传文件响应',
+  })
   async uploadFile(
     @Body() fileUploadDto: FileUploadDto,
     @UploadedFile(
@@ -68,7 +91,7 @@ export class FileController {
     )
     file: Express.Multer.File,
   ) {
-    // console.log({ file, fileUploadDto })
+    // console.log({ file })
     fileUploadDto.file = file
     return await this.uploadFileService.saveFile(fileUploadDto)
   }
