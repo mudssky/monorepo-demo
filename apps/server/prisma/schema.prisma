@@ -24,7 +24,7 @@ enum Role {
 
 enum FileTag {
   AVATAR //用户头像
-  NOTAG //无标签，默认值
+  NOTAG //无标签，默认值,也就是临时文件
 }
 
 model User {
@@ -43,13 +43,14 @@ model User {
 
 // 文件上传表
 model UploadFiles {
-  id        Int      @id @default(autoincrement())
-  fileName  String
+  id               Int      @id @default(autoincrement())
+  fileName         String
+  originalFilename String
   // 短路径
-  filePath  String
-  fileSize  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  filePath         String
+  fileSize         Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
   // 表示文件使用模块的标签
-  fileTag   FileTag? @default(NOTAG)
+  fileTag          FileTag? @default(NOTAG)
 }
