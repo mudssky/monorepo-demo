@@ -1,6 +1,17 @@
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
+import { omit, pick } from '@mudssky/jsutils'
 import { Injectable, NestMiddleware } from '@nestjs/common'
 import { NextFunction, Request, Response } from 'express'
+
+function bodyShowMessage(req: Request) {
+  if (req.headers['content-type']?.includes('multipart/form-data')) {
+    return {
+      ...omit(req.body, ['file']),
+      file: '文件内容太长，不打印',
+    }
+  }
+  return req.body
+}
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   constructor(private readonly logger: GlobalLoggerService) {}
@@ -20,7 +31,8 @@ export class LoggerMiddleware implements NestMiddleware {
       ip: req.ip,
       query: req.query,
       userAgent: req.get('User-Agent'),
-      body: req.body,
+      headers: pick(req.headers, ['content-type']),
+      body: bodyShowMessage(req),
     })
 
     // 响应结束后打印信息
@@ -34,9 +46,9 @@ export class LoggerMiddleware implements NestMiddleware {
         ip: req.ip,
         query: req.query,
         userAgent: req.get('User-Agent'),
-        body: req.body,
+        body: bodyShowMessage(req),
         params: req.params,
-        // header: req.headers,
+        headers: pick(req.headers, ['content-type']),
         cost,
       })
     })
