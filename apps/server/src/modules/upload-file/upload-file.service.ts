@@ -6,8 +6,15 @@ import { ConfigService } from '@nestjs/config'
 import fs from 'fs'
 import path from 'path'
 import { v4 as uuidv4 } from 'uuid'
-import { CreateFileDto, FileUploadDto } from './dto/create-file.dto'
-import { UpdateFileDto } from './dto/update-file.dto'
+import {
+  CreateFileDto,
+  FileUploadDto,
+  FilesUploadDto,
+  UploadResDtoPickList,
+} from './dto/create-file.dto'
+
+import { pick } from '@mudssky/jsutils'
+
 @Injectable()
 export class UploadFileService {
   private tempFilePath = 'uploadTemp'
@@ -27,29 +34,30 @@ export class UploadFileService {
     return 'This action adds a new file'
   }
 
-  /**
-   * 接收到上传文件后保存逻辑
-   * @param file
-   */
-  async saveFile(file: FileUploadDto) {
-    //   if (await fs.promises.stat(this.tempFilePath))}{
-    //     fs.promises.mkdir(this.tempFilePath)
-    // }
+  async createFile(file: FileUploadDto) {
     const fileId = uuidv4()
     const tmpFileName = `${fileId}${path.extname(file.file.originalname)}`
-
-    // console.log({ file })
-
     const folderPath = path.join(this.tempFilePath, file.fileTag)
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath)
     }
     const tmpPath = path.join(folderPath, tmpFileName)
     const shortPath = `${file.fileTag}/${tmpFileName}`
-
+    await fs.promises.writeFile(tmpPath, file.file.buffer)
+    return {
+      tmpPath,
+      tmpFileName,
+      shortPath,
+      file,
+    }
+  }
+  /**
+   * 接收到上传文件后保存逻辑
+   * @param file
+   */
+  async saveFile(file: FileUploadDto) {
     try {
-      await fs.promises.writeFile(tmpPath, file.file.buffer)
-
+      const { tmpFileName, shortPath } = await this.createFile(file)
       const res = await this.prismaService.uploadFiles.create({
         data: {
           fileName: tmpFileName,
@@ -63,12 +71,54 @@ export class UploadFileService {
         type: 'db create',
         data: res,
       })
+      return pick(res, [...UploadResDtoPickList])
     } catch (e) {
       this.logger.error(e)
       throw new FileException('file uploaded failed')
     }
+  }
 
-    return true
+  async saveFiles(file: FilesUploadDto) {
+    const fileList: {
+      tmpPath: string
+      tmpFileName: string
+      shortPath: string
+      file: FileUploadDto
+    }[] = []
+
+    try {
+      for (const fileItem of file.files) {
+        const res = await this.createFile({
+          file: fileItem,
+          fileTag: file.fileTag,
+        })
+        fileList.push(res)
+      }
+      const addList = fileList.map((item) => {
+        const curFileDto = item.file
+        return {
+          fileName: item.tmpFileName,
+          originalFilename: curFileDto.file.originalname,
+          filePath: item.shortPath,
+          fileSize: curFileDto.file.size,
+          fileTag: curFileDto.fileTag,
+        }
+      })
+      const res = await Promise.all(
+        addList.map(async (item) => {
+          // create方法会返回插入的信息，兼容性也更强
+          const res = await this.prismaService.uploadFiles.create({
+            data: item,
+          })
+          return pick(res, [...UploadResDtoPickList])
+        }),
+      )
+      console.log({ res })
+
+      return res
+    } catch (e) {
+      throw new FileException(e.message)
+    }
   }
   findAll() {
     return `This action returns all file`
@@ -76,10 +126,6 @@ export class UploadFileService {
 
   findOne(id: number) {
     return `This action returns a #${id} file`
-  }
-
-  update(id: number, updateFileDto: UpdateFileDto) {
-    return `This action updates a #${id} file`
   }
 
   remove(id: number) {

@@ -9,7 +9,6 @@ import {
   HttpStatus,
   Param,
   ParseFilePipeBuilder,
-  Patch,
   Post,
   UploadedFile,
   UploadedFiles,
@@ -23,7 +22,6 @@ import {
   FilesUploadDto,
   UploadResDto,
 } from './dto/create-file.dto'
-import { UpdateFileDto } from './dto/update-file.dto'
 import { UploadFileService } from './upload-file.service'
 
 // 这东西有bug，没法从req中获取body的其他参数
@@ -99,20 +97,29 @@ export class FileController {
   // 上传多个文件
 
   @Post('uploadFiles')
-  @UseInterceptors(FilesInterceptor('files'))
+  @UseInterceptors(FilesInterceptor('files', 500))
+  // @UseInterceptors(
+  //   FileFieldsInterceptor([
+  //     { name: 'avatar', maxCount: 1 },
+  //     { name: 'background', maxCount: 1 },
+  //   ]),
+  // )
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: '上传多个文件',
     type: FilesUploadDto,
   })
-  uploadFiles(
+  @ApiCustomResponse({
+    type: [UploadResDto],
+    description: '上传文件响应',
+  })
+  async uploadFiles(
+    @Body() filesUploadDto: FilesUploadDto,
     @UploadedFiles() // 指定字段名
-    files: {
-      avatar?: Express.Multer.File[]
-      background?: Express.Multer.File[]
-    },
+    files: Express.Multer.File[],
   ) {
-    console.log(files)
+    filesUploadDto.files = files
+    return await this.uploadFileService.saveFiles(filesUploadDto)
   }
 
   // 上传任意字段名称键的所有字段
@@ -131,10 +138,10 @@ export class FileController {
     return this.uploadFileService.findOne(+id)
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFileDto: UpdateFileDto) {
-    return this.uploadFileService.update(+id, updateFileDto)
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateFileDto: UpdateFileDto) {
+  //   return this.uploadFileService.update(+id, updateFileDto)
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
