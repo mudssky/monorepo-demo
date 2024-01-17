@@ -10,8 +10,6 @@ export function calcPercent(current?: number, max?: number) {
  * @param percent
  */
 export const percentColor = (percent: number) => {
-  console.log({ percent })
-
   if (percent < 60) {
     // return 'green'
     return '#3f8600'
