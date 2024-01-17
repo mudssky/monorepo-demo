@@ -1,4 +1,5 @@
-import { Form, Input, Modal, Upload } from 'antd'
+import CustomUpload from '@/components/CusomSingleUpload'
+import { Form, Input, Modal } from 'antd'
 import { ModalProps } from 'antd/lib/modal'
 import { useSetupHook } from './hooks'
 
@@ -12,12 +13,11 @@ export default function UserInfoEditModal(props: Props) {
     <Modal title="用户资料编辑" {...restProps}>
       <Form form={form}>
         <Form.Item label="头像" name={'avatar'}>
-          <Upload
-            name="avatar"
+          <CustomUpload
             listType="picture-circle"
-            className="avatar-uploader"
             showUploadList={false}
-          ></Upload>
+            // customRequest={}
+          ></CustomUpload>
         </Form.Item>
         <Form.Item label="用户名" name={'name'}>
           <Input></Input>
