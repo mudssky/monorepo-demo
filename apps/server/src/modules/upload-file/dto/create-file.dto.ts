@@ -1,4 +1,4 @@
-import { ApiProperty, PickType } from '@nestjs/swagger'
+import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
 import { $Enums, FileTag, UploadFiles } from '@prisma/client'
 import { IsEnum, IsOptional } from 'class-validator'
 
@@ -12,7 +12,10 @@ export class CreateFileDto implements UploadFiles {
   filePath: string
   @ApiProperty()
   fileSize: number
-  @ApiProperty({ description: '文件标签，如果是头像上传则为AVATAR' })
+  @ApiProperty({
+    type: 'string',
+    description: '文件标签，如果是头像上传则为AVATAR',
+  })
   fileTag: $Enums.FileTag | null
   createdAt: Date
   updatedAt: Date
@@ -30,14 +33,24 @@ export class FileUploadDto {
   fileTag: $Enums.FileTag = 'NOTAG'
 }
 
-export class FilesUploadDto {
-  @ApiProperty({ type: [String], format: 'binary' })
-  files: any[]
+export class FilesUploadDto extends PickType(FileUploadDto, ['fileTag']) {
+  @ApiProperty({
+    type: 'array',
+    items: {
+      type: 'string',
+      format: 'binary',
+    },
+  })
+  files: Express.Multer.File[]
 }
 
-export class UploadResDto extends PickType(CreateFileDto, [
+export const UploadResDtoPickList = [
   'filePath',
   'fileTag',
   'originalFilename',
   'fileName',
-] as const) {}
+] as const
+
+export class UploadResDto extends PartialType(
+  PickType(CreateFileDto, UploadResDtoPickList),
+) {}
