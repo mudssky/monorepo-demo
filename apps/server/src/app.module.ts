@@ -40,14 +40,14 @@ import { FileModule } from './modules/upload-file/upload-file.module'
     }),
     // 静态文件路径配置
     ServeStaticModule.forRoot({
-      rootPath: path.join(__dirname, '..', 'static'),
+      rootPath: path.join(__dirname, '..', 'uploadTemp'),
       //服务器根路径配置
-      serveRoot: '/static',
+      serveRoot: '/uploadTemp',
       serveStaticOptions: {
         // 缓存控制
         cacheControl: true,
         // 设为true后碰到目录会查找目录下的index.html
-        index: true,
+        index: false,
         // 尾部是/的时候重定向
         redirect: true,
       },
