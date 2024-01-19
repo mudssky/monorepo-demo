@@ -25,7 +25,7 @@ export class SharedService {
   }
 
   /**
-   * 根据段路径，获取图片全路径
+   * 根据短路径，获取图片全路径
    * @param shortUrl
    * @returns
    */

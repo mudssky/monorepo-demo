@@ -19,7 +19,13 @@ export function useSetupHook(props: Props) {
     return () => {}
   }, [open, userInfo])
 
+  const handleEditSubmit = async () => {
+    const formValues = await form.validateFields()
+    console.log({ formValues })
+  }
+
   return {
     form,
+    handleEditSubmit,
   }
 }
