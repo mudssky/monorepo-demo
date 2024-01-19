@@ -68,6 +68,14 @@ export class EnvironmentVariables {
   @Expose()
   @IsString()
   GLOBAL_PREFIX = '/api'
+
+  @Expose()
+  @IsString()
+  STATIC_DIR
+
+  @Expose()
+  @IsString()
+  PIC_DIR
 }
 
 export type GlobalEnvConfigKey = keyof EnvironmentVariables

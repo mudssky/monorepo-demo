@@ -1,7 +1,7 @@
 import { CatsModule } from '@/modules/cats/cats.module'
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 // import { PigsModule } from '@/modules/pigs/pigs.module'
-import config, { validate } from '@/common/config/config'
+import config, { EnvironmentVariables, validate } from '@/common/config/config'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { LoggerMiddleware } from '@/common/middlewares/logger/logger.middleware'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
@@ -10,7 +10,7 @@ import { GlobalLoggerModule } from '@/modules/logger/logger.module'
 import { SystemMonitorModule } from '@/modules/system-monitor/system-monitor.module'
 import { UserModule } from '@/modules/user/user.module'
 import { CacheInterceptor } from '@nestjs/cache-manager'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import path from 'path'
@@ -39,18 +39,43 @@ import { FileModule } from './modules/upload-file/upload-file.module'
       validate,
     }),
     // 静态文件路径配置
-    ServeStaticModule.forRoot({
-      rootPath: path.join(__dirname, '..', 'uploadTemp'),
-      //服务器根路径配置
-      serveRoot: '/uploadTemp',
-      serveStaticOptions: {
-        // 缓存控制
-        cacheControl: true,
-        // 设为true后碰到目录会查找目录下的index.html
-        index: false,
-        // 尾部是/的时候重定向
-        redirect: true,
+    ServeStaticModule.forRootAsync({
+      useFactory: (configService: ConfigService<EnvironmentVariables>) => {
+        const staticFolder = configService.get('STATIC_DIR')
+        // const uploadTemp = configService.get('UPLOAD_TEMP')
+        console.log({ staticFolder })
+
+        // 可以配置多个静态目录
+        return [
+          {
+            rootPath: path.join(__dirname, '..', staticFolder),
+            //服务器根路径配置
+            serveRoot: staticFolder,
+            serveStaticOptions: {
+              // 缓存控制
+              cacheControl: true,
+              // 设为true后碰到目录会查找目录下的index.html
+              index: false,
+              // 尾部是/的时候重定向
+              redirect: true,
+            },
+          },
+          // {
+          //   rootPath: path.join(__dirname, '..', uploadTemp),
+          //   //服务器根路径配置
+          //   serveRoot: uploadTemp,
+          //   serveStaticOptions: {
+          //     // 缓存控制
+          //     cacheControl: true,
+          //     // 设为true后碰到目录会查找目录下的index.html
+          //     index: false,
+          //     // 尾部是/的时候重定向
+          //     redirect: true,
+          //   },
+          // },
+        ]
       },
+      inject: [ConfigService],
     }),
     CustomCacheModule,
     PrismaModule,
