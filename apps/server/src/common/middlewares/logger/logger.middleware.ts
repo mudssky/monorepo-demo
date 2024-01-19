@@ -6,8 +6,9 @@ import { NextFunction, Request, Response } from 'express'
 function bodyShowMessage(req: Request) {
   if (req.headers['content-type']?.includes('multipart/form-data')) {
     return {
-      ...omit(req.body, ['file']),
-      file: '文件内容太长，不打印',
+      ...omit(req.body),
+      ...('file' in req.body ? { file: '文件内容太长，不打印' } : {}),
+      ...('files' in req.body ? { files: '文件内容太长，不打印' } : {}),
     }
   }
   return req.body
