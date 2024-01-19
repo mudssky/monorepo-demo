@@ -53,4 +53,7 @@ export const UploadResDtoPickList = [
 
 export class UploadResDto extends PartialType(
   PickType(CreateFileDto, UploadResDtoPickList),
-) {}
+) {
+  @ApiProperty()
+  url: string
+}

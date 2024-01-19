@@ -1,5 +1,5 @@
 import { API_CODE, API_MSG } from '@/common/constant/response'
-import { HttpStatus } from '@nestjs/common'
+import { HttpException, HttpStatus } from '@nestjs/common'
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger'
 interface APIResponse<T = any> {
   code: API_CODE
@@ -32,12 +32,12 @@ export class CustomResponse {
     })
   }
 
-  Fail(msg: any = API_MSG[API_CODE.Fail], error?: ErrorResponse['error']) {
+  Fail(exception: HttpException) {
     return {
       code: API_CODE.Fail,
       data: null,
-      msg,
-      error,
+      msg: exception.message,
+      error: exception.getResponse(),
     } as ErrorResponse
   }
   private Result<T = any>(res: APIResponse<T>) {
