@@ -13,21 +13,24 @@ import {
   UploadResDtoPickList,
 } from './dto/create-file.dto'
 
+import { EnvironmentVariables } from '@/common/config/config'
 import { pick } from '@mudssky/jsutils'
 
 @Injectable()
 export class UploadFileService {
-  private tempFilePath = 'uploadTemp'
+  private imagePath
 
   constructor(
     private readonly prismaService: PrismaService,
     private readonly logger: GlobalLoggerService,
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService<EnvironmentVariables>,
   ) {
     this.logger.setContext({ label: UploadFileService.name })
-    this.tempFilePath = this.configService.get('uploadTempPath') ?? 'uploadTemp'
-    if (!fs.existsSync(this.tempFilePath)) {
-      fs.mkdirSync(this.tempFilePath)
+    this.imagePath = `${this.configService.get(
+      'STATIC_DIR',
+    )}/${this.configService.get('PIC_DIR')}`
+    if (!fs.existsSync(this.imagePath)) {
+      fs.mkdirSync(this.imagePath, { recursive: true })
     }
   }
   create(createFileDto: CreateFileDto) {
@@ -37,7 +40,7 @@ export class UploadFileService {
   async createFile(file: FileUploadDto) {
     const fileId = uuidv4()
     const tmpFileName = `${fileId}${path.extname(file.file.originalname)}`
-    const folderPath = path.join(this.tempFilePath, file.fileTag)
+    const folderPath = path.join(this.imagePath, file.fileTag)
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath)
     }
