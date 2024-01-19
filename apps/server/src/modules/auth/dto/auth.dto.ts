@@ -17,6 +17,7 @@ export class LoginDto implements LoginReq {
 }
 
 export class LoginResDto implements LoginRes {
+  avatarUrl: string | null
   @ApiProperty({
     description: 'jwt token',
   })

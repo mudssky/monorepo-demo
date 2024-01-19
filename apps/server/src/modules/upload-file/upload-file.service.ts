@@ -16,6 +16,7 @@ import {
 
 import { EnvironmentVariables } from '@/common/config/config'
 import { pick } from '@mudssky/jsutils'
+import { SharedService } from '../global/shared.service'
 
 @Injectable()
 export class UploadFileService {
@@ -25,11 +26,10 @@ export class UploadFileService {
     private readonly prismaService: PrismaService,
     private readonly logger: GlobalLoggerService,
     private readonly configService: ConfigService<EnvironmentVariables>,
+    private readonly sharedService: SharedService,
   ) {
     this.logger.setContext({ label: UploadFileService.name })
-    this.imagePath = `${this.configService.get(
-      'STATIC_DIR',
-    )}/${this.configService.get('PIC_DIR')}`
+    this.imagePath = this.sharedService.getImagePath()
     if (!fs.existsSync(this.imagePath)) {
       fs.mkdirSync(this.imagePath, { recursive: true })
     }
@@ -77,7 +77,7 @@ export class UploadFileService {
       })
       return {
         ...pick(res, [...UploadResDtoPickList]),
-        url: this.getFileUrl(res.filePath),
+        url: this.sharedService.getFullImageUrl(res.filePath),
       }
     } catch (e) {
       this.logger.error(e)
@@ -85,9 +85,6 @@ export class UploadFileService {
     }
   }
 
-  getFileUrl(filePath: string) {
-    return `/${this.imagePath}/${filePath}`
-  }
   async saveFiles(file: FilesUploadDto) {
     const fileList: FileUploadDto[] = []
 

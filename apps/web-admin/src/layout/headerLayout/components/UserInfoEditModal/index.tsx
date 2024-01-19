@@ -12,7 +12,7 @@ export default function UserInfoEditModal(props: Props) {
   return (
     <Modal title="用户资料编辑" {...restProps}>
       <Form form={form}>
-        <Form.Item label="头像" name={'avatar'}>
+        <Form.Item label="头像" name={'avatarUrl'}>
           <CustomUpload
             listType="picture-circle"
             showUploadList={false}
