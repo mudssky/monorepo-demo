@@ -33,8 +33,6 @@ import { SharedService } from './shared.service'
       useFactory: (configService: ConfigService<EnvironmentVariables>) => {
         const staticFolder = configService.get('STATIC_DIR')
         // const uploadTemp = configService.get('UPLOAD_TEMP')
-        // console.log({ staticFolder })
-        console.log({ path: path.join(__dirname, '../../..', staticFolder) })
 
         // 可以配置多个静态目录
         return [

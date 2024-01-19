@@ -2,13 +2,16 @@ import { PrismaService } from '@/modules/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
 import { JwtUser } from '../auth/types'
+import { SharedService } from '../global/shared.service'
 import { GlobalLoggerService } from '../logger/logger.service'
+import { UserDto } from './dto/user.dto'
 
 @Injectable()
 export class UserService {
   constructor(
     private prisma: PrismaService,
     private readonly logger: GlobalLoggerService,
+    private readonly sharedService: SharedService,
   ) {}
 
   async user(
@@ -86,6 +89,9 @@ export class UserService {
         id: user.userId,
       },
     })
-    return this.prisma.exclude(data, ['password'])
+    return {
+      ...this.prisma.exclude(data, ['password']),
+      avatarFullUrl: this.sharedService.getFullImageUrl(data?.avatarUrl ?? ''),
+    } satisfies Partial<UserDto>
   }
 }

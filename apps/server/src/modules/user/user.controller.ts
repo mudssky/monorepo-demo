@@ -42,7 +42,8 @@ export class UserController {
   })
   @Get('userInfo')
   async login(@Request() req) {
-    const userInfo = this.userService.getUserInfo(req.user)
+    const userInfo = await this.userService.getUserInfo(req.user)
+    console.log({ userInfo })
 
     return userInfo
   }

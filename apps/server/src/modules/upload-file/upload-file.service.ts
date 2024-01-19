@@ -7,7 +7,6 @@ import fs from 'fs'
 import path from 'path'
 import { v4 as uuidv4 } from 'uuid'
 import {
-  CreateFileDto,
   FileUploadDto,
   FilesUploadDto,
   UploadResDto,
@@ -33,9 +32,6 @@ export class UploadFileService {
     if (!fs.existsSync(this.imagePath)) {
       fs.mkdirSync(this.imagePath, { recursive: true })
     }
-  }
-  create(createFileDto: CreateFileDto) {
-    return 'This action adds a new file'
   }
 
   async createFile(file: FileUploadDto) {
