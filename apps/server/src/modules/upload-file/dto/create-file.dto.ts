@@ -12,7 +12,10 @@ export class CreateFileDto implements UploadFiles {
   filePath: string
   @ApiProperty()
   fileSize: number
-  @ApiProperty({ description: '文件标签，如果是头像上传则为AVATAR' })
+  @ApiProperty({
+    type: 'string',
+    description: '文件标签，如果是头像上传则为AVATAR',
+  })
   fileTag: $Enums.FileTag | null
   createdAt: Date
   updatedAt: Date
@@ -30,10 +33,23 @@ export class FileUploadDto {
   fileTag: $Enums.FileTag = 'NOTAG'
 }
 
-export class FilesUploadDto {
-  @ApiProperty({ type: [String], format: 'binary' })
-  files: any[]
+export class FilesUploadDto extends PickType(FileUploadDto, ['fileTag']) {
+  @ApiProperty({
+    type: 'array',
+    items: {
+      type: 'string',
+      format: 'binary',
+    },
+  })
+  files: Express.Multer.File[]
 }
+
+export const UploadResDtoPickList = [
+  'filePath',
+  'fileTag',
+  'originalFilename',
+  'fileName',
+] as const
 
 export class UploadResDto extends PickType(CreateFileDto, [
   'filePath',

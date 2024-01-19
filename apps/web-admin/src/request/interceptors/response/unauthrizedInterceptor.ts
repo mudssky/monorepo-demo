@@ -20,8 +20,10 @@ export const UnauthrizedInterceptor: CustomInterceptor<
     return response
   },
   function (error: AxiosError) {
-    // axios 默认401状态码会报错
-    if (error.code === 'ERR_BAD_REQUEST') {
+    console.log({ error })
+
+    // axios 默认401状态码会报错(200~300区间外就报错)
+    if (error.response?.status === 401) {
       message.error(t('login-outdated-please-login-again'))
       // 未登录状态需要清除缓存
       GlobalStorage.clearStorageSync()
