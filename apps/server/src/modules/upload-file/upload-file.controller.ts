@@ -17,7 +17,6 @@ import {
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger'
 import {
-  CreateFileDto,
   FileUploadDto,
   FilesUploadDto,
   UploadResDto,
@@ -45,11 +44,6 @@ import { UploadFileService } from './upload-file.service'
 @Controller('upload-file')
 export class FileController {
   constructor(private readonly uploadFileService: UploadFileService) {}
-
-  @Post()
-  create(@Body() createFileDto: CreateFileDto) {
-    return this.uploadFileService.create(createFileDto)
-  }
 
   //   @UploadedFile(
   //   new ParseFilePipe({
