@@ -29,7 +29,10 @@ export class SharedService {
    * @param shortUrl
    * @returns
    */
-  getFullImageUrl(shortUrl: string) {
+  getFullImageUrl(shortUrl?: string) {
+    if ((shortUrl ?? '').trim() === '') {
+      return undefined
+    }
     return `/${this.imagePath}/${shortUrl}`
   }
 }

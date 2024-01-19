@@ -34,6 +34,10 @@ export class UserDto implements Omit<User, 'password'> {
   createdAt: Date
   @ApiProperty()
   avatarUrl: string | null
+  @ApiProperty({
+    description: '头像完整地址',
+  })
+  avatarFullUrl?: string
 }
 
 export class UpdateUserDto extends PickType(UserDto, ['name', 'avatarUrl']) {
