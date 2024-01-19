@@ -1,4 +1,5 @@
 import { RegisterReq } from '@/modules/auth/types'
+import { PickType } from '@nestjs/mapped-types'
 import { ApiProperty } from '@nestjs/swagger'
 import { $Enums, User } from '@prisma/client'
 import { IsEmail, IsNotEmpty } from 'class-validator'
@@ -33,4 +34,10 @@ export class UserDto implements Omit<User, 'password'> {
   createdAt: Date
   @ApiProperty()
   avatarUrl: string | null
+}
+
+export class UpdateUserDto extends PickType(UserDto, ['name', 'avatarUrl']) {
+  @ApiProperty()
+  @IsNotEmpty()
+  id: number
 }

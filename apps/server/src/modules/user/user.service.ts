@@ -48,10 +48,12 @@ export class UserService {
     data: Prisma.UserUpdateInput
   }): Promise<User> {
     const { where, data } = params
-    return this.prisma.user.update({
+    const res = await this.prisma.user.update({
       data,
       where,
     })
+    console.log({ res })
+    return res
   }
 
   async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
