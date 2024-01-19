@@ -10,6 +10,7 @@ import {
   CreateFileDto,
   FileUploadDto,
   FilesUploadDto,
+  UploadResDto,
   UploadResDtoPickList,
 } from './dto/create-file.dto'
 
@@ -74,51 +75,36 @@ export class UploadFileService {
         type: 'db create',
         data: res,
       })
-      return pick(res, [...UploadResDtoPickList])
+      return {
+        ...pick(res, [...UploadResDtoPickList]),
+        url: this.getFileUrl(res.filePath),
+      }
     } catch (e) {
       this.logger.error(e)
-      throw new FileException('file uploaded failed')
+      throw new FileException(e.message)
     }
   }
 
+  getFileUrl(filePath: string) {
+    return `/${this.imagePath}/${filePath}`
+  }
   async saveFiles(file: FilesUploadDto) {
-    const fileList: {
-      tmpPath: string
-      tmpFileName: string
-      shortPath: string
-      file: FileUploadDto
-    }[] = []
+    const fileList: FileUploadDto[] = []
 
     try {
       for (const fileItem of file.files) {
-        const res = await this.createFile({
+        fileList.push({
           file: fileItem,
           fileTag: file.fileTag,
         })
-        fileList.push(res)
       }
-      const addList = fileList.map((item) => {
-        const curFileDto = item.file
-        return {
-          fileName: item.tmpFileName,
-          originalFilename: curFileDto.file.originalname,
-          filePath: item.shortPath,
-          fileSize: curFileDto.file.size,
-          fileTag: curFileDto.fileTag,
-        }
-      })
-      const res = await Promise.all(
-        addList.map(async (item) => {
-          // create方法会返回插入的信息，兼容性也更强
-          const res = await this.prismaService.uploadFiles.create({
-            data: item,
-          })
-          return pick(res, [...UploadResDtoPickList])
-        }),
-      )
-      console.log({ res })
-
-      return res
+      const uploadSuccessList: UploadResDto[] = []
+      // 直接调用上传单个文件的方法是一样的，如果中途有问题就会变成没用的临时文件。
+      for (const item of fileList) {
+        const res = await this.saveFile(item)
+        uploadSuccessList.push(res)
+      }
+      return uploadSuccessList
     } catch (e) {
       throw new FileException(e.message)
     }

@@ -1,21 +1,24 @@
 import { UPLOAD_SINGLE } from '@/api'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { Upload, UploadProps } from 'antd'
+import { Upload, UploadProps, message } from 'antd'
 import { AxiosProgressEvent } from 'axios'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useState } from 'react'
 export interface Props extends UploadProps {
   uploadButton?: ReactNode
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value?: any
 }
 
 export default function CustomUpload(props: Props) {
   const [loading, setLoading] = useState(false)
   const [imageUrl, setImageUrl] = useState<string>()
+  // const [first, setfirst] = useState(second)
   const {
     listType = 'picture-card',
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     value,
     uploadButton,
-    onChange,
+    onChange: onValueChange,
     ...restProps
   } = props
 
@@ -26,14 +29,13 @@ export default function CustomUpload(props: Props) {
     </button>
   )
 
-  const handleUpload = async () => {}
   const currentButton = uploadButton ?? defaultButton
 
-  useEffect(() => {
-    console.log({ value })
+  // useEffect(() => {
+  //   console.log({ value })
 
-    return () => {}
-  }, [value])
+  //   return () => {}
+  // }, [value])
 
   const customProps: UploadProps = {
     customRequest: async (options) => {
@@ -50,6 +52,10 @@ export default function CustomUpload(props: Props) {
       )
       if (res.code === 0) {
         options?.onSuccess?.(res.data)
+      } else {
+        message.error(res.msg)
+        options?.onError?.(new Error(res.msg), res)
+        // throw new Error('upload failed')
       }
     },
     onChange: (info) => {
@@ -59,11 +65,11 @@ export default function CustomUpload(props: Props) {
         setLoading(true)
         return
       }
-      if (info.file.status === 'done') {
+      if (info.file.status === 'error' || info.file.status === 'done') {
         setLoading(false)
-        // setImageUrl(info.file.response.data.)
+        setImageUrl(info.file.response?.url)
       }
-      onChange?.(info)
+      onValueChange?.(info)
     },
   }
 
