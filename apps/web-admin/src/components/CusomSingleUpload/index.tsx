@@ -3,10 +3,15 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Upload, UploadProps, message } from 'antd'
 import { AxiosProgressEvent } from 'axios'
 import { ReactNode, useState } from 'react'
+
+interface AvaterInfo {
+  avatarUrl: string //段路径
+  avatarFullUrl: string //长路径
+}
 export interface Props extends UploadProps {
   uploadButton?: ReactNode
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value?: any
+  value?: AvaterInfo
 }
 
 export default function CustomUpload(props: Props) {
@@ -73,10 +78,11 @@ export default function CustomUpload(props: Props) {
     },
   }
 
+  const currentImageUrl = value?.avatarFullUrl ?? imageUrl
   return (
     <Upload listType={listType} {...restProps} {...customProps}>
-      {imageUrl ? (
-        <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+      {currentImageUrl ? (
+        <img src={currentImageUrl} alt="avatar" style={{ width: '100%' }} />
       ) : (
         currentButton
       )}

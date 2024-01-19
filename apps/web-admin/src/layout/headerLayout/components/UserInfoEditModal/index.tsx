@@ -7,12 +7,12 @@ export interface Props extends ModalProps {}
 
 export default function UserInfoEditModal(props: Props) {
   const { ...restProps } = props
-  const { form } = useSetupHook(props)
+  const { form, handleEditSubmit } = useSetupHook(props)
 
   return (
-    <Modal title="用户资料编辑" {...restProps}>
+    <Modal title="用户资料编辑" {...restProps} onOk={handleEditSubmit}>
       <Form form={form}>
-        <Form.Item label="头像" name={'avatarUrl'}>
+        <Form.Item label="头像" name={'avatarInfo'}>
           <CustomUpload
             listType="picture-circle"
             showUploadList={false}

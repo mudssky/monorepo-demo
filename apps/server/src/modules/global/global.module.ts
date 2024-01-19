@@ -7,7 +7,7 @@ import { Global, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ServeStaticModule } from '@nestjs/serve-static'
-import * as path from 'node:path'
+import path from 'path'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
 import { GlobalLoggerModule } from '../logger/logger.module'
@@ -34,11 +34,13 @@ import { SharedService } from './shared.service'
         const staticFolder = configService.get('STATIC_DIR')
         // const uploadTemp = configService.get('UPLOAD_TEMP')
         // console.log({ staticFolder })
+        console.log({ path: path.join(__dirname, '../../..', staticFolder) })
 
         // 可以配置多个静态目录
         return [
           {
-            rootPath: path.join(__dirname, '..', staticFolder),
+            //放到global模块后路径加了2层
+            rootPath: path.join(__dirname, '../../../', staticFolder),
             //服务器根路径配置
             serveRoot: `/${staticFolder}`,
             serveStaticOptions: {
