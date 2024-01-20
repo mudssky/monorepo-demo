@@ -11,6 +11,7 @@ export default function HeaderLayout(props: Props) {
     cancelUserInfoEditModal,
     handleLogoutClick,
     showUserInfoEditModal,
+    handleUserInfoEditFinish,
   } = useSetupHook()
   const items: MenuProps['items'] = [
     {
@@ -43,6 +44,7 @@ export default function HeaderLayout(props: Props) {
         </Space>
       </div>
       <UserInfoEditModal
+        onSubmitFinish={handleUserInfoEditFinish}
         open={isUserInfoEditModalOpen}
         onCancel={cancelUserInfoEditModal}
       ></UserInfoEditModal>
