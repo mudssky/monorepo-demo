@@ -4,9 +4,9 @@ import { Upload, UploadProps, message } from 'antd'
 import { AxiosProgressEvent } from 'axios'
 import { ReactNode, useState } from 'react'
 
-interface AvaterInfo {
-  avatarUrl: string //段路径
-  avatarFullUrl: string //长路径
+export interface AvaterInfo {
+  avatarUrl: string | null //段路径
+  avatarFullUrl: string | null //长路径
 }
 export interface Props extends UploadProps {
   uploadButton?: ReactNode

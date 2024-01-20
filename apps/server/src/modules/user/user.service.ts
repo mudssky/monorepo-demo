@@ -4,7 +4,7 @@ import { Prisma, User } from '@prisma/client'
 import { JwtUser } from '../auth/types'
 import { SharedService } from '../global/shared.service'
 import { GlobalLoggerService } from '../logger/logger.service'
-import { UserDto } from './dto/user.dto'
+import { UserDtoType } from './types'
 
 @Injectable()
 export class UserService {
@@ -49,14 +49,16 @@ export class UserService {
   async updateUser(params: {
     where: Prisma.UserWhereUniqueInput
     data: Prisma.UserUpdateInput
-  }): Promise<User> {
+  }): Promise<Partial<UserDtoType> | null> {
     const { where, data } = params
     const res = await this.prisma.user.update({
       data,
       where,
     })
-    console.log({ res })
-    return res
+    return {
+      ...this.prisma.exclude(res, ['password']),
+      avatarFullUrl: this.sharedService.getFullImageUrl(res.avatarUrl ?? ''),
+    }
   }
 
   async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
@@ -83,7 +85,7 @@ export class UserService {
     })
   }
 
-  async getUserInfo(user: JwtUser) {
+  async getUserInfo(user: JwtUser): Promise<Partial<UserDtoType>> {
     const data = await this.prisma.user.findUnique({
       where: {
         id: user.userId,
@@ -92,6 +94,6 @@ export class UserService {
     return {
       ...this.prisma.exclude(data, ['password']),
       avatarFullUrl: this.sharedService.getFullImageUrl(data?.avatarUrl ?? ''),
-    } satisfies Partial<UserDto>
+    }
   }
 }

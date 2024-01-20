@@ -1,8 +1,8 @@
 import { RegisterReq } from '@/modules/auth/types'
-import { PickType } from '@nestjs/mapped-types'
 import { ApiProperty } from '@nestjs/swagger'
-import { $Enums, User } from '@prisma/client'
+import { $Enums } from '@prisma/client'
 import { IsEmail, IsNotEmpty } from 'class-validator'
+import { UpdateUserDtoType, UserDtoType } from '../types'
 
 /**
  * 创建用户需要的参数
@@ -19,7 +19,10 @@ export class CreateUserDto implements RegisterReq {
   email: string
 }
 
-export class UserDto implements Omit<User, 'password'> {
+/**
+ * 用户信息对象
+ */
+export class UserDto implements UserDtoType {
   @ApiProperty()
   id: number
   @ApiProperty()
@@ -37,11 +40,17 @@ export class UserDto implements Omit<User, 'password'> {
   @ApiProperty({
     description: '头像完整地址',
   })
-  avatarFullUrl?: string
+  avatarFullUrl: string | null
 }
 
-export class UpdateUserDto extends PickType(UserDto, ['name', 'avatarUrl']) {
+export class UpdateUserDto implements UpdateUserDtoType {
+  @ApiProperty()
+  name: string
+  @ApiProperty()
+  avatarUrl: string
   @ApiProperty()
   @IsNotEmpty()
   id: number
+  @ApiProperty()
+  avatarFullUrl: string | null
 }
