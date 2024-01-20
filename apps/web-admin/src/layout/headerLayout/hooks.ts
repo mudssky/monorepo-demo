@@ -19,6 +19,10 @@ export function useSetupHook() {
   const cancelUserInfoEditModal = () => {
     setIsUserInfoEditModalOpen(false)
   }
+  const handleUserInfoEditFinish = () => {
+    cancelUserInfoEditModal()
+    // getUserInfo()
+  }
   useEffect(() => {
     getUserInfo()
     return () => {}
@@ -31,5 +35,6 @@ export function useSetupHook() {
     handleLogoutClick,
     showUserInfoEditModal,
     cancelUserInfoEditModal,
+    handleUserInfoEditFinish,
   }
 }

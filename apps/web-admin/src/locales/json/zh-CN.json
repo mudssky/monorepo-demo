@@ -22,5 +22,6 @@
   "email invalid": "邮箱格式不对",
   "register success": "注册成功",
   "login-outdated-please-login-again": "未登录或登录过期，请重新登录",
-  "Process Name": "进程名"
+  "Process Name": "进程名",
+  "opretion_success": "操作成功"
 }

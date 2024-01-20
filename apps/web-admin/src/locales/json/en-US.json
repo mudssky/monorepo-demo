@@ -22,5 +22,6 @@
   "email invalid": "invalid email",
   "register success": "register success",
   "login-outdated-please-login-again": "login outdated,please login again",
-  "Process Name": "Process Name"
+  "Process Name": "Process Name",
+  "opretion_success": "Success"
 }

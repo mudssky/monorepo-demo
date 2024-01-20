@@ -31,7 +31,8 @@ export class SharedService {
    */
   getFullImageUrl(shortUrl?: string) {
     if ((shortUrl ?? '').trim() === '') {
-      return undefined
+      // 因为undefined 后端不会返回字段，所以后端统一返回null了
+      return null
     }
     return `/${this.imagePath}/${shortUrl}`
   }
