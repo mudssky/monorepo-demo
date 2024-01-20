@@ -20,7 +20,7 @@ export class CreateUserDto implements RegisterReq {
 }
 
 /**
- * 用户信息对象
+ * 用户信息对象,登录用户可查看的部分
  */
 export class UserDto implements UserDtoType {
   @ApiProperty()
@@ -31,8 +31,6 @@ export class UserDto implements UserDtoType {
   name: string
   @ApiProperty({ enum: $Enums.Role })
   role: $Enums.Role
-  @ApiProperty({ enum: $Enums.UserStatus })
-  status: $Enums.UserStatus
   @ApiProperty()
   createdAt: Date
   @ApiProperty()
