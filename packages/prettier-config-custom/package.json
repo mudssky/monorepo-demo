@@ -1,8 +1,10 @@
 {
   "name": "@mudssky/prettier-config-custom",
-  "version": "1.0.2",
-  "description": "",
-  "keywords": [],
+  "version": "1.0.3",
+  "description": "prettier配置文件",
+  "keywords": [
+    "prettier"
+  ],
   "license": "ISC",
   "author": "mudssky",
   "main": "./cjs/base.cjs",
