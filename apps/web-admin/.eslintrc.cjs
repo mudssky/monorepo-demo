@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['custom/vite-recommended'],
+  extends: ['@mudssky/eslint-config-custom/vite-recommended.js'],
 }
