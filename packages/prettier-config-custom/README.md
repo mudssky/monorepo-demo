@@ -1,6 +1,6 @@
 # prettier-config-custom
 
-prettier的配置文件
+prettier的配置文件  
 除了基本的配置，添加了
 
 - `prettier-plugin-organize-imports` 用于格式化导入语句的排序
