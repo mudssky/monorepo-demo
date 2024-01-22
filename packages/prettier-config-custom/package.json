@@ -7,6 +7,12 @@
   ],
   "license": "ISC",
   "author": "mudssky",
+  "exports": {
+    ".": {
+      "import": "./esm/base.js",
+      "require": "./cjs/base.cjs"
+    }
+  },
   "main": "./cjs/base.cjs",
   "module": "./esm/base.js",
   "files": [

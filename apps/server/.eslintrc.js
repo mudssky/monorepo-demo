@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['custom/nest'],
+  extends: ['@mudssky/eslint-config-custom/nest'],
 }
