@@ -1,3 +1,3 @@
-const prettierConfigCustom = require('prettier-config-custom')
+const prettierConfigCustom = require('@mudssky/prettier-config-custom')
 
 module.exports = prettierConfigCustom
