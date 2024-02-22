@@ -3,7 +3,7 @@ export type LoginReq = Pick<User, 'password'>
 
 export interface LoginRes extends Omit<User, 'password'> {
   access_token?: string
-  avatarFullUrl: string | null
+  avatarFullUrl?: string | null
 }
 
 export type RegisterReq = Pick<User, 'email' | 'name' | 'password'>

@@ -1,0 +1,16 @@
+FROM node:20-alpine
+
+# 因为monorepo项目，拷贝不是很方便
+# 所以这里本地构建打包docker镜像了。
+WORKDIR /app
+
+COPY dist dist
+COPY .env.production.local .env.production
+COPY package.json package.json
+COPY node_modules node_modules
+EXPOSE 33201
+
+ENV NODE_ENV=production
+
+RUN cd /app
+CMD ["node","dist/main"]
