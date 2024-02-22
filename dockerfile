@@ -9,16 +9,14 @@ FROM base AS build
 COPY . /app
 WORKDIR /app
 # npm国内镜像加速
-RUN npm config set registry https://registry.npmmirror.com/
+# RUN npm config set registry https://registry.npmmirror.com/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm --filter server build
-RUN pwd
-COPY /app/apps/server/dist /prod/server/dist
-RUN pnpm deploy --filter=server  /prod/server
-# COPY /app/apps/server/dist /prod/server/dist
+RUN  pnpm --filter server build
 
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm deploy --filter=server  /prod/server
+RUN cp -r /app/apps/server/dist /prod/server/dist
 # nestadmin
-FROM base AS app1
+FROM base AS nest-admin
 COPY --from=build /prod/server /prod/server
 WORKDIR /prod/server
 EXPOSE 33201
