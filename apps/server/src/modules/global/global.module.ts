@@ -21,7 +21,7 @@ import { SharedService } from './shared.service'
     ConfigModule.forRoot({
       envFilePath:
         process.env.NODE_ENV === 'production'
-          ? ['.env.production', '.env']
+          ? ['.env.production.local', '.env.production', '.env']
           : ['.env.local', '.env.development'],
       isGlobal: true,
       load: [config],
