@@ -13,11 +13,15 @@ WORKDIR /app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN  pnpm --filter server build
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm deploy --filter=server  /prod/server
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm deploy --no-cache --filter=server  /prod/server
 RUN cp -r /app/apps/server/dist /prod/server/dist
+
 # nestadmin
 FROM base AS nest-admin
+# docker build . --target nest-admin --tag nest-admin:latest
+# shell交互式调试镜像
+# docker run -p 33201:33201 -it  nest-admin bash
 COPY --from=build /prod/server /prod/server
 WORKDIR /prod/server
 EXPOSE 33201
-CMD [ "pnpm","start:prod" ]
+CMD [ "pnpm","start:deploy" ]
