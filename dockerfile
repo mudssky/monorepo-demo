@@ -24,4 +24,6 @@ FROM base AS nest-admin
 COPY --from=build /prod/server /prod/server
 WORKDIR /prod/server
 EXPOSE 33201
+# 暴露写入数据的两个地方
+VOLUME [ "/prod/server/log","/prod/server/static" ]
 CMD [ "pnpm","start:deploy" ]
