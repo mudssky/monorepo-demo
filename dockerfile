@@ -26,4 +26,8 @@ WORKDIR /prod/server
 EXPOSE 33201
 # 暴露写入数据的两个地方
 VOLUME [ "/prod/server/log","/prod/server/static" ]
+
+# CMD是启动命令，但是可以灵活修改
+# docker run -p 33201:33201 nest-admin echo 'hello'
+# 也可以换成ENTRYPOINT，这样必定会执行。
 CMD [ "pnpm","start:deploy" ]
