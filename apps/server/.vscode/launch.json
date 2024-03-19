@@ -5,19 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach node",
-      "port": 9229,
-      "request": "attach",
-      "type": "node"
-    },
-    {
-      "name": "Launch node",
+      "name": "npm scripts launch",
       "type": "node",
       "request": "launch",
-      "skipFiles": ["<node_internals>/**"],
-      "runtimeExecutable": "pnpm",
-      "args": ["start:dev"],
-      "console": "integratedTerminal"
+      "runtimeArgs": ["run-script", "dev"],
+      "console": "integratedTerminal",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }
