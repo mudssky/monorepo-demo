@@ -10,17 +10,17 @@
     "server:dev": "turbo run dev --filter=server"
   },
   "dependencies": {
-    "@mudssky/jsutils": "^0.12.0",
+    "@mudssky/jsutils": "^0.14.0",
     "dayjs": "^1.11.10",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
     "@mudssky/prettier-config-custom": "workspace:*",
-    "@types/node": "^20.11.19",
-    "eslint": "^8.56.0",
+    "@types/node": "^20.12.7",
+    "eslint": "^9.1.1",
     "prettier": "^3.2.5",
     "tsconfig": "workspace:*",
-    "turbo": "^1.12.4"
+    "turbo": "^1.13.2"
   },
   "packageManager": "pnpm@9.0.5+sha256.61bd66913b52012107ec25a6ee4d6a161021ab99e04f6acee3aa50d0e34b4af9"
 }
