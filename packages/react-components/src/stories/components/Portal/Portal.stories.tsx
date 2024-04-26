@@ -24,7 +24,7 @@ export const Primary: Story = {
   },
   render(args) {
     return (
-      <Portal>
+      <Portal {...args}>
         <button>点我</button>
       </Portal>
     )
