@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "paths": {
       "@mudssky/react-components": ["./src/index.ts"],
-      "@": ["./src"]
+      "@/*": ["./src/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",
