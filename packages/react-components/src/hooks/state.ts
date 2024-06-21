@@ -54,6 +54,9 @@ export function useMergeState<T>(
    * 处理onChange调用的逻辑
    * 无论受控还是非受控组件，都要调用onChange
    * 但是非受控情况下，还会调用setStateValue更新组件内部的state
+   *
+   *
+   * 这里用useCallback保证传出的setState引用不变。
    */
   const setState = useCallback(
     (value: SetStateAction<T>) => {
