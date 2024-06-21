@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * 封装组件属性支持受控组件和非受控组件的逻辑
+ * 封装组件属性支持受控组件和非受控组件的逻辑,
+ * 也可以用ahooks的useControllableValue实现类似的功能
  * @param defaultStateValue
  * @param props
  * @returns
