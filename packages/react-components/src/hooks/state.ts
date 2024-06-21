@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { SetStateAction, useCallback, useEffect, useRef, useState } from 'react'
 
 /**
  * 封装组件属性支持受控组件和非受控组件的逻辑,
@@ -12,9 +12,10 @@ export function useMergeState<T>(
   props?: {
     defaultValue?: T
     value?: T
+    onChange?: (value: T) => void
   },
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
-  const { defaultValue, value: propsValue } = props || {}
+  const { defaultValue, value: propsValue, onChange } = props || {}
 
   const isFirstRender = useRef(true)
 
@@ -45,5 +46,25 @@ export function useMergeState<T>(
   // 非受控模式，值也可以通过propsValue传递，也可以setStateValue来设置。
   const mergedValue = propsValue === undefined ? stateValue : propsValue
 
-  return [mergedValue, setStateValue]
+  function isFunction(value: unknown): value is Function {
+    return typeof value === 'function'
+  }
+
+  /**
+   * 处理onChange调用的逻辑
+   * 无论受控还是非受控组件，都要调用onChange
+   * 但是非受控情况下，还会调用setStateValue更新组件内部的state
+   */
+  const setState = useCallback(
+    (value: SetStateAction<T>) => {
+      let res = isFunction(value) ? value(stateValue) : value
+      if (propsValue === undefined) {
+        setStateValue(res)
+      }
+      onChange?.(res)
+    },
+    [stateValue],
+  )
+
+  return [mergedValue, setState]
 }
