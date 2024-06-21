@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import dayjs, { Dayjs } from 'dayjs'
-import React, { CSSProperties, ReactNode, useState } from 'react'
+import { CSSProperties, ReactNode, useState } from 'react'
 import LocaleContext from './LocaleContext'
 import Header from './components/Header'
 import MonthCalendar from './components/MonthCalendar'
