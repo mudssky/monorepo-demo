@@ -1,4 +1,11 @@
-import { CSSProperties, FC, ReactNode, forwardRef, useMemo } from 'react'
+import {
+  CSSProperties,
+  FC,
+  ReactNode,
+  createRef,
+  forwardRef,
+  useMemo,
+} from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import useStore from './useStore'
 
@@ -87,11 +94,14 @@ export const MessageProvider = forwardRef<MessageRef, {}>((props, ref) => {
             key={direction}
           >
             {messageList[direction].map((item) => {
+              //添加nodeRef
+              const nodeRef = createRef<HTMLElement>()
               return (
                 <CSSTransition
                   key={item.id}
                   timeout={1000}
                   classNames="message"
+                  nodeRef={nodeRef}
                 >
                   <MessageItem onClose={remove} {...item}></MessageItem>
                 </CSSTransition>
