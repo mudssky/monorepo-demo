@@ -32,7 +32,8 @@ export function useMergeState<T>(
     }
   })
 
-  // 非受控组件的情况，初始赋值value为undefined，但是如果后续propsValue传值，则需要更新stateValue
+  // propsValue设置undefined时的赋值逻辑，如果后续赋值undefined，设置值的逻辑(即propsValue从别的值变成undefined)
+  // 因为  const mergedValue = propsValue === undefined ? stateValue : propsValue
   useEffect(() => {
     if (propsValue === undefined && !isFirstRender.current) {
       setStateValue(propsValue!)

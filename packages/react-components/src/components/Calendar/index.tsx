@@ -1,3 +1,4 @@
+import { useMergeState } from '@/hooks'
 import clsx from 'clsx'
 import dayjs, { Dayjs } from 'dayjs'
 import { CSSProperties, ReactNode, useState } from 'react'
@@ -17,12 +18,17 @@ export interface CalendarProps {
   // 国际化相关
   locale?: string
   onChange?: (date: Dayjs) => void
+  defaultValue?: Dayjs
+  // 快捷选项
 }
 
 function Calendar(props: CalendarProps) {
-  const { style, value, className, locale, onChange } = props
+  const { style, value, className, locale, onChange, defaultValue } = props
   const classNames = clsx('calendar', className)
-  const [currentDate, setCurrentDate] = useState<Dayjs>(value)
+  const [currentDate, setCurrentDate] = useMergeState<Dayjs>(dayjs(), {
+    value,
+    defaultValue,
+  })
 
   const [curMonth, setCurMonth] = useState<Dayjs>(value)
 
