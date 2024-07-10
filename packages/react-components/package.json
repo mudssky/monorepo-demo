@@ -11,6 +11,7 @@
     "storybook": "storybook dev -p 36006"
   },
   "dependencies": {
+    "async-validator": "^4.2.5",
     "clsx": "^2.1.1",
     "copy-to-clipboard": "^3.3.3",
     "lodash-es": "^4.17.21",

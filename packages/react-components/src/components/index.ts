@@ -1,5 +1,7 @@
 export * from './Calendar/index'
 export { default as Calendar } from './Calendar/index'
+export * from './Form'
+export { default as Form } from './Form'
 export * from './Message/index'
 export { default as OnBoarding } from './OnBoarding/index'
 export { default as Portal } from './Portal/index'
