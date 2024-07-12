@@ -438,6 +438,9 @@ importers:
       react-dom:
         specifier: ^18.3.0
         version: 18.3.0(react@18.3.0)
+      react-router-dom:
+        specifier: ^6.21.1
+        version: 6.21.1(react-dom@18.3.0(react@18.3.0))(react@18.3.0)
       react-transition-group:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@18.3.0(react@18.3.0))(react@18.3.0)
@@ -18097,10 +18100,22 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
       react-router: 6.21.1(react@18.2.0)
 
+  react-router-dom@6.21.1(react-dom@18.3.0(react@18.3.0))(react@18.3.0):
+    dependencies:
+      '@remix-run/router': 1.14.1
+      react: 18.3.0
+      react-dom: 18.3.0(react@18.3.0)
+      react-router: 6.21.1(react@18.3.0)
+
   react-router@6.21.1(react@18.2.0):
     dependencies:
       '@remix-run/router': 1.14.1
       react: 18.2.0
+
+  react-router@6.21.1(react@18.3.0):
+    dependencies:
+      '@remix-run/router': 1.14.1
+      react: 18.3.0
 
   react-transition-group@4.4.5(react-dom@18.3.0(react@18.3.0))(react@18.3.0):
     dependencies:
