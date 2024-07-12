@@ -22,7 +22,7 @@ import { SharedService } from './shared.service'
       envFilePath:
         process.env.NODE_ENV === 'production'
           ? ['.env.production.local', '.env.production', '.env']
-          : ['.env.local', '.env.development'],
+          : ['.env.development.local', '.env.development'],
       isGlobal: true,
       load: [config],
       cache: true, //缓存，提升访问.env的性能

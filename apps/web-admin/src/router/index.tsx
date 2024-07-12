@@ -5,6 +5,8 @@ import { AppLayout } from '@/layout/appLayout'
 import { Login } from '@/pages/login'
 import { NotFound } from '@/pages/not-found/index'
 
+import SystemMonitor from '@/pages/system-monitor'
+
 export const globalRouter = createBrowserRouter([
   {
     path: '/',
@@ -19,7 +21,8 @@ export const globalRouter = createBrowserRouter([
       {
         // index路由是outlet路由匹配但是没有组件默认显示的路由
         index: true,
-        element: <div>测试</div>,
+        // element: <div>测试</div>,
+        element: <SystemMonitor />,
       },
     ],
   },
