@@ -1,14 +1,16 @@
 import { debugRenderLog } from '@/global/debug'
 import {
   DesktopOutlined,
+  DragOutlined,
   FileOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { Layout, Menu, MenuProps } from 'antd'
+import type { MenuProps } from 'antd'
+import { Layout, Menu } from 'antd'
 import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import HeaderLayout from './headerLayout'
 import styles from './style.module.css'
 
@@ -29,6 +31,17 @@ function getItem(
 }
 
 const items: MenuItem[] = [
+  {
+    label: '拖拽相关',
+    key: '拖拽',
+    icon: <DragOutlined />,
+    children: [
+      {
+        label: <Link to={'/react-dnd-demo'}> {'react-dnd-demo'}</Link>,
+        key: '1-1',
+      },
+    ],
+  },
   getItem('Option 1', '1', <PieChartOutlined />),
   getItem('Option 2', '2', <DesktopOutlined />),
   getItem('User', 'sub1', <UserOutlined />, [

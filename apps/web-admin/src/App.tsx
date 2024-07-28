@@ -1,5 +1,6 @@
 import CustomAntdConfigProvider from '@/configs/providers/CustomAntdConfigProvider'
 import CustomQueryClientProvider from '@/configs/providers/CustomQueryClientProvider'
+import CustomReactDndProvider from '@/configs/providers/CustomReactDndProvider'
 import { debugRenderLog } from '@/global/debug'
 import { useManageI18n } from '@/i18n'
 import { useAppStore } from '@/store/appStore'
@@ -16,11 +17,15 @@ function App() {
   debugRenderLog('App')
 
   return (
-    <CustomQueryClientProvider>
-      <CustomAntdConfigProvider locale={globalLocalesData[locale].antd.locale}>
-        <RouterProvider router={globalRouter} />
-      </CustomAntdConfigProvider>
-    </CustomQueryClientProvider>
+    <CustomReactDndProvider>
+      <CustomQueryClientProvider>
+        <CustomAntdConfigProvider
+          locale={globalLocalesData[locale].antd.locale}
+        >
+          <RouterProvider router={globalRouter} />
+        </CustomAntdConfigProvider>
+      </CustomQueryClientProvider>
+    </CustomReactDndProvider>
   )
 }
 

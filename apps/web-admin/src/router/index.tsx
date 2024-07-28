@@ -5,6 +5,7 @@ import { AppLayout } from '@/layout/appLayout'
 import { Login } from '@/pages/login'
 import { NotFound } from '@/pages/not-found/index'
 
+import ReactDndDemo from '@/pages/examples/react-dnd'
 import SystemMonitor from '@/pages/system-monitor'
 
 export const globalRouter = createBrowserRouter([
@@ -23,6 +24,10 @@ export const globalRouter = createBrowserRouter([
         index: true,
         // element: <div>测试</div>,
         element: <SystemMonitor />,
+      },
+      {
+        path: '/react-dnd-demo',
+        element: <ReactDndDemo />,
       },
     ],
   },
