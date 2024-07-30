@@ -2,44 +2,48 @@
   "folders": [
     {
       "path": "apps/web-admin",
-      "name": "web-admin"
+      "name": "web-admin",
+    },
+    {
+      "path": "apps/react-playground",
+      "name": "react-playground",
     },
     {
       "path": "apps/jsbookmark",
-      "name": "jsbookmark"
+      "name": "jsbookmark",
     },
     {
       "path": "apps/server",
-      "name": "backend"
+      "name": "backend",
     },
     {
       "path": "packages/eslint-config-custom",
-      "name": "eslint"
+      "name": "eslint",
     },
     {
       "path": "packages/prettier-config-custom",
-      "name": "prettier"
+      "name": "prettier",
     },
     {
       "path": "packages/stylelint-config-custom",
-      "name": "stylelint"
+      "name": "stylelint",
     },
     {
       "path": "packages/tsconfig",
-      "name": "tsconfig"
+      "name": "tsconfig",
     },
     {
       "path": "packages/react-components",
-      "name": "react-components"
+      "name": "react-components",
     },
     {
       "path": ".",
-      "name": "root"
-    }
+      "name": "root",
+    },
   ],
   "settings": {
     "i18n-ally.localesPaths": ["src/locales/json", "src/locales"],
     "i18n-ally.sourceLanguage": "en-US",
-    "i18n-ally.keystyle": "nested"
-  }
+    "i18n-ally.keystyle": "nested",
+  },
 }
