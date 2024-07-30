@@ -1,5 +1,7 @@
 import { Tabs, TabsProps } from 'antd'
-import Demo01 from './demo/demo01'
+import Demo01 from './demo/demo01/demo01'
+import Demo02Sort from './demo/demo02sort'
+import Demo03TodoList from './demo/demo03TodoList'
 
 const items: TabsProps['items'] = [
   {
@@ -9,20 +11,20 @@ const items: TabsProps['items'] = [
   },
   {
     key: '2',
-    label: 'Tab 2',
-    children: 'Content of Tab Pane 2',
+    label: '拖拽排序',
+    children: <Demo02Sort />,
   },
   {
     key: '3',
-    label: 'Tab 3',
-    children: 'Content of Tab Pane 3',
+    label: 'todolist',
+    children: <Demo03TodoList />,
   },
 ]
 
 export default function ReactDndDemo() {
   return (
     <div>
-      <Tabs items={items}></Tabs>
+      <Tabs defaultActiveKey="3" items={items}></Tabs>
     </div>
   )
 }
