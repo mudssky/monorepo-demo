@@ -20,8 +20,8 @@
   border-bottom: 1px solid #ddd;
   box-sizing: border-box;
 
-  color: #444;
-  background-color: #fff;
+  color: var(--text);
+  background-color: var(--bg);
 
   .tab-item {
     display: inline-flex;

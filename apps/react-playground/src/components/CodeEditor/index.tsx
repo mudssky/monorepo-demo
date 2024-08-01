@@ -7,7 +7,7 @@ import { debounce } from '@mudssky/jsutils'
 
 export default function CodeEditor() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { files, setFiles, selectedFileName, setSelectedFileName } =
+  const { theme, files, setFiles, selectedFileName, setSelectedFileName } =
     useContext(PlaygroundContext)
 
   const file = files[selectedFileName]
@@ -19,7 +19,13 @@ export default function CodeEditor() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <FileNameList />
-      <Editor file={file} onChange={debounce(onEditorChange)} />
+      <Editor
+        file={file}
+        options={{
+          theme: `vs-${theme}`,
+        }}
+        onChange={debounce(onEditorChange)}
+      />
     </div>
   )
 }

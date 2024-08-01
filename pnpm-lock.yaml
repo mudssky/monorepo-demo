@@ -67,6 +67,9 @@ importers:
 
   apps/react-playground:
     dependencies:
+      '@ant-design/icons':
+        specifier: ^5.4.0
+        version: 5.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@babel/standalone':
         specifier: ^7.25.2
         version: 7.25.2
@@ -11557,21 +11560,21 @@ snapshots:
 
   '@radix-ui/react-compose-refs@1.0.1(@types/react@18.3.0)(react@18.3.0)':
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.0
       react: 18.3.0
     optionalDependencies:
       '@types/react': 18.3.0
 
   '@radix-ui/react-compose-refs@1.0.1(@types/react@18.3.3)(react@18.3.1)':
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.0
       react: 18.3.1
     optionalDependencies:
       '@types/react': 18.3.3
 
   '@radix-ui/react-slot@1.0.2(@types/react@18.3.0)(react@18.3.0)':
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.0
       '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.3.0)(react@18.3.0)
       react: 18.3.0
     optionalDependencies:
@@ -11579,7 +11582,7 @@ snapshots:
 
   '@radix-ui/react-slot@1.0.2(@types/react@18.3.3)(react@18.3.1)':
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.25.0
       '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.3.3)(react@18.3.1)
       react: 18.3.1
     optionalDependencies:
@@ -11610,7 +11613,7 @@ snapshots:
   '@rc-component/context@1.4.0(react-dom@18.3.0(react@18.3.0))(react@18.3.0)':
     dependencies:
       '@babel/runtime': 7.25.0
-      rc-util: 5.38.1(react-dom@18.3.0(react@18.3.0))(react@18.3.0)
+      rc-util: 5.43.0(react-dom@18.3.0(react@18.3.0))(react@18.3.0)
       react: 18.3.0
       react-dom: 18.3.0(react@18.3.0)
 
@@ -18880,7 +18883,7 @@ snapshots:
       '@babel/runtime': 7.25.0
       classnames: 2.5.1
       rc-resize-observer: 1.4.0(react-dom@18.3.0(react@18.3.0))(react@18.3.0)
-      rc-util: 5.38.1(react-dom@18.3.0(react@18.3.0))(react@18.3.0)
+      rc-util: 5.43.0(react-dom@18.3.0(react@18.3.0))(react@18.3.0)
       react: 18.3.0
       react-dom: 18.3.0(react@18.3.0)
 
