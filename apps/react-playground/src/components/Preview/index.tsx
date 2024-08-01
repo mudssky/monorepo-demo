@@ -3,6 +3,14 @@ import { PlaygroundContext } from '../ReactPlayground/PlaygroundContext'
 import { compile } from './complie'
 import { IMPORT_MAP_FILE_NAME } from '../ReactPlayground/files'
 import iframeRaw from './iframe.html?raw'
+import { Message } from '../Message'
+
+interface MessageData {
+  data: {
+    type: string
+    message: string
+  }
+}
 
 export default function Preview() {
   const { files } = useContext(PlaygroundContext)
@@ -25,6 +33,21 @@ export default function Preview() {
 
   const [iframeUrl, setIframeUrl] = useState(getIframeUrl())
 
+  const [error, setError] = useState('')
+
+  const handleMessage = (msg: MessageData) => {
+    const { type, message } = msg.data
+    if (type === 'ERROR') {
+      setError(message)
+    }
+  }
+  useEffect(() => {
+    window.addEventListener('message', handleMessage)
+    return () => {
+      window.removeEventListener('message', handleMessage)
+    }
+  }, [])
+
   useEffect(() => {
     const res = compile(files)
     setCompiledCode(res)
@@ -45,6 +68,8 @@ export default function Preview() {
           border: 'none',
         }}
       />
+      {/* <Message type="warn" content={new Error().stack!.toString()}></Message> */}
+      <Message type="error" content={error}></Message>
       {/* <Editor file={{
             name: 'dist.js',
             value: compiledCode,
