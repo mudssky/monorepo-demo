@@ -8,7 +8,7 @@ export const PlaygroundProvider = (props: PropsWithChildren) => {
   const [files, setFiles] = useState<Files>(initFiles)
 
   const [selectedFileName, setSelectedFileName] = useState('App.tsx')
-  const [theme, setTheme] = useState<Theme>('dark')
+  const [theme, setTheme] = useState<Theme>('light')
   const addFile = (name: string) => {
     files[name] = {
       name,
