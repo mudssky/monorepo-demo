@@ -2,7 +2,9 @@ import logoSvg from '@/assets/react.svg'
 import styles from './styles.module.scss'
 import { useContext } from 'react'
 import { PlaygroundContext } from '../ReactPlayground/PlaygroundContext'
-import { MoonOutlined, SunOutlined } from '@ant-design/icons'
+import { MoonOutlined, ShareAltOutlined, SunOutlined } from '@ant-design/icons'
+import copy from 'copy-to-clipboard'
+import { message } from 'antd'
 
 export default function Header() {
   const { theme, setTheme } = useContext(PlaygroundContext)
@@ -27,6 +29,13 @@ export default function Header() {
             onClick={() => setTheme('light')}
           />
         )}
+        <ShareAltOutlined
+          style={{ marginLeft: '10px' }}
+          onClick={() => {
+            copy(window.location.href)
+            message.success('分享链接已复制。')
+          }}
+        />
       </div>
     </div>
   )
