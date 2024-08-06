@@ -5,6 +5,7 @@ import { AppLayout } from '@/layout/appLayout'
 import { Login } from '@/pages/login'
 import { NotFound } from '@/pages/not-found/index'
 
+import DndKitDemo from '@/pages/examples/dnd-kit'
 import ReactDndDemo from '@/pages/examples/react-dnd'
 import SystemMonitor from '@/pages/system-monitor'
 
@@ -28,6 +29,10 @@ export const globalRouter = createBrowserRouter([
       {
         path: '/react-dnd-demo',
         element: <ReactDndDemo />,
+      },
+      {
+        path: '/dnd-kit-demo',
+        element: <DndKitDemo />,
       },
     ],
   },

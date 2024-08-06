@@ -40,6 +40,10 @@ const items: MenuItem[] = [
         label: <Link to={'/react-dnd-demo'}> {'react-dnd-demo'}</Link>,
         key: '1-1',
       },
+      {
+        label: <Link to={'/dnd-kit-demo'}> {'dnd-kit-demo'}</Link>,
+        key: '1-2',
+      },
     ],
   },
   getItem('Option 1', '1', <PieChartOutlined />),
