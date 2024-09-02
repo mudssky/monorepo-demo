@@ -3,6 +3,7 @@ import {
   DesktopOutlined,
   DragOutlined,
   FileOutlined,
+  NodeIndexOutlined,
   PieChartOutlined,
   TeamOutlined,
   UserOutlined,
@@ -43,6 +44,17 @@ const items: MenuItem[] = [
       {
         label: <Link to={'/dnd-kit-demo'}> {'dnd-kit-demo'}</Link>,
         key: '1-2',
+      },
+    ],
+  },
+  {
+    label: 'workflow',
+    key: 'workflow',
+    icon: <NodeIndexOutlined />,
+    children: [
+      {
+        label: <Link to={'/react-flow-demo'}> {'react-flow-demo'}</Link>,
+        key: '1-1',
       },
     ],
   },

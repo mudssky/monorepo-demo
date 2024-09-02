@@ -7,6 +7,7 @@ import { NotFound } from '@/pages/not-found/index'
 
 import DndKitDemo from '@/pages/examples/dnd-kit'
 import ReactDndDemo from '@/pages/examples/react-dnd'
+import ReactFlowDemo from '@/pages/examples/react-flow'
 import SystemMonitor from '@/pages/system-monitor'
 
 export const globalRouter = createBrowserRouter([
@@ -33,6 +34,10 @@ export const globalRouter = createBrowserRouter([
       {
         path: '/dnd-kit-demo',
         element: <DndKitDemo />,
+      },
+      {
+        path: '/react-flow-demo',
+        element: <ReactFlowDemo />,
       },
     ],
   },
