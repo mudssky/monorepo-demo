@@ -23,6 +23,7 @@
     "@tanstack/react-query-devtools": "^5.51.15",
     "@xyflow/react": "^12.2.0",
     "antd": "^5.19.3",
+    "antd-style": "^3.6.2",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
