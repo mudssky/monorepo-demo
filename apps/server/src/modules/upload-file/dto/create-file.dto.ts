@@ -55,5 +55,5 @@ export class UploadResDto extends PartialType(
   PickType(CreateFileDto, UploadResDtoPickList),
 ) {
   @ApiProperty()
-  url: string
+  url: string | null
 }
