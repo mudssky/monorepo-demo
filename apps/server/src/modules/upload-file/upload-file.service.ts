@@ -9,18 +9,21 @@ import { v4 as uuidv4 } from 'uuid'
 import {
   FileUploadDto,
   FilesUploadDto,
+  MergeChunkDto,
+  UploadChunkDto,
   UploadResDto,
   UploadResDtoPickList,
 } from './dto/create-file.dto'
 
 import { EnvironmentVariables } from '@/common/config/config'
-import { pick } from '@mudssky/jsutils'
+import { pick, range } from '@mudssky/jsutils'
 import { SharedService } from '../global/shared.service'
+import { FileTag } from '@prisma/client'
 
 @Injectable()
 export class UploadFileService {
   private imagePath
-
+  private tempPath: string
   constructor(
     private readonly prismaService: PrismaService,
     private readonly logger: GlobalLoggerService,
@@ -29,26 +32,117 @@ export class UploadFileService {
   ) {
     this.logger.setContext({ label: UploadFileService.name })
     this.imagePath = this.sharedService.getImagePath()
+    this.tempPath = this.sharedService.getTempPath()
     if (!fs.existsSync(this.imagePath)) {
       fs.mkdirSync(this.imagePath, { recursive: true })
+    }
+    if (!fs.existsSync(this.tempPath)) {
+      fs.mkdirSync(this.tempPath, { recursive: true })
+    }
+  }
+
+  async createFilePath(options: {
+    originalFileName: string
+    fileTag: FileTag
+  }) {
+    const { originalFileName, fileTag } = options
+    const fileId = uuidv4()
+    const finalFileName = `${fileId}${path.extname(originalFileName)}`
+    const folderPath = path.join(this.imagePath, fileTag)
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath)
+    }
+    const finalFilePath = path.join(folderPath, finalFileName)
+    const shortPath = `${fileTag}/${finalFileName}`
+
+    return {
+      finalFilePath,
+      finalFileName,
+      shortPath,
     }
   }
 
   async createFile(file: FileUploadDto) {
-    const fileId = uuidv4()
-    const tmpFileName = `${fileId}${path.extname(file.file.originalname)}`
-    const folderPath = path.join(this.imagePath, file.fileTag)
-    if (!fs.existsSync(folderPath)) {
-      fs.mkdirSync(folderPath)
-    }
-    const tmpPath = path.join(folderPath, tmpFileName)
-    const shortPath = `${file.fileTag}/${tmpFileName}`
-    await fs.promises.writeFile(tmpPath, file.file.buffer)
+    const { finalFilePath, finalFileName, shortPath } =
+      await this.createFilePath({
+        originalFileName: file.file.originalname,
+        fileTag: file.fileTag,
+      })
+    await fs.promises.writeFile(finalFilePath, file.file.buffer)
     return {
-      tmpPath,
-      tmpFileName,
+      finalFilePath,
+      finalFileName,
       shortPath,
       file,
+    }
+  }
+
+  joinChunkName(chunkDto: Omit<UploadChunkDto, 'file'>) {
+    return `${chunkDto.chunkFolderName}_${chunkDto.chunkIndex}`
+  }
+  async saveChunk(filesUploadDto: UploadChunkDto) {
+    // throw new Error('Method not implemented.')
+
+    const chunkFolder = path.join(this.tempPath, filesUploadDto.chunkFolderName)
+    if (!fs.existsSync(chunkFolder)) {
+      fs.mkdirSync(chunkFolder)
+    }
+    const chunkName = this.joinChunkName(filesUploadDto)
+    const chunkPath = path.join(chunkFolder, chunkName)
+    await fs.promises.writeFile(chunkPath, filesUploadDto.file.buffer)
+    return true
+  }
+
+  async mergeChunks(mergeChunkDto: MergeChunkDto) {
+    try {
+      const { finalFilePath, finalFileName, shortPath } =
+        await this.createFilePath({
+          originalFileName: mergeChunkDto.fileInfo.originalFileName,
+          fileTag: mergeChunkDto.fileTag,
+        })
+      const writeStream = fs.createWriteStream(finalFilePath)
+      const chunkPaths = range(mergeChunkDto.chunkCount).map((chunkIndex) => {
+        const chunkName = this.joinChunkName({
+          chunkFolderName: mergeChunkDto.chunkPrefix,
+          chunkIndex: chunkIndex,
+        })
+        const chunkPath = path.join(
+          this.tempPath,
+          mergeChunkDto.chunkPrefix,
+          chunkName,
+        )
+        return chunkPath
+      })
+      for (let chunkPath of chunkPaths) {
+        const data = await fs.promises.readFile(chunkPath)
+        writeStream.write(data)
+      }
+      writeStream.end()
+
+      // 使用完后移除分片临时文件
+      for (let chunkPath of chunkPaths) {
+        await fs.promises.unlink(chunkPath)
+      }
+      const res = await this.prismaService.uploadFiles.create({
+        data: {
+          fileName: finalFileName,
+          originalFilename: mergeChunkDto.fileInfo.originalFileName,
+          filePath: shortPath,
+          fileSize: mergeChunkDto.fileInfo.fileSize,
+          fileTag: mergeChunkDto.fileTag,
+        },
+      })
+      this.logger.debug({
+        type: 'db create',
+        data: res,
+      })
+      return {
+        ...pick(res, [...UploadResDtoPickList]),
+        url: this.sharedService.getFullImageUrl(res.filePath),
+      }
+    } catch (e) {
+      this.logger.error(e)
+      throw new FileException(e.message)
     }
   }
   /**
@@ -57,10 +151,10 @@ export class UploadFileService {
    */
   async saveFile(file: FileUploadDto) {
     try {
-      const { tmpFileName, shortPath } = await this.createFile(file)
+      const { finalFileName, shortPath } = await this.createFile(file)
       const res = await this.prismaService.uploadFiles.create({
         data: {
-          fileName: tmpFileName,
+          fileName: finalFileName,
           originalFilename: file.file.originalname,
           filePath: shortPath,
           fileSize: file.file.size,

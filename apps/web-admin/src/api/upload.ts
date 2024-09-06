@@ -1,5 +1,6 @@
 import request, { CustomRequestConfig } from '@/request/request'
 import { $Enums } from '@server/node_modules/prisma/prisma-client'
+import { FileInfo } from '@server/src/modules/upload-file/dto/create-file.dto'
 
 interface UploadSingleParam {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,4 +24,36 @@ export function UPLOAD_SINGLE(
     },
     ...config,
   })
+}
+
+export interface UploadChunkParam {
+  file: any
+  chunkFolderName: string
+  chunkIndex: number
+}
+export function UPLOAD_CHUNK(
+  params: UploadChunkParam,
+  config: CustomRequestConfig = {},
+) {
+  return request.post('/upload-file/uploadChunk', params, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    ...config,
+  })
+}
+
+interface MergeChunkParam extends Partial<Pick<UploadSingleParam, 'fileTag'>> {
+  chunkPrefix: string
+  chunkCount: number
+  fileInfo: FileInfo
+}
+
+/**
+ * 大文件上传合并分片
+ * @param params
+ * @returns
+ */
+export function MERGE_CHUNKS(params: MergeChunkParam) {
+  return request.post('/upload-file/mergeChunks', params)
 }

@@ -7,6 +7,7 @@ import { PrismaService } from '../prisma/prisma.service'
 @Injectable()
 export class SharedService {
   private imagePath: string
+  private tempPath: string
   constructor(
     private readonly prismaService: PrismaService,
     private readonly logger: GlobalLoggerService,
@@ -35,5 +36,9 @@ export class SharedService {
       return null
     }
     return `/${this.imagePath}/${shortUrl}`
+  }
+  getTempPath() {
+    this.tempPath = `${this.configService.get('UPLOAD_TEMP') ?? 'uploadTemp'}`
+    return this.tempPath
   }
 }

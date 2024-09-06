@@ -19,41 +19,16 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger'
 import {
   FileUploadDto,
   FilesUploadDto,
+  MergeChunkDto,
+  UploadChunkDto,
   UploadResDto,
 } from './dto/create-file.dto'
 import { UploadFileService } from './upload-file.service'
-
-// 这东西有bug，没法从req中获取body的其他参数
-// export const storageOptions: MulterOptions = {
-//   storage: multer.diskStorage({
-//     destination: (req, file, cb) => {
-//       // cb(null, './uploads'); // 设置上传目录
-//       console.log({ body: JSON.stringify(req.body), file })
-//     },
-//     filename: (req, file, cb) => {
-//       const randomName = Array(32)
-//         .fill(null)
-//         .map(() => Math.round(Math.random() * 16).toString(16))
-//         .join('')
-//       cb(null, `${randomName}${path.extname(file.originalname)}`)
-//     },
-//   }),
-// }
 
 @ApiTags('文件上传')
 @Controller('upload-file')
 export class FileController {
   constructor(private readonly uploadFileService: UploadFileService) {}
-
-  //   @UploadedFile(
-  //   new ParseFilePipe({
-  //     validators: [
-  //       new MaxFileSizeValidator({ maxSize: 1000 }),
-  //       new FileTypeValidator({ fileType: 'image/jpeg' }),
-  //     ],
-  //   }),
-  // )
-  // file: Express.Multer.File,
 
   // multer支持处理multipart/form-data 格式的文件上传
   @Post('uploadSingleFile')
@@ -88,10 +63,10 @@ export class FileController {
     return await this.uploadFileService.saveFile(fileUploadDto)
   }
 
-  // 上传多个文件
-
   @Post('uploadFiles')
   @UseInterceptors(FilesInterceptor('files', 500))
+
+  // 可以指定多个字段,并且指定每个字段的最大文件数
   // @UseInterceptors(
   //   FileFieldsInterceptor([
   //     { name: 'avatar', maxCount: 1 },
@@ -116,29 +91,43 @@ export class FileController {
     return await this.uploadFileService.saveFiles(filesUploadDto)
   }
 
+  /**
+   * 分片上传的方法上传大文件
+   * @param uploadChunkDto
+   * @param files
+   * @returns
+   */
+  @Post('uploadChunk')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: '上传文件切片',
+    type: UploadChunkDto,
+  })
+  @ApiCustomResponse({
+    type: Boolean,
+    description: '上传文件切片响应',
+  })
+  async uploadChunk(
+    @Body() uploadChunkDto: UploadChunkDto,
+    @UploadedFile() // 指定字段名
+    file: Express.Multer.File,
+  ) {
+    uploadChunkDto.file = file
+    uploadChunkDto.chunkIndex = parseInt(
+      uploadChunkDto.chunkIndex as unknown as string,
+    )
+    return await this.uploadFileService.saveChunk(uploadChunkDto)
+  }
+
+  @Post('mergeChunks')
+  async mergeChunks(@Body() mergeChunkDto: MergeChunkDto) {
+    return await this.uploadFileService.mergeChunks(mergeChunkDto)
+  }
   // 上传任意字段名称键的所有字段
   // @Post('upload')
   // @UseInterceptors(AnyFilesInterceptor())
   // uploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {
   //   console.log(files);
   // }
-  @Get()
-  findAll() {
-    return this.uploadFileService.findAll()
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.uploadFileService.findOne(+id)
-  }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateFileDto: UpdateFileDto) {
-  //   return this.uploadFileService.update(+id, updateFileDto)
-  // }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.uploadFileService.remove(+id)
-  }
 }

@@ -54,7 +54,18 @@ const items: MenuItem[] = [
     children: [
       {
         label: <Link to={'/react-flow-demo'}> {'react-flow-demo'}</Link>,
-        key: '1-1',
+        key: '2-1',
+      },
+    ],
+  },
+  {
+    label: '文件上传',
+    key: 'upload',
+    icon: <NodeIndexOutlined />,
+    children: [
+      {
+        label: <Link to={'/upload-demo'}> {'upload-demo'}</Link>,
+        key: '3-1',
       },
     ],
   },

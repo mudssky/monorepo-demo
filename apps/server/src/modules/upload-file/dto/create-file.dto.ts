@@ -1,5 +1,6 @@
 import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
 import { $Enums, FileTag, UploadFiles } from '@prisma/client'
+import { Transform } from 'class-transformer'
 import { IsEnum, IsOptional } from 'class-validator'
 
 export class CreateFileDto implements UploadFiles {
@@ -56,4 +57,30 @@ export class UploadResDto extends PartialType(
 ) {
   @ApiProperty()
   url: string | null
+}
+export class UploadChunkDto {
+  @ApiProperty()
+  chunkFolderName: string
+  @ApiProperty()
+  chunkIndex: number
+  @ApiProperty({ type: 'string', format: 'binary' })
+  file: Express.Multer.File
+}
+
+export interface FileInfo {
+  originalFileName: string
+  fileSize: number
+}
+// 最后拼接完文件，也要按照文件上传的逻辑，有一个tag
+export class MergeChunkDto {
+  @ApiProperty({
+    description: 'chunk的文件名，由chunkPrefix和chunkIndex组成',
+  })
+  chunkPrefix: string
+  @ApiProperty({ description: 'chunk总数' })
+  chunkCount: number
+  fileInfo: FileInfo
+  @IsOptional()
+  @Transform(({ value }) => value ?? 'NOTAG')
+  fileTag: $Enums.FileTag = 'NOTAG'
 }

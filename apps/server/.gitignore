@@ -50,3 +50,5 @@ src/metadata.ts
 
 # 图片上传临时文件目录
 /static
+
+uploadTemp/

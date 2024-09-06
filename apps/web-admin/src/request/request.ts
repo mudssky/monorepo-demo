@@ -174,7 +174,7 @@ export class Request {
 // 默认配置
 const baseConfig = {
   baseURL: '/api',
-  timeout: 5000,
+  // timeout: 5000,
   withCredentials: true,
 }
 const globalRequest = new Request({

@@ -76,6 +76,9 @@ export class EnvironmentVariables {
   @Expose()
   @IsString()
   PIC_DIR
+  @Expose()
+  @IsString()
+  UPLOAD_TEMP
 }
 
 export type GlobalEnvConfigKey = keyof EnvironmentVariables
