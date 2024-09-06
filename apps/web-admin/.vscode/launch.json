@@ -1,0 +1,40 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "inputs": [
+    {
+      "id": "port",
+      "type": "pickString",
+      "options": [
+        {
+          "label": "开发环境",
+          "value": "21101"
+        }
+      ],
+      "description": "port number",
+      "default": "21101"
+    }
+  ],
+  "configurations": [
+    {
+      "name": "web-admin launch",
+      "type": "chrome",
+      "request": "launch",
+      "runtimeArgs": ["--auto-open-devtools-for-tabs"],
+      "userDataDir": "D:\\chromeUserDatas\\monorepo-admin",
+      "url": "http://localhost:21101",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "pick port",
+      "type": "chrome",
+      "request": "launch",
+      "runtimeArgs": ["--auto-open-devtools-for-tabs"],
+      "userDataDir": "D:\\chromeUserDatas\\monorepo-admin",
+      "url": "http://localhost:${input:port}",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}
