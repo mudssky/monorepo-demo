@@ -8,5 +8,14 @@
     },
     "composite": true
   },
-  "include": ["test", "src"]
+  "include": ["test", "src"],
+  "watchOptions": {
+    "excludeFiles": [
+      "node_modules",
+      "test",
+      "dist",
+      "**/*spec.ts",
+      "src/metadata.ts"
+    ]
+  }
 }
