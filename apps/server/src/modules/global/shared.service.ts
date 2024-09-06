@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { GlobalLoggerService } from '../logger/logger.service'
 import { PrismaService } from '../prisma/prisma.service'
-
+import fs from 'fs'
 @Injectable()
 export class SharedService {
   private imagePath: string
@@ -40,5 +40,17 @@ export class SharedService {
   getTempPath() {
     this.tempPath = `${this.configService.get('UPLOAD_TEMP') ?? 'uploadTemp'}`
     return this.tempPath
+  }
+
+  /**
+   * 确保目录存在
+   * @param path
+   */
+  async ensureDirectoryExists(path: string) {
+    try {
+      await fs.promises.access(path)
+    } catch {
+      await fs.promises.mkdir(path, { recursive: true })
+    }
   }
 }

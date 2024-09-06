@@ -33,12 +33,9 @@ export class UploadFileService {
     this.logger.setContext({ label: UploadFileService.name })
     this.imagePath = this.sharedService.getImagePath()
     this.tempPath = this.sharedService.getTempPath()
-    if (!fs.existsSync(this.imagePath)) {
-      fs.mkdirSync(this.imagePath, { recursive: true })
-    }
-    if (!fs.existsSync(this.tempPath)) {
-      fs.mkdirSync(this.tempPath, { recursive: true })
-    }
+    // 下面是异步操作
+    this.sharedService.ensureDirectoryExists(this.imagePath)
+    this.sharedService.ensureDirectoryExists(this.tempPath)
   }
 
   async createFilePath(options: {
@@ -49,9 +46,7 @@ export class UploadFileService {
     const fileId = uuidv4()
     const finalFileName = `${fileId}${path.extname(originalFileName)}`
     const folderPath = path.join(this.imagePath, fileTag)
-    if (!fs.existsSync(folderPath)) {
-      fs.mkdirSync(folderPath)
-    }
+    this.sharedService.ensureDirectoryExists(folderPath)
     const finalFilePath = path.join(folderPath, finalFileName)
     const shortPath = `${fileTag}/${finalFileName}`
 
@@ -81,12 +76,8 @@ export class UploadFileService {
     return `${chunkDto.chunkFolderName}_${chunkDto.chunkIndex}`
   }
   async saveChunk(filesUploadDto: UploadChunkDto) {
-    // throw new Error('Method not implemented.')
-
     const chunkFolder = path.join(this.tempPath, filesUploadDto.chunkFolderName)
-    if (!fs.existsSync(chunkFolder)) {
-      fs.mkdirSync(chunkFolder)
-    }
+    this.sharedService.ensureDirectoryExists(chunkFolder)
     const chunkName = this.joinChunkName(filesUploadDto)
     const chunkPath = path.join(chunkFolder, chunkName)
     await fs.promises.writeFile(chunkPath, filesUploadDto.file.buffer)
@@ -119,15 +110,12 @@ export class UploadFileService {
       }
       writeStream.end()
 
-      // 使用完后移除分片临时文件
-      // for (let chunkPath of chunkPaths) {
-      //   await fs.promises.unlink(chunkPath)
-      // }
       // 直接删除分片的目录了
       await fs.promises.rm(
         path.join(this.tempPath, mergeChunkDto.chunkPrefix),
         { recursive: true },
       )
+
       const res = await this.prismaService.uploadFiles.create({
         data: {
           fileName: finalFileName,
@@ -200,16 +188,5 @@ export class UploadFileService {
     } catch (e) {
       throw new FileException(e.message)
     }
-  }
-  findAll() {
-    return `This action returns all file`
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} file`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} file`
   }
 }
