@@ -23,7 +23,7 @@
       "type": "chrome",
       "request": "launch",
       "runtimeArgs": ["--auto-open-devtools-for-tabs"],
-      "userDataDir": "D:\\chromeUserDatas\\monorepo-admin",
+      "userDataDir": "C:\\chromeUserDatas\\monorepo-admin",
       "url": "http://localhost:21101",
       "webRoot": "${workspaceFolder}"
     },
@@ -32,7 +32,7 @@
       "type": "chrome",
       "request": "launch",
       "runtimeArgs": ["--auto-open-devtools-for-tabs"],
-      "userDataDir": "D:\\chromeUserDatas\\monorepo-admin",
+      "userDataDir": "C:\\chromeUserDatas\\monorepo-admin",
       "url": "http://localhost:${input:port}",
       "webRoot": "${workspaceFolder}"
     }

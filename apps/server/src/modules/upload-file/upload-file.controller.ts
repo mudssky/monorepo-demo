@@ -114,9 +114,9 @@ export class FileController {
     file: Express.Multer.File,
   ) {
     uploadChunkDto.file = file
-    uploadChunkDto.chunkIndex = parseInt(
-      uploadChunkDto.chunkIndex as unknown as string,
-    )
+    // uploadChunkDto.chunkIndex = parseInt(
+    //   uploadChunkDto.chunkIndex as unknown as string,
+    // )
     return await this.uploadFileService.saveChunk(uploadChunkDto)
   }
 

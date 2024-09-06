@@ -1,7 +1,7 @@
 import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
 import { $Enums, FileTag, UploadFiles } from '@prisma/client'
 import { Transform } from 'class-transformer'
-import { IsEnum, IsOptional } from 'class-validator'
+import { IsEnum, IsInt, IsOptional } from 'class-validator'
 
 export class CreateFileDto implements UploadFiles {
   @ApiProperty()
@@ -62,6 +62,8 @@ export class UploadChunkDto {
   @ApiProperty()
   chunkFolderName: string
   @ApiProperty()
+  @Transform(({ value }) => +value)
+  @IsInt()
   chunkIndex: number
   @ApiProperty({ type: 'string', format: 'binary' })
   file: Express.Multer.File

@@ -8,9 +8,9 @@
       "name": "npm scripts launch",
       "type": "node",
       "request": "launch",
-      "runtimeArgs": ["run-script", "dev"],
+      "runtimeArgs": ["run-script", "dev:quick"],
       "console": "integratedTerminal",
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "pnpm",
       "skipFiles": ["<node_internals>/**"]
     }
   ]

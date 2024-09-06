@@ -120,9 +120,14 @@ export class UploadFileService {
       writeStream.end()
 
       // 使用完后移除分片临时文件
-      for (let chunkPath of chunkPaths) {
-        await fs.promises.unlink(chunkPath)
-      }
+      // for (let chunkPath of chunkPaths) {
+      //   await fs.promises.unlink(chunkPath)
+      // }
+      // 直接删除分片的目录了
+      await fs.promises.rm(
+        path.join(this.tempPath, mergeChunkDto.chunkPrefix),
+        { recursive: true },
+      )
       const res = await this.prismaService.uploadFiles.create({
         data: {
           fileName: finalFileName,
