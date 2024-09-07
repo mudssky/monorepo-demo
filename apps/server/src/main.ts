@@ -73,7 +73,9 @@ async function bootstrap() {
   const globalLogger = await app.resolve(GlobalLoggerService)
 
   app.useLogger(globalLogger)
-  globalLogger.info('global logger setup succeed')
+  globalLogger.info(
+    `global logger setup succeed,NODE_ENV:${process.env.NODE_ENV}`,
+  )
   globalLogger.info({
     message: 'config setup success',
     config: configService,
