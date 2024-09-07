@@ -10,7 +10,7 @@
     "server:dev": "turbo run dev --filter=server"
   },
   "dependencies": {
-    "@mudssky/jsutils": "^0.15.1",
+    "@mudssky/jsutils": "^1.1.0",
     "dayjs": "^1.11.10",
     "lodash-es": "^4.17.21"
   },

@@ -69,7 +69,7 @@ import { SharedService } from './shared.service'
     }),
     PrismaModule,
     CustomCacheModule,
-    GlobalLoggerModule,
+    GlobalLoggerModule.forRoot(),
   ],
   providers: [
     {
