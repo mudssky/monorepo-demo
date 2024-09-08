@@ -50,15 +50,18 @@ COPY --from=backend-pruned /build/backend-pruned/prisma /build/server/prisma
 COPY --from=backend-pruned /build/backend-pruned/.env.development /build/server/.env
 WORKDIR /build/server
 RUN npx prisma generate
-EXPOSE 33101
+
 # 暴露写入数据的两个地方
 VOLUME [ "/build/server/log","/build/server/static" ]
 ENV DATABASE_URL="postgresql://postgres:123456@host.docker.internal:5432/nestAdmin?schema=public"
 ENV NODE_ENV=production
+RUN npm install pm2 -g
+
+EXPOSE 33101
 # CMD是启动命令，但是可以灵活修改
 # docker run -p 33201:33201 nest-admin echo 'hello'
 # 也可以换成ENTRYPOINT，这样必定会执行。
-CMD [ "node","dist/main.js" ]
+CMD [ "pm2-runtime","dist/main.js" ]
 
 # nestadmin
 FROM install-stage AS nest-admin-dev
