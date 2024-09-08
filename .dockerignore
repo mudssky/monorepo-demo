@@ -1,10 +1,11 @@
 *.md
 !README.md
-node_modules/
+node_modules
 # [a-c].txt
-.git/
+.git
+dist
 .DS_Store
-.vscode/
+.vscode
 .dockerignore
 .eslintignore
 .eslintrc

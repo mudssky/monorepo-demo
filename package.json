@@ -20,6 +20,8 @@
     "@types/node": "^20.12.7",
     "eslint": "^9.1.1",
     "prettier": "^3.2.5",
+    "prettier-plugin-organize-imports": "^4.0.0",
+    "prettier-plugin-packagejson": "^2.5.2",
     "tsconfig": "workspace:*",
     "turbo": "^2.1.1"
   },
