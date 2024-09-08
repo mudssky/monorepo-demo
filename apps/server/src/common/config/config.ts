@@ -1,3 +1,5 @@
+import { splitAndTrim } from '@/common/utils'
+import { ConfigService } from '@nestjs/config'
 import { Expose, Transform, plainToInstance } from 'class-transformer'
 import {
   IsEnum,
@@ -57,12 +59,28 @@ export class EnvironmentVariables {
   @IsPortNum()
   REDIS_PORT = 6379
 
+  // #-----------------------第三方认证相关配置---------------------------
+  @Expose()
+  @IsString()
+  GITHUB_OAUTH_CLIENT_ID: string
+  @Expose()
+  @IsString()
+  GITHUB_OAUTH_CLIENT_SECRET: string
+
+  @Expose()
+  @IsString()
+  GITHUB_OAUTH_CALLBACK_URL: string
+  @Expose()
+  @IsString()
+  @Transform(({ value }) => splitAndTrim(value), { toClassOnly: true })
+  GITHUB_OAUTH_SCOPE: string[]
+
   // ----------------------------jwt相关配置---------------
   @Expose()
-  JWT_SECRET
+  JWT_SECRET: string
   @IsNumberString()
   @Expose()
-  JWT_EXPIRATION
+  JWT_EXPIRATION: string
 
   //--------------------------- 路由相关配置---------------------
   @Expose()
@@ -71,19 +89,41 @@ export class EnvironmentVariables {
 
   @Expose()
   @IsString()
-  STATIC_DIR
+  STATIC_DIR: string
 
   @Expose()
   @IsString()
-  PIC_DIR
+  PIC_DIR: string
   @Expose()
   @IsString()
-  UPLOAD_TEMP
+  UPLOAD_TEMP: string
 }
 
 export type GlobalEnvConfigKey = keyof EnvironmentVariables
 
-const getEnvConfig = () => ({
+export type EnvironmentVariablesInterface = {
+  [K in keyof EnvironmentVariables]: EnvironmentVariables[K]
+}
+
+/**
+ * 扩展ConfigService的类型定义，添加类型提示
+ */
+export interface TypedConfigService<
+  T extends Record<string, any>,
+  WasValidated extends boolean = false,
+> extends ConfigService<T, WasValidated> {
+  get<K extends keyof T>(key: K): T[K]
+  // 使用函数类型重载，确保之前手动生命类型的功能也正确
+  get<RETURN = any>(key: keyof T): RETURN
+}
+
+/**
+ * 传入class类型，创建全局配置的推导类型
+ */
+export type GlobalConfigService<WasValidated extends boolean = false> =
+  TypedConfigService<EnvironmentVariablesInterface, WasValidated>
+
+export const getEnvConfig = () => ({
   port: parseInt(process.env.PORT ?? '33101', 10) ?? 33101,
   database: {
     url: process.env.DATABASE_URL ?? '',
@@ -96,8 +136,6 @@ const getEnvConfig = () => ({
   },
 })
 export type GlobalConfig = ReturnType<typeof getEnvConfig>
-
-export default getEnvConfig
 
 export function validate(config: Record<string, unknown>) {
   const validatedConfig = plainToInstance(EnvironmentVariables, config, {

@@ -1,4 +1,8 @@
-import config, { EnvironmentVariables, validate } from '@/common/config/config'
+import {
+  EnvironmentVariables,
+  getEnvConfig,
+  validate,
+} from '@/common/config/config'
 import { GlobalExceptionFilter } from '@/common/filters/http-exception/http-exception.filter'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
@@ -24,7 +28,7 @@ import { SharedService } from './shared.service'
           ? ['.env.production.local', '.env.production', '.env']
           : ['.env.development.local', '.env.development'],
       isGlobal: true,
-      load: [config],
+      load: [getEnvConfig],
       cache: true, //缓存，提升访问.env的性能
       validate,
     }),

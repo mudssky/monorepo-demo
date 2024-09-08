@@ -1,4 +1,4 @@
-import config from '@/common/config/config'
+import { getEnvConfig } from '@/common/config'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { Test, TestingModule } from '@nestjs/testing'
 import { validate } from 'class-validator'
@@ -13,7 +13,7 @@ describe('LoggerService', () => {
         ConfigModule.forRoot({
           envFilePath: ['.env.development'],
           isGlobal: true,
-          load: [config],
+          load: [getEnvConfig],
           cache: true, //缓存，提升访问.env的性能
           validate,
         }),

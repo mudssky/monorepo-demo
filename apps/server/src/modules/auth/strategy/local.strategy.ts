@@ -1,7 +1,7 @@
-import { Strategy } from 'passport-local'
-import { PassportStrategy } from '@nestjs/passport'
 import { Injectable } from '@nestjs/common'
-import { AuthService } from './auth.service'
+import { PassportStrategy } from '@nestjs/passport'
+import { Strategy } from 'passport-local'
+import { AuthService } from '../auth.service'
 
 /**
  * passport 策略，可以从 @UseGuards(AuthGuard('local'))这样调用，比较抽象了。

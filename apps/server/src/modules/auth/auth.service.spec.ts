@@ -4,9 +4,9 @@ import { PassportModule } from '@nestjs/passport'
 import { Test, TestingModule } from '@nestjs/testing'
 import { MockGlobalModule } from '../mock-global/mock-global.module'
 import { UserModule } from '../user/user.module'
+import { JwtStrategy } from '././strategy/local.strategyategy'
 import { AuthService } from './auth.service'
 import { WsJwtAuthGuard } from './guards/ws-jwt-auth/ws-jwt-auth.guard'
-import { JwtStrategy } from './jwt.strategy'
 import { LocalStrategy } from './local.strategy'
 
 describe('AuthService', () => {
