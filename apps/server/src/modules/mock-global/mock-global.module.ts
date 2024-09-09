@@ -1,4 +1,4 @@
-import config, { validate } from '@/common/config/config'
+import { getEnvConfig, validate } from '@/common/config/config'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
 import { CacheInterceptor } from '@nestjs/cache-manager'
@@ -17,7 +17,7 @@ import { PrismaModule } from '../prisma/prisma.module'
     ConfigModule.forRoot({
       envFilePath: [path.resolve(__dirname, '../../../.env.development')],
       isGlobal: true,
-      load: [config],
+      load: [getEnvConfig],
       cache: true, //缓存，提升访问.env的性能
       validate,
     }),

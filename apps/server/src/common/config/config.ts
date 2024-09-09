@@ -71,7 +71,6 @@ export class EnvironmentVariables {
   @IsString()
   GITHUB_OAUTH_CALLBACK_URL: string
   @Expose()
-  @IsString()
   @Transform(({ value }) => splitAndTrim(value), { toClassOnly: true })
   GITHUB_OAUTH_SCOPE: string[]
 

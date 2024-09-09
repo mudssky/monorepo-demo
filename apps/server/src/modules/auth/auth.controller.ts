@@ -8,13 +8,13 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common'
-import { AuthGuard } from '@nestjs/passport'
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { GlobalLoggerService } from '../logger/logger.service'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { Public } from './auth.decorator'
 import { AuthService } from './auth.service'
 import { LoginDto, LoginResDto, RegisterResDto } from './dto/auth.dto'
+import { GithubAuthGuard } from './guards'
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard'
 
 @ApiTags('auth')
@@ -51,9 +51,17 @@ export class AuthController {
     return this.authService.login(req.user)
   }
 
+  @Public()
   @Get('githubLogin')
-  @UseGuards(AuthGuard('github'))
+  @UseGuards(GithubAuthGuard)
   async githubLogin(@Req() req) {
     this.loggerService.log({ req })
+  }
+
+  @Public()
+  @Get('githubCallback')
+  @UseGuards(GithubAuthGuard)
+  async authCallback(@Req() req) {
+    return req.user
   }
 }

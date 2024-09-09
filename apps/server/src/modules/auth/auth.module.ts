@@ -9,7 +9,6 @@ import { AuthService } from './auth.service'
 import { WsJwtAuthGuard } from './guards/ws-jwt-auth/ws-jwt-auth.guard'
 import { JwtStrategy } from './strategy/jwt.strategy'
 import { LocalStrategy } from './strategy/local.strategy'
-import { GithubStrategy } from './strategy/github.strategy'
 
 @Module({
   imports: [
@@ -30,7 +29,13 @@ import { GithubStrategy } from './strategy/github.strategy'
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, WsJwtAuthGuard,GithubStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    WsJwtAuthGuard,
+    // GithubStrategy,
+  ],
   exports: [AuthService, WsJwtAuthGuard, JwtModule],
 })
 export class AuthModule {}
