@@ -8,12 +8,17 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common'
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { GlobalLoggerService } from '../logger/logger.service'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { Public } from './auth.decorator'
 import { AuthService } from './auth.service'
-import { LoginDto, LoginResDto, RegisterResDto } from './dto/auth.dto'
+import {
+  GithubCallbackDto,
+  LoginDto,
+  LoginResDto,
+  RegisterResDto,
+} from './dto/auth.dto'
 import { GithubAuthGuard } from './guards'
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard'
 
@@ -51,14 +56,24 @@ export class AuthController {
     return this.authService.login(req.user)
   }
 
+  /**
+   *
+   * 两个方法，githubLogin仅用于重定向授权页面，
+   * githubCallback url可以给前端用，会在query参数里加上code，此时前端可以通过get方法，拿到授权。
+   * 如果给后端用，等于get方法加code，可以直接通过code获取到profile。
+   */
   @Public()
+  @ApiOperation({ summary: 'github登录授权触发地址' })
   @Get('githubLogin')
   @UseGuards(GithubAuthGuard)
-  async githubLogin(@Req() req) {
-    this.loggerService.log({ req })
+  async githubLogin() {
+    // this.loggerService.debug({ user: req.user })
+    // 这里不会执行到，这里会直接执行重定向授权页面，没有别的效果
   }
 
   @Public()
+  @ApiOperation({ summary: '使用github的code获取profile' })
+  @ApiQuery({ type: GithubCallbackDto })
   @Get('githubCallback')
   @UseGuards(GithubAuthGuard)
   async authCallback(@Req() req) {

@@ -15,7 +15,9 @@ export class LoginDto implements LoginReq {
   @IsNotEmpty()
   username: string
 }
-
+export class GithubCallbackDto {
+  code: string
+}
 export class LoginResDto implements LoginRes {
   avatarFullUrl: string | null
   avatarUrl: string | null
