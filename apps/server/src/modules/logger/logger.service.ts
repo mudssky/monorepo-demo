@@ -1,15 +1,10 @@
+import { isEmpty } from '@mudssky/jsutils'
 import { Inject, Injectable, LoggerService, Scope } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import winston, { LoggerOptions } from 'winston'
+import { commonFileFormat, customLogFormat } from './logger.format'
 import { GLOBAL_LOGGER_OPTIONS } from './logger.module'
-import { isEmpty } from '@mudssky/jsutils'
 
-const commonFileFormat = winston.format.combine(
-  winston.format.json(),
-  winston.format.timestamp({
-    format: 'YYYY-MM-DD HH:mm:ss',
-  }),
-)
 // 配置每个logger实例有不同的作用域，这样每个依赖注入的logger都是新的实例
 // 这样可以给每个类中注入的logger有不同的上下文。(牺牲了一些内存，换取log定位的便利)
 @Injectable({
@@ -22,9 +17,7 @@ export class GlobalLoggerService implements LoggerService {
     @Inject(GLOBAL_LOGGER_OPTIONS) private options?: LoggerOptions,
   ) {
     // options参数为{}或undefined
-    if (!isEmpty(options)) {
-      this.logger = winston.createLogger()
-    } else {
+    if (isEmpty(options)) {
       this.logger = winston.createLogger({
         level: this.configService.get('LOG_LEVEL') ?? 'debug',
         transports: [
@@ -46,26 +39,23 @@ export class GlobalLoggerService implements LoggerService {
                     winston.format.timestamp({
                       format: 'YYYY-MM-DD HH:mm:ss',
                     }),
-                    winston.format.simple(),
-                    // winston.format.prettyPrint(),
-                    // winston.format.printf(({ context, level, message, time }) => {
-                    //   const appStr = chalk.green(`[NEST]`)
-                    //   const contextStr = chalk.yellow(`[${context}]`)
-                    //   return `${appStr} ${time} ${level} ${contextStr} ${message} `
-                    // }),
+                    customLogFormat,
                   ),
                 }),
               ]
             : []),
         ],
       })
+    } else {
+      // 配置不为空时，用配置覆盖
+      this.logger = winston.createLogger(options)
     }
   }
   /**
    * 设置完后，当前logger实例都会输出
    * @param obj
    */
-  setContext(obj: { label: string }) {
+  setContext(obj: { label: string } = { label: 'undefined' }) {
     this.logger.defaultMeta = {
       ...obj,
     }
