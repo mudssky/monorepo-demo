@@ -72,7 +72,7 @@ export class AuthController {
   }
 
   @Public()
-  @ApiOperation({ summary: '使用github的code获取profile' })
+  @ApiOperation({ summary: '使用github的code进行登录' })
   @ApiQuery({ type: GithubCallbackDto })
   @Get('githubCallback')
   @UseGuards(GithubAuthGuard)

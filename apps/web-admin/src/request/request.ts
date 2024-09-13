@@ -173,7 +173,7 @@ export class Request {
 
 // 默认配置
 const baseConfig = {
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_REQUEST_BASE_URL,
   // timeout: 5000,
   withCredentials: true,
 }

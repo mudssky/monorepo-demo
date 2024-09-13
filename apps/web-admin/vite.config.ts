@@ -1,6 +1,6 @@
-import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import { defineConfig, loadEnv } from 'vite'
 // import { visualizer } from 'rollup-plugin-visualizer'
 
 // 分包策略，1.把node_modules中的内容单独打包
@@ -29,7 +29,7 @@ export const manualRollupOption = {
 // 3.可以用dynamic import，比如在路由上可以用
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+  const env = loadEnv(mode, process.cwd(), '') as ImportMetaEnv
 
   return {
     resolve: {
@@ -40,13 +40,14 @@ export default defineConfig(({ mode }) => {
     server: {
       port: parseInt(env.VITE_PORT ?? '21101'),
       proxy: {
-        '/api': {
+        [env.VITE_REQUEST_BASE_URL]: {
           target: env.VITE_PROXY_TARGET, //开发环境
           changeOrigin: true,
           rewrite: (path: string) => {
             // console.log({ path })
             // 移除前缀
-            return path.replace(/^\/api/, '')
+            // return path.replace(/^\/api/, '')
+            return path.replace(new RegExp(`^${env.VITE_REQUEST_BASE_URL}`), '')
           },
         },
         '/static': {

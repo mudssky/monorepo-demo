@@ -9,7 +9,7 @@ import { UserDtoType } from './types'
 @Injectable()
 export class UserService {
   constructor(
-    private prisma: PrismaService,
+    private prismaService: PrismaService,
     private readonly logger: GlobalLoggerService,
     private readonly sharedService: SharedService,
   ) {}
@@ -17,7 +17,7 @@ export class UserService {
   async user(
     userWhereUniqueInput: Prisma.UserWhereUniqueInput,
   ): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    return this.prismaService.user.findUnique({
       where: userWhereUniqueInput,
     })
   }
@@ -31,7 +31,7 @@ export class UserService {
   }): Promise<User[]> {
     const { skip, take, cursor, where, orderBy } = params
     // await new Promise((resolve) => setTimeout(resolve, 3000))
-    return this.prisma.user.findMany({
+    return this.prismaService.user.findMany({
       skip,
       take,
       cursor,
@@ -41,7 +41,7 @@ export class UserService {
   }
 
   async createUser(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.user.create({
+    return this.prismaService.user.create({
       data,
     })
   }
@@ -51,18 +51,18 @@ export class UserService {
     data: Prisma.UserUpdateInput
   }): Promise<Partial<UserDtoType> | null> {
     const { where, data } = params
-    const res = await this.prisma.user.update({
+    const res = await this.prismaService.user.update({
       data,
       where,
     })
     return {
-      ...this.prisma.exclude(res, ['password']),
+      ...this.prismaService.exclude(res, ['password']),
       avatarFullUrl: this.sharedService.getFullImageUrl(res.avatarUrl ?? ''),
     }
   }
 
   async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prisma.user.delete({
+    return this.prismaService.user.delete({
       where,
     })
   }
@@ -71,7 +71,7 @@ export class UserService {
    * @param username
    */
   async findUserByNameOrEmail(username: string) {
-    return await this.prisma.user.findMany({
+    return await this.prismaService.user.findMany({
       where: {
         OR: [
           {
@@ -85,14 +85,21 @@ export class UserService {
     })
   }
 
+  async findUserByGithubId(githubId: string) {
+    return await this.prismaService.user.findUnique({
+      where: {
+        githubId: githubId,
+      },
+    })
+  }
   async getUserInfo(user: JwtUser): Promise<Partial<UserDtoType>> {
-    const data = await this.prisma.user.findUnique({
+    const data = await this.prismaService.user.findUnique({
       where: {
         id: user.userId,
       },
     })
     return {
-      ...this.prisma.exclude(data, ['password']),
+      ...this.prismaService.exclude(data, ['password']),
       avatarFullUrl: this.sharedService.getFullImageUrl(data?.avatarUrl ?? ''),
     }
   }

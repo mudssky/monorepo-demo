@@ -4,6 +4,10 @@ import { PassportStrategy } from '@nestjs/passport'
 
 import { Profile, Strategy } from 'passport-github2'
 
+export interface GithubAuthInfo {
+  accessToken: string
+  profile: Profile
+}
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
   constructor(private configService: ConfigService) {
@@ -16,6 +20,9 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
   }
 
   async validate(accessToken: string, refreshToken: string, profile: Profile) {
-    return profile
+    return {
+      accessToken,
+      profile,
+    } satisfies GithubAuthInfo
   }
 }

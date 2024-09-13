@@ -1,11 +1,12 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Flex, Form, Input, Row, Space } from 'antd'
 import styles from './styles.module.css'
 
-import React from 'react'
 import { LangSwitch } from '@/components/LangSwitch'
 import { debugRenderLog } from '@/global/debug'
-import { useSetupHook } from './hooks'
+import { GithubOutlined } from '@ant-design/icons'
+import React from 'react'
 import RegisterForm from './components/RegisterForm'
+import { useSetupHook } from './hooks'
 
 type FieldType = {
   username?: string
@@ -14,7 +15,8 @@ type FieldType = {
 }
 
 export const Login = React.memo(function Login() {
-  const { pathname, t, form, navigate, handleLogin } = useSetupHook()
+  const { pathname, t, form, navigate, handleLogin, jumpGithubLogin } =
+    useSetupHook()
   console.log({ pathname })
 
   debugRenderLog('login')
@@ -76,6 +78,17 @@ export const Login = React.memo(function Login() {
               >
                 {t('go to register')}
               </Button>
+              <Flex vertical>
+                <Row justify={'center'}>第三方登录</Row>
+                <Row justify="center" className="pt-[10px]">
+                  <Space>
+                    <GithubOutlined
+                      className="cursor-pointer text-2xl"
+                      onClick={jumpGithubLogin}
+                    />
+                  </Space>
+                </Row>
+              </Flex>
             </Form>
           ) : null}
           {pathname === '/register' ? <RegisterForm></RegisterForm> : null}

@@ -39,6 +39,9 @@ model User {
   role      Role       @default(USER)
   status    UserStatus @default(ACTIVE)
   createdAt DateTime   @default(now())
+
+  githubId       String? @unique
+  githubAuthInfo String?
 }
 
 // 文件上传表

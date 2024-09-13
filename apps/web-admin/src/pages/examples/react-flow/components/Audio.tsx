@@ -1,20 +1,27 @@
-const context = new AudioContext()
-
-const osc = context.createOscillator()
-osc.frequency.value = 220
-osc.type = 'square'
-osc.start()
-
-const volume = context.createGain()
-volume.gain.value = 0.5
-
-const out = context.destination
-
+let context: AudioContext
 const nodes = new Map()
+function initAudioConetxt(ctx: AudioContext) {
+  const osc = ctx.createOscillator()
+  osc.frequency.value = 220
+  osc.type = 'square'
+  osc.start()
+  const volume = ctx.createGain()
+  volume.gain.value = 0.5
 
-nodes.set('a', osc)
-nodes.set('b', volume)
-nodes.set('c', out)
+  const out = ctx.destination
+
+  nodes.set('a', osc)
+  nodes.set('b', volume)
+  nodes.set('c', out)
+}
+
+document.addEventListener('click', function () {
+  if (!context) {
+    context = new AudioContext()
+    initAudioConetxt(context)
+  }
+  // 其他音频处理代码
+})
 
 export function isRunning() {
   return context.state === 'running'
