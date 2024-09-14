@@ -3,7 +3,7 @@ import { GlobalStorage } from '@/global/storage'
 import { useQuery } from '@/hooks'
 import { useAppStore } from '@/store/appStore'
 import { LoginRes } from '@server/src/modules/auth/types'
-import { Form, message } from 'antd'
+import { App, Form } from 'antd'
 import { useEffect } from 'react'
 // import { Props } from '.'
 import { useTranslation } from 'react-i18next'
@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 export function useSetupHook() {
   const { t } = useTranslation()
   const { pathname } = useLocation()
-
+  const { message } = App.useApp()
   const query = useQuery<{ code: string | null }>()
   const code = query.get('code') ?? ''
   const navigate = useNavigate()

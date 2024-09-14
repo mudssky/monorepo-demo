@@ -19,15 +19,15 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@react-spring/web": "^9.7.4",
-    "@tanstack/react-query": "^5.51.15",
-    "@tanstack/react-query-devtools": "^5.51.15",
-    "@xyflow/react": "^12.2.0",
-    "antd": "^5.19.3",
-    "antd-style": "^3.6.2",
+    "@tanstack/react-query": "^5.56.2",
+    "@tanstack/react-query-devtools": "^5.56.2",
+    "@xyflow/react": "^12.3.0",
+    "antd": "^5.20.6",
+    "antd-style": "^3.6.3",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
-    "i18next": "^23.12.2",
+    "i18next": "^23.15.1",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.5.2",
     "immer": "^10.1.1",
@@ -37,7 +37,7 @@
     "react-dom": "^18.3.1",
     "react-i18next": "^15.0.0",
     "react-intl": "^6.6.8",
-    "react-router-dom": "^6.25.1",
+    "react-router-dom": "^6.26.2",
     "socket.io-client": "^4.7.5",
     "zustand": "^4.5.4"
   },
@@ -57,9 +57,9 @@
     "sass": "^1.77.8",
     "stylelint": "^16.7.0",
     "stylelint-config-custom": "workspace:*",
-    "tailwindcss": "^3.4.7",
+    "tailwindcss": "^3.4.11",
     "tsconfig": "workspace:*",
-    "typescript": "^5.5.4",
-    "vite": "^5.3.5"
+    "typescript": "^5.6.2",
+    "vite": "^5.4.5"
   }
 }
