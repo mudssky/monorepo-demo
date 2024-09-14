@@ -1,0 +1,34 @@
+services:
+  nest-app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      target: nest-admin-prod
+      restart: 'always'
+    depends_on:
+      - mysql-container
+      - redis-container
+    ports:
+      - '3000:3000'
+  mysql-container:
+    image: mysql
+    ports:
+      - '3306:3306'
+    volumes:
+      - /usr/local/mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: aaa
+      MYSQL_ROOT_PASSWORD: 123456
+  redis-container:
+    image: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - /usr/local/aaa:/data
+      
+# 有 4 种重启策略：
+
+# no: 容器退出不自动重启（默认值）
+# always：容器退出总是自动重启，除非 docker stop。
+# on-failure：容器非正常退出才自动重启，还可以指定重启次数，如 on-failure:5
+# unless-stopped：容器退出总是自动重启，除非 docker stop
