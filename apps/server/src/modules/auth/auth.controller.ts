@@ -19,7 +19,7 @@ import {
   LoginResDto,
   RegisterResDto,
 } from './dto/auth.dto'
-import { GithubAuthGuard } from './guards'
+import { GithubAuthGuard, GoogleAuthGuard } from './guards'
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard'
 
 @ApiTags('auth')
@@ -61,6 +61,8 @@ export class AuthController {
    * 两个方法，githubLogin仅用于重定向授权页面，
    * githubCallback url可以给前端用，会在query参数里加上code，此时前端可以通过get方法，拿到授权。
    * 如果给后端用，等于get方法加code，可以直接通过code获取到profile。
+   *
+   * 在develop setting ->OAuth Apps 配置
    */
   @Public()
   @ApiOperation({ summary: 'github登录授权触发地址' })
@@ -74,9 +76,33 @@ export class AuthController {
   @Public()
   @ApiOperation({ summary: '使用github的code进行登录' })
   @ApiQuery({ type: GithubCallbackDto })
+  @ApiCustomResponse({
+    type: LoginResDto,
+  })
   @Get('githubLoginCallback')
   @UseGuards(GithubAuthGuard)
   async githubLoginCallback(@Req() req) {
     return this.authService.githubLogin(req.user)
+  }
+
+  @Public()
+  @ApiOperation({ summary: 'google登录授权触发地址' })
+  @Get('googleLogin')
+  @UseGuards(GoogleAuthGuard)
+  async googleLogin() {}
+
+  @Public()
+  @ApiOperation({ summary: '使用google的code进行登录' })
+  @ApiQuery({ type: GithubCallbackDto })
+  @ApiCustomResponse({
+    type: LoginResDto,
+  })
+  @Get('googleLoginCallback')
+  @UseGuards(GoogleAuthGuard)
+  async googleLoginCallback(@Req() req) {
+    console.log({ user: req.user })
+
+    return req.user
+    // return this.authService.githubLogin(req.user)
   }
 }

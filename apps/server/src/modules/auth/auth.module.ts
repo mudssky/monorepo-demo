@@ -8,6 +8,7 @@ import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
 import { WsJwtAuthGuard } from './guards/ws-jwt-auth/ws-jwt-auth.guard'
 import { GithubStrategy } from './strategy/github.strategy'
+import { GoogleStrategy } from './strategy/google.strategy'
 import { JwtStrategy } from './strategy/jwt.strategy'
 import { LocalStrategy } from './strategy/local.strategy'
 
@@ -35,6 +36,7 @@ import { LocalStrategy } from './strategy/local.strategy'
     LocalStrategy,
     JwtStrategy,
     GithubStrategy,
+    GoogleStrategy,
     WsJwtAuthGuard,
   ],
   exports: [AuthService, WsJwtAuthGuard, JwtModule],

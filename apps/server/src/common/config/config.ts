@@ -74,6 +74,21 @@ export class EnvironmentVariables {
   @Transform(({ value }) => splitAndTrim(value), { toClassOnly: true })
   GITHUB_OAUTH_SCOPE: string[]
 
+  @Expose()
+  @IsString()
+  GOOGLE_OAUTH_CLIENT_ID
+
+  @Expose()
+  @IsString()
+  GOOGLE_OAUTH_CLIENT_SECRET
+
+  @Expose()
+  @IsString()
+  GOOGLE_OAUTH_CALLBACK_URL
+  @Expose()
+  @Transform(({ value }) => splitAndTrim(value), { toClassOnly: true })
+  GOOGLE_OAUTH_SCOPE
+
   // ----------------------------jwt相关配置---------------
   @Expose()
   JWT_SECRET: string

@@ -1,4 +1,4 @@
-import { AUTH_GITHUB, AuthGithubParams, LOGIN } from '@/api/auth'
+import { AUTH_GITHUB, AUTH_GOOGLE, AuthGithubParams, LOGIN } from '@/api/auth'
 import { GlobalStorage } from '@/global/storage'
 import { useQuery } from '@/hooks'
 import { useAppStore } from '@/store/appStore'
@@ -7,11 +7,12 @@ import { App, Form } from 'antd'
 import { useEffect } from 'react'
 // import { Props } from '.'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 export function useSetupHook() {
   const { t } = useTranslation()
   const { pathname } = useLocation()
   const { message } = App.useApp()
+  const { provider } = useParams<{ provider: string }>()
   const query = useQuery<{ code: string | null }>()
   const code = query.get('code') ?? ''
   const navigate = useNavigate()
@@ -36,11 +37,15 @@ export function useSetupHook() {
       message.error(res.msg)
     }
   }
+  const serverHost = import.meta.env.VITE_SERVER_HOST
 
   const jumpGithubLogin = async () => {
-    const serverHost = import.meta.env.VITE_SERVER_HOST
     window.location.href = `${serverHost}/auth/githubLogin`
   }
+  const jumpGoogleLogin = async () => {
+    window.location.href = `${serverHost}/auth/googleLogin`
+  }
+
   const handleGithubLogin = async (params: AuthGithubParams) => {
     const res = await AUTH_GITHUB({
       ...params,
@@ -52,16 +57,31 @@ export function useSetupHook() {
       message.error(res.msg)
     }
   }
-
+  const handleGoogleLogin = async (params: AuthGithubParams) => {
+    const res = await AUTH_GOOGLE({
+      ...params,
+    })
+    console.log({ res })
+  }
   useEffect(() => {
-    console.log({ code })
-    if (code) {
-      // console.log('ddsad', { code })
+    console.log({ code, provider })
+
+    if (code && provider === 'github') {
       handleGithubLogin({ code })
+    } else if (code && provider === 'google') {
+      handleGoogleLogin({ code })
     }
 
     return () => {}
   }, [])
 
-  return { t, pathname, form, navigate, handleLogin, jumpGithubLogin }
+  return {
+    t,
+    pathname,
+    form,
+    navigate,
+    handleLogin,
+    jumpGithubLogin,
+    jumpGoogleLogin,
+  }
 }

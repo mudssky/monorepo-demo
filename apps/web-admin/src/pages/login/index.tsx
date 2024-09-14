@@ -3,7 +3,7 @@ import styles from './styles.module.css'
 
 import { LangSwitch } from '@/components/LangSwitch'
 import { debugRenderLog } from '@/global/debug'
-import { GithubOutlined } from '@ant-design/icons'
+import { GithubOutlined, GoogleOutlined } from '@ant-design/icons'
 import React from 'react'
 import RegisterForm from './components/RegisterForm'
 import { useSetupHook } from './hooks'
@@ -14,9 +14,19 @@ type FieldType = {
   remember?: string
 }
 
+function isLoginPage(pathname: string) {
+  return /\/login\/?.*/.test(pathname)
+}
 export const Login = React.memo(function Login() {
-  const { pathname, t, form, navigate, handleLogin, jumpGithubLogin } =
-    useSetupHook()
+  const {
+    pathname,
+    t,
+    form,
+    navigate,
+    handleLogin,
+    jumpGithubLogin,
+    jumpGoogleLogin,
+  } = useSetupHook()
   console.log({ pathname })
 
   debugRenderLog('login')
@@ -24,7 +34,7 @@ export const Login = React.memo(function Login() {
     <div className={styles['login-container']}>
       <div className="card glass w-[450px]">
         <div className="card-title justify-center">
-          {pathname === '/login' ? (
+          {isLoginPage(pathname) ? (
             <span>{t('system-login')}</span>
           ) : (
             <span>{t('user register')}</span>
@@ -32,7 +42,7 @@ export const Login = React.memo(function Login() {
           <LangSwitch></LangSwitch>
         </div>
         <div className="card-body">
-          {pathname == '/login' ? (
+          {isLoginPage(pathname) ? (
             <Form size="large" form={form}>
               <Form.Item<FieldType>
                 // label={t('username')}
@@ -85,6 +95,10 @@ export const Login = React.memo(function Login() {
                     <GithubOutlined
                       className="cursor-pointer text-2xl"
                       onClick={jumpGithubLogin}
+                    />
+                    <GoogleOutlined
+                      className="cursor-pointer text-2xl text-red-600"
+                      onClick={jumpGoogleLogin}
                     />
                   </Space>
                 </Row>

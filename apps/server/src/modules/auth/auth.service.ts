@@ -128,6 +128,7 @@ export class AuthService {
         githubAuthInfo: JSON.stringify(gitbubAuthInfo),
         avatarUrl: gitbubAuthInfo.profile.photos[0].value,
         password: '',
+        registryType: 'GITHUB',
       })
     }
 

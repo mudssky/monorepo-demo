@@ -28,6 +28,13 @@ enum FileTag {
   NOTAG //无标签，默认值,也就是临时文件
 }
 
+// 注册方式需要做一个区分
+enum RegistryType {
+  NORMAL //正常注册
+  GITHUB //github注册
+  GOOGLE //google注册
+}
+
 model User {
   id        Int        @id @default(autoincrement())
   // 邮箱
@@ -41,7 +48,8 @@ model User {
   status    UserStatus @default(ACTIVE)
   createdAt DateTime   @default(now())
 
-  githubId       String? @unique
+  registryType   RegistryType @default(NORMAL)
+  githubId       String?      @unique
   githubAuthInfo String?
 }
 

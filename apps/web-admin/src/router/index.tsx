@@ -47,7 +47,7 @@ export const globalRouter = createBrowserRouter([
     ],
   },
   {
-    path: '/login',
+    path: '/login/:provider?',
     element: <Login />,
   },
   {

@@ -34,3 +34,7 @@ export type AuthGithubParams = InstanceType<typeof GithubCallbackDto>
 export function AUTH_GITHUB(params: AuthGithubParams) {
   return noAuthRequest.get('/auth/githubLoginCallback', { params })
 }
+
+export function AUTH_GOOGLE(params: AuthGithubParams) {
+  return noAuthRequest.get('/auth/googleLoginCallback', { params })
+}
