@@ -3,6 +3,16 @@ import { PrismaClient } from '@prisma/client'
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
+  constructor() {
+    // 创建时指定全局omitAPI
+    super({
+      omit: {
+        user: {
+          password: true,
+        },
+      },
+    })
+  }
   async onModuleInit() {
     await this.$connect()
   }
@@ -11,6 +21,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
    * @param user
    * @param keys
    * @returns
+   * @deprecated Prisma ORM 5.16.0开始，已经支持omitApi
    */
   exclude<User, Key extends keyof User>(
     user: User | null,

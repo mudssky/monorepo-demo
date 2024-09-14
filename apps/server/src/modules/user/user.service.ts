@@ -1,3 +1,4 @@
+import { BaseException } from '@/common/exceptions'
 import { PrismaService } from '@/modules/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
@@ -49,14 +50,14 @@ export class UserService {
   async updateUser(params: {
     where: Prisma.UserWhereUniqueInput
     data: Prisma.UserUpdateInput
-  }): Promise<Partial<UserDtoType> | null> {
+  }) {
     const { where, data } = params
     const res = await this.prismaService.user.update({
       data,
       where,
     })
     return {
-      ...this.prismaService.exclude(res, ['password']),
+      ...res,
       avatarFullUrl: this.sharedService.getFullImageUrl(res.avatarUrl ?? ''),
     }
   }
@@ -67,7 +68,7 @@ export class UserService {
     })
   }
   /**
-   * 登陆时，可以输入用户名或邮箱作为登录的用户名
+   * 登录时，可以输入用户名或邮箱作为登录的用户名
    * @param username
    */
   async findUserByNameOrEmail(username: string) {
@@ -84,22 +85,45 @@ export class UserService {
       },
     })
   }
+  async checkUserNameExists(name: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        name,
+      },
+    })
+    if (user) {
+      return true
+    }
+    return false
+  }
 
-  async findUserByGithubId(githubId: string) {
-    return await this.prismaService.user.findUnique({
+  async findUserByGithubId(
+    githubId: string,
+  ): Promise<Partial<UserDtoType | null>> {
+    const data = await this.prismaService.user.findUnique({
       where: {
         githubId: githubId,
       },
     })
+    if (!data) {
+      return null
+    }
+    return data
   }
   async getUserInfo(user: JwtUser): Promise<Partial<UserDtoType>> {
     const data = await this.prismaService.user.findUnique({
       where: {
         id: user.userId,
       },
+      omit: {
+        githubAuthInfo: true,
+      },
     })
+    if (!data) {
+      throw new BaseException('用户不存在')
+    }
     return {
-      ...this.prismaService.exclude(data, ['password']),
+      ...data,
       avatarFullUrl: this.sharedService.getFullImageUrl(data?.avatarUrl ?? ''),
     }
   }

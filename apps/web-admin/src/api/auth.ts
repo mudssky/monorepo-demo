@@ -32,5 +32,5 @@ export function checkLogin() {
 
 export type AuthGithubParams = InstanceType<typeof GithubCallbackDto>
 export function AUTH_GITHUB(params: AuthGithubParams) {
-  return noAuthRequest.get('/auth/githubCallback', { params })
+  return noAuthRequest.get('/auth/githubLoginCallback', { params })
 }

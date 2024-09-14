@@ -19,6 +19,8 @@ export class GithubCallbackDto {
   code: string
 }
 export class LoginResDto implements LoginRes {
+  githubId: string | null
+  githubAuthInfo: string | null
   avatarFullUrl: string | null
   avatarUrl: string | null
   @ApiProperty({

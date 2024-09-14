@@ -2,6 +2,7 @@ import { AUTH_GITHUB, AuthGithubParams, LOGIN } from '@/api/auth'
 import { GlobalStorage } from '@/global/storage'
 import { useQuery } from '@/hooks'
 import { useAppStore } from '@/store/appStore'
+import { LoginRes } from '@server/src/modules/auth/types'
 import { Form, message } from 'antd'
 import { useEffect } from 'react'
 // import { Props } from '.'
@@ -16,6 +17,13 @@ export function useSetupHook() {
   const navigate = useNavigate()
   const setUserInfo = useAppStore((state) => state.setUserInfo)
   const [form] = Form.useForm()
+
+  async function loadAfterLogin(data: LoginRes) {
+    message.success(t('login success'))
+    GlobalStorage.setStorageSync('TOKEN', data.access_token)
+    setUserInfo(data)
+    navigate('/')
+  }
   const handleLogin = async () => {
     const formValues = await form.validateFields()
     console.log({ formValues })
@@ -23,10 +31,7 @@ export function useSetupHook() {
       ...formValues,
     })
     if (res.code === 0) {
-      message.success(t('login success'))
-      GlobalStorage.setStorageSync('TOKEN', res.data.access_token)
-      setUserInfo(res.data)
-      navigate('/')
+      await loadAfterLogin(res.data)
     } else {
       message.error(res.msg)
     }
@@ -41,6 +46,11 @@ export function useSetupHook() {
       ...params,
     })
     console.log({ res })
+    if (res.code === 0) {
+      await loadAfterLogin(res.data)
+    } else {
+      message.error(res.msg)
+    }
   }
 
   useEffect(() => {

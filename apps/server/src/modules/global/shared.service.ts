@@ -1,9 +1,9 @@
 import { EnvironmentVariables } from '@/common/config/config'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import fs from 'fs'
 import { GlobalLoggerService } from '../logger/logger.service'
 import { PrismaService } from '../prisma/prisma.service'
-import fs from 'fs'
 @Injectable()
 export class SharedService {
   private imagePath: string
@@ -34,6 +34,11 @@ export class SharedService {
     if ((shortUrl ?? '').trim() === '') {
       // 因为undefined 后端不会返回字段，所以后端统一返回null了
       return null
+    }
+
+    // 如果本来就是长路径，不需要额外处理
+    if (shortUrl?.startsWith('http')) {
+      return shortUrl
     }
     return `/${this.imagePath}/${shortUrl}`
   }

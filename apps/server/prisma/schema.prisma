@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -30,10 +31,10 @@ enum FileTag {
 model User {
   id        Int        @id @default(autoincrement())
   // 邮箱
-  email     String     @unique
+  email     String?    @unique
   // 用户名
   name      String     @unique
-  password  String
+  password  String?
   // 用户头像
   avatarUrl String?
   role      Role       @default(USER)

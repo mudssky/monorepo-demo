@@ -74,9 +74,9 @@ export class AuthController {
   @Public()
   @ApiOperation({ summary: '使用github的code进行登录' })
   @ApiQuery({ type: GithubCallbackDto })
-  @Get('githubCallback')
+  @Get('githubLoginCallback')
   @UseGuards(GithubAuthGuard)
-  async authCallback(@Req() req) {
-    return req.user
+  async githubLoginCallback(@Req() req) {
+    return this.authService.githubLogin(req.user)
   }
 }

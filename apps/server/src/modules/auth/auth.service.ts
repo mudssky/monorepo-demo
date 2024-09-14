@@ -1,3 +1,4 @@
+import { BaseException } from '@/common/exceptions'
 import { DatabaseException } from '@/common/exceptions/database'
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
@@ -7,9 +8,11 @@ import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import * as bcrypt from 'bcrypt'
+import { v4 as uuidV4 } from 'uuid'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { UserService } from '../user/user.service'
 import { LoginDto } from './dto/auth.dto'
+import { GithubAuthInfo } from './strategy/github.strategy'
 import { LoginRes } from './types'
 
 @Injectable()
@@ -52,7 +55,15 @@ export class AuthService {
     }
   }
 
+  /**
+   * 这里是检查输入用户名密码登录
+   * @param loginDto
+   * @returns
+   */
   async validateUser(loginDto: LoginDto) {
+    if (!loginDto.username || !loginDto.password) {
+      throw new BaseException('用户名或密码不能为空')
+    }
     const userlist = await this.userSevice.findUserByNameOrEmail(
       loginDto.username,
     )
@@ -64,6 +75,11 @@ export class AuthService {
     }
     // 暂不考虑重复数据的情况
     const user = userlist[0]
+
+    // 第三方登录的情况，如果没有修改密码，则不能手动登录
+    if (!user.password) {
+      throw new DatabaseException('该用户不存在')
+    }
 
     const isPasswordCorrect = await bcrypt.compare(
       loginDto.password,
@@ -83,4 +99,45 @@ export class AuthService {
     } satisfies LoginRes
   }
 
+  async githubLogin(gitbubAuthInfo: GithubAuthInfo) {
+    if (!gitbubAuthInfo.profile.id) {
+      throw new BaseException('未获取到github id')
+    }
+    const user = await this.userSevice.findUserByGithubId(
+      gitbubAuthInfo.profile.id,
+    )
+    let userData: User | null
+    // 用户不存在时要调用创建用户的逻辑
+    if (!user) {
+      let userName = gitbubAuthInfo.profile.username
+      const isUsernameExists =
+        await this.userSevice.checkUserNameExists(userName)
+      if (isUsernameExists) {
+        userName = uuidV4()
+        this.logger.warn({
+          msg: '用户名已存在,生成uuid替代',
+          username: gitbubAuthInfo.profile.username,
+          newUsername: userName,
+        })
+      }
+
+      userData = await this.userSevice.createUser({
+        name: userName,
+        email: gitbubAuthInfo.profile.email,
+        githubId: gitbubAuthInfo.profile.id,
+        githubAuthInfo: JSON.stringify(gitbubAuthInfo),
+        avatarUrl: gitbubAuthInfo.profile.photos[0].value,
+        password: '',
+      })
+    }
+
+    // 存在用户则更新github相关的信息
+    userData = await this.userSevice.updateUser({
+      where: { githubId: gitbubAuthInfo.profile.id },
+      data: {
+        githubAuthInfo: JSON.stringify(gitbubAuthInfo),
+      },
+    })
+    return this.login(userData)
+  }
 }

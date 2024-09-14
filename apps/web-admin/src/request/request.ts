@@ -190,7 +190,12 @@ const globalRequest = new Request({
 })
 export default globalRequest
 
-export const noAuthRequest = new Request(baseConfig)
+export const noAuthRequest = new Request({
+  ...baseConfig,
+  custom_interceptors: {
+    responseInterceptors: [LogInterceptor, ResInterceptor],
+  },
+})
 //   // 添加响应拦截器
 //   this.instance.interceptors.response.use(
 //     function (response) {

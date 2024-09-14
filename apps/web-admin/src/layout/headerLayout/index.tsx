@@ -34,6 +34,7 @@ export default function HeaderLayout(props: Props) {
             size="default"
             className="bg-purple-400 text-green-400"
             icon={<UserOutlined />}
+            src={userInfo?.avatarFullUrl ?? ''}
           />
           <Dropdown menu={{ items }}>
             <Space className="text-[16px] text-white">
