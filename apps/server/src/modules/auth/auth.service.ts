@@ -143,21 +143,21 @@ export class AuthService {
     return this.login(userData)
   }
   /**
-   * TODO尚未完成
    * @param googleAuthInfo
    * @returns
    */
   async googleLogin(googleAuthInfo: GoogleAuthInfo) {
     if (!googleAuthInfo.profile.id) {
-      throw new BaseException('未获取到github id')
+      throw new BaseException('未获取到google id')
     }
-    const user = await this.userSevice.findUserByGithubId(
-      googleAuthInfo.profile.id,
-    )
+    const user = await this.userSevice.user({
+      googleId: googleAuthInfo.profile.id,
+    })
+
     let userData: User | null
     // 用户不存在时要调用创建用户的逻辑
     if (!user) {
-      let userName = googleAuthInfo.profile.username
+      let userName = googleAuthInfo.profile.displayName
       const isUsernameExists =
         await this.userSevice.checkUserNameExists(userName)
       if (isUsernameExists) {
@@ -171,20 +171,20 @@ export class AuthService {
 
       userData = await this.userSevice.createUser({
         name: userName,
-        email: googleAuthInfo.profile.email,
+        email: googleAuthInfo.profile.emails?.[0]?.value,
         githubId: googleAuthInfo.profile.id,
         githubAuthInfo: JSON.stringify(googleAuthInfo),
-        avatarUrl: googleAuthInfo.profile.photos[0].value,
+        avatarUrl: googleAuthInfo.profile?.photos?.[0]?.value,
         password: '',
-        registryType: 'GITHUB',
+        registryType: 'GOOGLE',
       })
     }
 
-    // 存在用户则更新github相关的信息
+    // 存在用户则更新google相关的信息
     userData = await this.userSevice.updateUser({
       where: { githubId: googleAuthInfo.profile.id },
       data: {
-        githubAuthInfo: JSON.stringify(googleAuthInfo),
+        googleAuthInfo: JSON.stringify(googleAuthInfo),
       },
     })
     return this.login(userData)

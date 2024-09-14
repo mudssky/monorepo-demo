@@ -19,6 +19,8 @@ export class GithubCallbackDto {
   code: string
 }
 export class LoginResDto implements LoginRes {
+  googleId: string | null
+  googleAuthInfo: string | null
   registryType: $Enums.RegistryType
   githubId: string | null
   githubAuthInfo: string | null

@@ -51,6 +51,8 @@ model User {
   registryType   RegistryType @default(NORMAL)
   githubId       String?      @unique
   githubAuthInfo String?
+  googleId       String?      @unique
+  googleAuthInfo String?
 }
 
 // 文件上传表

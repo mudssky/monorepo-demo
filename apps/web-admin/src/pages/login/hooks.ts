@@ -62,6 +62,11 @@ export function useSetupHook() {
       ...params,
     })
     console.log({ res })
+    if (res.code === 0) {
+      await loadAfterLogin(res.data)
+    } else {
+      message.error(res.msg)
+    }
   }
   useEffect(() => {
     console.log({ code, provider })

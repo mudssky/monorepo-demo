@@ -1,4 +1,5 @@
 import { ApiCustomResponse } from '@/common/decorators/swagger'
+import { BaseException } from '@/common/exceptions'
 import {
   Body,
   Controller,
@@ -100,9 +101,9 @@ export class AuthController {
   @Get('googleLoginCallback')
   @UseGuards(GoogleAuthGuard)
   async googleLoginCallback(@Req() req) {
-    console.log({ user: req.user })
-
-    return req.user
-    // return this.authService.githubLogin(req.user)
+    if (!req.user) {
+      throw new BaseException('google登录失败')
+    }
+    return this.authService.googleLogin(req.user)
   }
 }
