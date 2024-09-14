@@ -13,6 +13,7 @@ import { CreateUserDto } from '../user/dto/user.dto'
 import { UserService } from '../user/user.service'
 import { LoginDto } from './dto/auth.dto'
 import { GithubAuthInfo } from './strategy/github.strategy'
+import { GoogleAuthInfo } from './strategy/google.strategy'
 import { LoginRes } from './types'
 
 @Injectable()
@@ -137,6 +138,53 @@ export class AuthService {
       where: { githubId: gitbubAuthInfo.profile.id },
       data: {
         githubAuthInfo: JSON.stringify(gitbubAuthInfo),
+      },
+    })
+    return this.login(userData)
+  }
+  /**
+   * TODO尚未完成
+   * @param googleAuthInfo
+   * @returns
+   */
+  async googleLogin(googleAuthInfo: GoogleAuthInfo) {
+    if (!googleAuthInfo.profile.id) {
+      throw new BaseException('未获取到github id')
+    }
+    const user = await this.userSevice.findUserByGithubId(
+      googleAuthInfo.profile.id,
+    )
+    let userData: User | null
+    // 用户不存在时要调用创建用户的逻辑
+    if (!user) {
+      let userName = googleAuthInfo.profile.username
+      const isUsernameExists =
+        await this.userSevice.checkUserNameExists(userName)
+      if (isUsernameExists) {
+        userName = uuidV4()
+        this.logger.warn({
+          msg: '用户名已存在,生成uuid替代',
+          username: googleAuthInfo.profile.username,
+          newUsername: userName,
+        })
+      }
+
+      userData = await this.userSevice.createUser({
+        name: userName,
+        email: googleAuthInfo.profile.email,
+        githubId: googleAuthInfo.profile.id,
+        githubAuthInfo: JSON.stringify(googleAuthInfo),
+        avatarUrl: googleAuthInfo.profile.photos[0].value,
+        password: '',
+        registryType: 'GITHUB',
+      })
+    }
+
+    // 存在用户则更新github相关的信息
+    userData = await this.userSevice.updateUser({
+      where: { githubId: googleAuthInfo.profile.id },
+      data: {
+        githubAuthInfo: JSON.stringify(googleAuthInfo),
       },
     })
     return this.login(userData)

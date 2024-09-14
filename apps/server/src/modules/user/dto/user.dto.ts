@@ -23,6 +23,7 @@ export class CreateUserDto implements RegisterReq {
  * 用户信息对象,登录用户可查看的部分
  */
 export class UserDto implements UserDtoType {
+  registryType: $Enums.RegistryType
   githubId: string | null
   githubAuthInfo: string | null
   @ApiProperty()
