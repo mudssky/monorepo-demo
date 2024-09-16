@@ -4,13 +4,20 @@ import { PrismaClient } from '@prisma/client'
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor() {
-    // 创建时指定全局omitAPI
     super({
+      // 创建时指定全局omitAPI
       omit: {
         user: {
           password: true,
         },
       },
+      // 可以配置log
+      log: [
+        {
+          emit: 'stdout',
+          level: 'query',
+        },
+      ],
     })
   }
   async onModuleInit() {
