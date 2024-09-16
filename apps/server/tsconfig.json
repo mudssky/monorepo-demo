@@ -8,7 +8,7 @@
     },
     "composite": true
   },
-  "include": ["test", "src"],
+  "include": ["test", "src/**/*.ts"],
   "watchOptions": {
     "excludeFiles": [
       "node_modules",

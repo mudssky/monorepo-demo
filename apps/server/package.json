@@ -8,6 +8,8 @@
   "scripts": {
     "build": "nest build",
     "build:dev": "dotenv -e .env.development -- nest build",
+    "compodoc:generate": "compodoc -p tsconfig.json -c .compodocrc.json -s -o",
+    "compodoc:serve": "compodoc  -c .compodocrc.json -s",
     "dev": "pnpm prisma:migrate-dev &&  nest start --watch --preserveWatchOutput",
     "dev:hot": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "dev:quick": "nest start --watch --preserveWatchOutput",
@@ -76,6 +78,7 @@
   "devDependencies": {
     "@automock/adapters.nestjs": "^2.1.0",
     "@automock/jest": "^2.1.0",
+    "@compodoc/compodoc": "^1.1.25",
     "@mudssky/eslint-config-custom": "workspace:*",
     "@nestjs/cli": "^10.4.5",
     "@nestjs/schematics": "^10.1.4",
