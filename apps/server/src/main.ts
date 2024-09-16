@@ -25,8 +25,23 @@ async function setupSwagger(app: INestApplication<any>) {
     .setTitle('admin server')
     .setDescription('The server API description')
     .setVersion('1.0')
-    .addBearerAuth()
-    .addSecurityRequirements('bearer') //给所有标签添加字段，不然需要每个控制器上面用@ApiBearerAuth()
+    .addBasicAuth({
+      type: 'http',
+      name: 'basic',
+      description: '用户名 + 密码',
+    })
+    .addCookieAuth('sid', {
+      type: 'apiKey',
+      name: 'cookie',
+      description: '基于 cookie 的认证',
+    })
+    .addBearerAuth({
+      type: 'http',
+      description: '基于 jwt 的认证',
+      name: 'bearer',
+    })
+    .addSecurityRequirements('bearer')
+    //给所有标签添加字段，不然需要每个控制器上面用@ApiBearerAuth()
     // .addSecurity('ApiKeyAuth', {
     //   type: 'http',
     //   in: 'header',
