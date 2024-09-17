@@ -47,3 +47,5 @@ src/metadata.ts
 /static
 
 uploadTemp/
+
+prisma/docs/
