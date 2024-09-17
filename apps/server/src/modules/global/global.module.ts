@@ -10,6 +10,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager'
 import { Global, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { ScheduleModule } from '@nestjs/schedule'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import path from 'path'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
@@ -74,6 +75,7 @@ import { SharedService } from './shared.service'
     PrismaModule,
     CustomCacheModule,
     GlobalLoggerModule.forRoot(),
+    ScheduleModule.forRoot(),
   ],
   providers: [
     {

@@ -40,6 +40,7 @@ enum RegistryType {
   GOOGLE //google注册
 }
 
+/// 用户表
 model User {
   id             Int          @id @default(autoincrement())
   /// 邮箱
@@ -68,7 +69,7 @@ model User {
   googleAuthInfo String?
 }
 
-// 文件上传表
+/// 文件上传表
 model UploadFiles {
   id               Int      @id @default(autoincrement())
   /// 文件名
@@ -90,12 +91,19 @@ model UploadFiles {
 // 短链服务
 
 enum ShortURLStatus {
-  EBABLE
+  ENABLE
   DISABLE
 }
 
+/// 短链服务表
 model ShortUrl {
-  id     Int            @id @default(autoincrement())
-  status ShortURLStatus @default(DISABLE)
-  code   String         @unique
+  id      Int            @id @default(autoincrement())
+  /// 压缩码启用状态
+  status  ShortURLStatus @default(DISABLE)
+  /// 压缩码
+  code    String         @unique
+  /// 原始链接
+  longUrl String?        @unique
+
+  @@index([code])
 }

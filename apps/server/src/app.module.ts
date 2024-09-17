@@ -9,6 +9,7 @@ import { AppService } from './app.service'
 import { AuthModule } from './modules/auth/auth.module'
 import { GlobalModule } from './modules/global/global.module'
 import { HealthModule } from './modules/health/health.module'
+import { ShortUrlModule } from './modules/short-url/short-url.module'
 import { FileModule } from './modules/upload-file/upload-file.module'
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { FileModule } from './modules/upload-file/upload-file.module'
     FileModule,
     // 全局加载的模块，放在一起
     GlobalModule,
+    ShortUrlModule,
   ],
   controllers: [AppController],
   providers: [AppService],
