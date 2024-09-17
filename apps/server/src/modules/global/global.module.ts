@@ -13,6 +13,7 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ScheduleModule } from '@nestjs/schedule'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import path from 'path'
+import { CasbinAuthGuard } from '../auth/guards/casbin-auth.guard'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
 import { GlobalLoggerModule } from '../logger/logger.module'
@@ -92,7 +93,10 @@ import { SharedService } from './shared.service'
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-
+    {
+      provide: APP_GUARD,
+      useClass: CasbinAuthGuard,
+    },
     // 所有GET请求加缓存
     {
       provide: APP_INTERCEPTOR,

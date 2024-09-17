@@ -5,6 +5,16 @@ import { Reflector } from '@nestjs/core'
 import { AuthGuard } from '@nestjs/passport'
 import { IS_PUBLIC_KEY } from '../../auth.decorator'
 
+export function checkIsPublic(
+  context: ExecutionContext,
+  reflector: Reflector,
+): boolean {
+  const isPublic = reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+    context.getHandler(),
+    context.getClass(),
+  ])
+  return !!isPublic
+}
 // 也可以继承一系列策略
 // export class JwtAuthGuard extends AuthGuard(['strategy_jwt_1', 'strategy_jwt_2', '...']) { ... }
 
@@ -17,14 +27,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     super()
   }
   canActivate(context: ExecutionContext) {
+    console.log('jwt auth')
     // Add your custom authentication logic here
     // for example, call super.logIn(request) to establish a session.
     // 判断是否是public装饰器，添加这个装饰器的请求，直接通过校验
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ])
-    if (isPublic) {
+
+    if (checkIsPublic(context, this.reflector)) {
       return true
     }
     return super.canActivate(context)

@@ -22,6 +22,18 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
   async onModuleInit() {
     await this.$connect()
+    const casbinRuleCount = await this.casbinRule.count()
+    // 初始化一条规则针对管理员
+    if (casbinRuleCount === 0) {
+      this.casbinRule.createMany({
+        data: {
+          ptype: 'p',
+          v0: 'ADMIN',
+          v1: '/*',
+          v2: '(GET|POST)',
+        },
+      })
+    }
   }
   /**
    * 添加排除函数，因为prisma没有办法在查询时排除字段

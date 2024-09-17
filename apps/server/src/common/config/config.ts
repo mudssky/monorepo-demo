@@ -111,6 +111,10 @@ export class EnvironmentVariables {
   @Expose()
   @IsString()
   UPLOAD_TEMP: string
+  // #--------------------------- 权限相关配置------------------------------------------
+  @Expose()
+  @IsString()
+  CASBIN_MODAL_PATH
 }
 
 export type GlobalEnvConfigKey = keyof EnvironmentVariables

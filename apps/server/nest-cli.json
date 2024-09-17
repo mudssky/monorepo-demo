@@ -2,6 +2,9 @@
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
+  "generateOptions": {
+    "spec": false
+  },
   "compilerOptions": {
     "deleteOutDir": true,
     "builder": "swc",
@@ -17,6 +20,11 @@
           "controllerKeyOfComment": "description",
           "introspectComments": true
         }
+      }
+    ],
+    "assets": [
+      {
+        "include": "**/*.conf"
       }
     ]
   },
