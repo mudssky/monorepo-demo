@@ -3,6 +3,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import type { User as UserModel } from '@prisma/client'
 
 import { ApiCustomResponse } from '@/common/decorators/swagger'
+import { JwtPayload } from '../auth/types'
 import { CreateUserDto, UpdateUserDto, UserDto } from './dto/user.dto'
 import { UserService } from './user.service'
 
@@ -42,7 +43,9 @@ export class UserController {
   })
   @Get('userInfo')
   async login(@Request() req) {
-    const userInfo = await this.userService.getUserInfo(req.user)
+    const userInfo = await this.userService.getUserInfoById(
+      (req.user as JwtPayload).sub,
+    )
     console.log({ userInfo })
 
     return userInfo

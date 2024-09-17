@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { $Enums, User } from '@prisma/client'
 export type LoginReq = Pick<User, 'password'>
 
 export interface LoginRes extends Omit<User, 'password'> {
@@ -8,12 +8,10 @@ export interface LoginRes extends Omit<User, 'password'> {
 
 export type RegisterReq = Pick<User, 'email' | 'name' | 'password'>
 
-export type JwtUser = {
-  username: string
-  userId: number
-}
-
 export type JwtPayload = {
   username: string
+  /*  用户id*/
   sub: number
+  role: $Enums.Role
+  iat: number
 }

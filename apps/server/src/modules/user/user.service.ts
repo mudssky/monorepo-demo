@@ -2,7 +2,6 @@ import { BaseException } from '@/common/exceptions'
 import { PrismaService } from '@/modules/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
-import { JwtUser } from '../auth/types'
 import { SharedService } from '../global/shared.service'
 import { GlobalLoggerService } from '../logger/logger.service'
 import { UserDtoType } from './types'
@@ -84,7 +83,13 @@ export class UserService {
    * 登录时，可以输入用户名或邮箱作为登录的用户名
    * @param username
    */
-  async findUserByNameOrEmail(username: string) {
+  async findUserByNameOrEmail(
+    username: string,
+    // options?: {
+    //   omitPassword?: boolean
+    // },
+  ) {
+    // const { omitPassword = true } = options || {}
     return await this.prismaService.user.findMany({
       where: {
         OR: [
@@ -95,6 +100,9 @@ export class UserService {
             name: { equals: username },
           },
         ],
+      },
+      omit: {
+        password: false,
       },
     })
   }
@@ -123,10 +131,10 @@ export class UserService {
     }
     return data
   }
-  async getUserInfo(user: JwtUser): Promise<Partial<UserDtoType>> {
+  async getUserInfoById(id: number): Promise<Partial<UserDtoType>> {
     const data = await this.prismaService.user.findUnique({
       where: {
-        id: user.userId,
+        id,
       },
       omit: {
         githubAuthInfo: true,

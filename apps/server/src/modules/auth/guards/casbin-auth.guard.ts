@@ -7,7 +7,7 @@ import { Reflector } from '@nestjs/core'
 import * as casbin from 'casbin'
 import { PrismaAdapter } from 'casbin-prisma-adapter'
 import { Request } from 'express'
-import { JwtUser } from '../types'
+import { JwtPayload } from '../types'
 import { checkIsPublic } from './jwt-auth/jwt-auth.guard'
 
 /**
@@ -30,23 +30,27 @@ export class CasbinAuthGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest<Request>()
-    const userPlayload = request.user as JwtUser
-    const currentUser = await this.prismaService.user.findUnique({
-      where: {
-        id: userPlayload.userId,
-      },
-    })
-    if (!currentUser) {
-      throw new DatabaseException('用户不存在')
+    const userPlayload = request.user as JwtPayload
+    let currentRole
+
+    if (userPlayload.role) {
+      currentRole = userPlayload.role
+    } else {
+      const currentUser = await this.prismaService.user.findUnique({
+        where: {
+          id: userPlayload.sub,
+        },
+      })
+      if (!currentUser) {
+        throw new DatabaseException('用户不存在')
+      }
+      currentRole = currentUser.role
     }
+
     const casbinModalPath = this.configService.get('CASBIN_MODAL_PATH')
     const a = await PrismaAdapter.newAdapter()
     const e = await casbin.newEnforcer(casbinModalPath, a)
-    const canPass = await e.enforce(
-      currentUser.role,
-      request.url,
-      request.method,
-    )
+    const canPass = await e.enforce(currentRole, request.url, request.method)
     return canPass
   }
 }

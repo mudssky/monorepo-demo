@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import * as bcrypt from 'bcrypt'
+import dayjs from 'dayjs'
 import { v4 as uuidV4 } from 'uuid'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { UserService } from '../user/user.service'
@@ -42,7 +43,7 @@ export class AuthService {
           password: await this.hashPassword(createUserDto.password),
         },
       })
-      return this.prismaService.exclude(data, ['password'])
+      return data
     } catch (error) {
       if (
         error instanceof PrismaClientKnownRequestError &&
@@ -93,7 +94,13 @@ export class AuthService {
   }
 
   async login(user: User) {
-    const payload = { username: user.name, sub: user.id }
+    const payload = {
+      username: user.name,
+      sub: user.id,
+      role: user.role,
+      /* 签发时间 */
+      iat: dayjs().valueOf(),
+    }
     return {
       ...user,
       access_token: this.jwtService.sign(payload),
