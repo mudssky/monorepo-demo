@@ -1,17 +1,22 @@
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { Redis } from 'ioredis'
-import { GLOBAL_REDIS_OPTIONS } from './constant'
-import { RedisModuleOptions } from './redis.module'
+import {
+  MODULE_OPTIONS_TOKEN,
+  RedisModuleOptions,
+} from './cofig.module-definition'
 
 @Injectable()
 export class RedisService implements OnModuleInit {
   private redisClient: Redis
   private readonly logger = new Logger(RedisService.name)
   constructor(
-    @Inject(GLOBAL_REDIS_OPTIONS) private options?: RedisModuleOptions,
+    @Inject(MODULE_OPTIONS_TOKEN) private options?: RedisModuleOptions,
   ) {
     const { redisOptions = {} } = options || {}
-    this.redisClient = new Redis(redisOptions)
+    this.redisClient = new Redis({
+      db: 0,
+      ...redisOptions,
+    })
   }
   async onModuleInit() {
     this.logger.log('Redis connection established')
