@@ -1,8 +1,9 @@
-import { Button, Form, FormInstance, Input } from 'antd'
-import { useSetupHook } from './hooks'
-import { equalValidate } from '@/utils/formValidator'
-import PasswordStrengthChecker from '../PasswordStrengthChecker'
 import { regexChecker } from '@/global/regex'
+import { equalValidate } from '@/utils/formValidator'
+import { RegisterReq } from '@server/src/modules/auth/types'
+import { Button, Col, Form, FormInstance, Input, Row } from 'antd'
+import PasswordStrengthChecker from '../PasswordStrengthChecker'
+import { useSetupHook } from './hooks'
 
 export interface Props {
   form?: FormInstance
@@ -13,10 +14,11 @@ export type FieldType = {
   password?: string
   repassword?: string
   email?: string
-}
+} & Pick<RegisterReq, 'captcha'>
 
 export default function RegisterForm() {
-  const { t, form, navigate, handleRegister } = useSetupHook()
+  const { t, form, navigate, handleRegister, handleSendCaptcha } =
+    useSetupHook()
   const currentPassword = Form.useWatch('password', form)
   return (
     <Form
@@ -75,6 +77,22 @@ export default function RegisterForm() {
         ]}
       >
         <Input.Password placeholder={t('please input')} />
+      </Form.Item>
+      <Form.Item<FieldType>
+        // label={t('send_captcha')}
+        label={t('captcha')}
+        name="captcha"
+      >
+        <Row justify={'space-between'} gutter={10} wrap={false}>
+          <Col span={12}>
+            <Input />
+          </Col>
+          <Col span={12}>
+            <Button type="primary" onClick={handleSendCaptcha}>
+              {t('send_captcha')}
+            </Button>
+          </Col>
+        </Row>
       </Form.Item>
 
       <Button type="primary" htmlType="submit" block onClick={handleRegister}>

@@ -2,6 +2,7 @@ import { splitAndTrim } from '@/common/utils'
 import { ConfigService } from '@nestjs/config'
 import { Expose, Transform, plainToInstance } from 'class-transformer'
 import {
+  IsEmail,
   IsEnum,
   IsIP,
   IsNumberString,
@@ -115,6 +116,19 @@ export class EnvironmentVariables {
   @Expose()
   @IsString()
   CASBIN_MODAL_PATH
+  // #--------------------------- 邮箱相关配置------------------------------------------
+  @Expose()
+  @IsString()
+  MAIL_HOST
+  @Expose()
+  @IsString()
+  MAIL_PORT
+  @Expose()
+  @IsEmail()
+  MAIL_USER
+  @Expose()
+  @IsString()
+  MAIL_PASS
 }
 
 export type GlobalEnvConfigKey = keyof EnvironmentVariables

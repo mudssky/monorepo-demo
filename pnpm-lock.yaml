@@ -239,6 +239,9 @@ importers:
       ioredis:
         specifier: ^5.4.1
         version: 5.4.1
+      nodemailer:
+        specifier: ^6.9.15
+        version: 6.9.15
       passport:
         specifier: ^0.7.0
         version: 0.7.0
@@ -321,6 +324,9 @@ importers:
       '@types/multer':
         specifier: ^1.4.12
         version: 1.4.12
+      '@types/nodemailer':
+        specifier: ^6.4.16
+        version: 6.4.16
       '@types/passport-google-oauth20':
         specifier: ^2.0.16
         version: 2.0.16
@@ -3442,6 +3448,9 @@ packages:
 
   '@types/node@22.5.5':
     resolution: {integrity: sha512-Xjs4y5UPO/CLdzpgR6GirZJx36yScjh73+2NlLlkFRSoQN8B0DpfXPdZGnvVmLRLOsqDpOfTNv7D9trgGhmOIA==}
+
+  '@types/nodemailer@6.4.16':
+    resolution: {integrity: sha512-uz6hN6Pp0upXMcilM61CoKyjT7sskBoOWpptkjjJp8jIMlTdc3xG01U7proKkXzruMS4hS0zqtHNkNPFB20rKQ==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -7392,6 +7401,10 @@ packages:
 
   node-releases@2.0.18:
     resolution: {integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==}
+
+  nodemailer@6.9.15:
+    resolution: {integrity: sha512-AHf04ySLC6CIfuRtRiEYtGEXgRfa6INgWGluDhnxTZhHSKvrBu7lc1VVchQ0d8nPc4cFaZoPq8vkyNoZr0TpGQ==}
+    engines: {node: '>=6.0.0'}
 
   nopt@5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}
@@ -13618,6 +13631,10 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
+  '@types/nodemailer@6.4.16':
+    dependencies:
+      '@types/node': 20.16.5
+
   '@types/normalize-package-data@2.4.4': {}
 
   '@types/oauth@0.9.5':
@@ -18654,6 +18671,8 @@ snapshots:
       resolve: 1.22.8
 
   node-releases@2.0.18: {}
+
+  nodemailer@6.9.15: {}
 
   nopt@5.0.0:
     dependencies:

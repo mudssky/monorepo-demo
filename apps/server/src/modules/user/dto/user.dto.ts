@@ -8,6 +8,7 @@ import { UpdateUserDtoType, UserDtoType } from '../types'
  * 创建用户需要的参数
  */
 export class CreateUserDto implements RegisterReq {
+  captcha: string
   @ApiProperty()
   @IsNotEmpty()
   password: string

@@ -6,6 +6,7 @@ import {
 import { GlobalExceptionFilter } from '@/common/filters/http-exception/http-exception.filter'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
+import { EmailModule } from '@/module/email/email.module'
 import { CacheInterceptor } from '@nestjs/cache-manager'
 import { Global, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
@@ -88,6 +89,25 @@ import { SharedService } from './shared.service'
           redisOptions: {
             host: configService.get('REDIS_HOST'),
             port: configService.get('REDIS_PORT'),
+          },
+        }
+      },
+      inject: [ConfigService],
+    }),
+    EmailModule.forRootAsync({
+      isGlobal: true,
+      useFactory: async (
+        configService: ConfigService<EnvironmentVariables>,
+      ) => {
+        return {
+          smtpOptions: {
+            host: configService.get('MAIL_HOST'),
+            port: configService.get('MAIL_PORT'),
+            secure: false,
+            auth: {
+              user: configService.get('MAIL_USER'),
+              pass: configService.get('MAIL_PASS'),
+            },
           },
         }
       },

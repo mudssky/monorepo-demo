@@ -6,7 +6,9 @@ export interface LoginRes extends Omit<User, 'password'> {
   avatarFullUrl?: string | null
 }
 
-export type RegisterReq = Pick<User, 'email' | 'name' | 'password'>
+export type RegisterReq = Pick<User, 'email' | 'name' | 'password'> & {
+  captcha: string
+}
 
 export type JwtPayload = {
   username: string

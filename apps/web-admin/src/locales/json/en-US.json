@@ -23,5 +23,7 @@
   "register success": "register success",
   "login-outdated-please-login-again": "login outdated,please login again",
   "Process Name": "Process Name",
-  "opretion_success": "Success"
+  "opretion_success": "Success",
+  "send_captcha": "send captcha",
+  "captcha": "captcha"
 }

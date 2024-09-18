@@ -1,9 +1,9 @@
-import { Form, message } from 'antd'
-import { FieldType } from '.'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { REGISTER } from '@/api/auth'
 import { omit } from '@mudssky/jsutils'
+import { Form, message } from 'antd'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
+import { FieldType } from '.'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function useSetupHook() {
@@ -26,10 +26,12 @@ export function useSetupHook() {
       message.error(res.msg)
     }
   }
+  const handleSendCaptcha = async () => {}
   return {
     t,
     form,
     navigate,
     handleRegister,
+    handleSendCaptcha,
   }
 }

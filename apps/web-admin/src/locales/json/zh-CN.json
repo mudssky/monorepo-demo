@@ -23,5 +23,7 @@
   "register success": "注册成功",
   "login-outdated-please-login-again": "未登录或登录过期，请重新登录",
   "Process Name": "进程名",
-  "opretion_success": "操作成功"
+  "opretion_success": "操作成功",
+  "send_captcha": "发送验证码",
+  "captcha": "验证码"
 }
