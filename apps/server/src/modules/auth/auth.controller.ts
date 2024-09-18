@@ -12,7 +12,7 @@ import {
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { GlobalLoggerService } from '../logger/logger.service'
 import { CreateUserDto } from '../user/dto/user.dto'
-import { Public } from './auth.decorator'
+import { Public, UserInfo } from './auth.decorator'
 import { AuthService } from './auth.service'
 import {
   GithubCallbackDto,
@@ -23,7 +23,9 @@ import {
 } from './dto/auth.dto'
 import { GithubAuthGuard, GoogleAuthGuard } from './guards'
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard'
+import { JwtPayload } from './types'
 
+// TODO: refreshtoken的内容，这边还没写。因为不影响功能，所以留到后面写吧
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -108,10 +110,10 @@ export class AuthController {
   })
   @Get('googleLoginCallback')
   @UseGuards(GoogleAuthGuard)
-  async googleLoginCallback(@Req() req) {
-    if (!req.user) {
+  async googleLoginCallback(@UserInfo() userInfo: JwtPayload) {
+    if (userInfo) {
       throw new BaseException('google登录失败')
     }
-    return this.authService.googleLogin(req.user)
+    return this.authService.googleLogin(userInfo)
   }
 }

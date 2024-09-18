@@ -24,7 +24,8 @@
     ],
     "assets": [
       {
-        "include": "**/*.conf"
+        "include": "**/*.conf",
+        "watchAssets": true
       }
     ]
   },
