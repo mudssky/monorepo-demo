@@ -1,5 +1,8 @@
+import { MINUTE } from '@/common/constant'
 import { BaseException } from '@/common/exceptions'
 import { DatabaseException } from '@/common/exceptions/database'
+import { generateRandomStr } from '@/common/utils/string'
+import { EmailService } from '@/module/email/email.service'
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
 import { omit } from '@mudssky/jsutils'
@@ -10,9 +13,10 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import * as bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
 import { v4 as uuidV4 } from 'uuid'
+import { RedisService } from '../redis/redis.service'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { UserService } from '../user/user.service'
-import { LoginDto } from './dto/auth.dto'
+import { LoginDto, SendCaptchaDto } from './dto/auth.dto'
 import { GithubAuthInfo } from './strategy/github.strategy'
 import { GoogleAuthInfo } from './strategy/google.strategy'
 import { LoginRes } from './types'
@@ -20,11 +24,15 @@ import { LoginRes } from './types'
 @Injectable()
 export class AuthService {
   //  private readonly logger = new Logger()
+
+  private readonly captchaRedixPrefix = 'captcha_'
   constructor(
     private readonly prismaService: PrismaService,
     private readonly logger: GlobalLoggerService,
     private readonly userSevice: UserService,
     private readonly jwtService: JwtService,
+    private readonly redisService: RedisService,
+    private readonly emailService: EmailService,
   ) {
     this.logger.setContext({ label: AuthService.name })
   }
@@ -36,6 +44,15 @@ export class AuthService {
   }
 
   async register(createUserDto: CreateUserDto) {
+    const captcha = await this.redisService.get(
+      `captcha_${createUserDto.email}`,
+    )
+    if (!captcha) {
+      throw new BaseException('验证码已过期')
+    }
+    if (createUserDto.captcha !== captcha) {
+      throw new BaseException('验证码错误')
+    }
     try {
       const data = await this.prismaService.user.create({
         data: {
@@ -195,5 +212,32 @@ export class AuthService {
       },
     })
     return this.login(userData)
+  }
+
+  async sendCaptcha(sendCaptchaDto: SendCaptchaDto) {
+    const code = generateRandomStr(6)
+    try {
+      await this.emailService.sendMail({
+        from: {
+          name: 'monorepo-demo',
+          address: this.emailService.getConfig()?.auth?.user!,
+        },
+        to: sendCaptchaDto.email,
+        subject: 'monorepo-demo 注册验证码',
+        html: `<p>你的注册验证码是 ${code}</p>`,
+      })
+
+      await this.redisService.set(
+        `${this.captchaRedixPrefix}${sendCaptchaDto.email}`,
+        code,
+        5 * MINUTE,
+      )
+    } catch (err) {
+      this.logger.error({ msg: '发送验证码失败', error: err })
+      throw new BaseException('发送验证码失败')
+      // return false
+    }
+
+    return true
   }
 }

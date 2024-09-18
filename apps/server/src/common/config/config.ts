@@ -119,10 +119,13 @@ export class EnvironmentVariables {
   // #--------------------------- 邮箱相关配置------------------------------------------
   @Expose()
   @IsString()
-  MAIL_HOST
-  @Expose()
-  @IsString()
-  MAIL_PORT
+  MAIL_SERVICE_NAME
+  // @Expose()
+  // @IsString()
+  // MAIL_HOST
+  // @Expose()
+  // @IsString()
+  // MAIL_PORT
   @Expose()
   @IsEmail()
   MAIL_USER

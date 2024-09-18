@@ -1,7 +1,10 @@
 import { GlobalStorage } from '@/global/storage'
 import request, { noAuthRequest } from '@/request/request'
 import { globalRouter } from '@/router'
-import { GithubCallbackDto } from '@server/src/modules/auth/dto/auth.dto'
+import {
+  GithubCallbackDto,
+  SendCaptchaDto,
+} from '@server/src/modules/auth/dto/auth.dto'
 import { LoginReq, LoginRes, RegisterReq } from '@server/src/modules/auth/types'
 import { message } from 'antd'
 import { t } from 'i18next'
@@ -37,4 +40,13 @@ export function AUTH_GITHUB(params: AuthGithubParams) {
 
 export function AUTH_GOOGLE(params: AuthGithubParams) {
   return noAuthRequest.get('/auth/googleLoginCallback', { params })
+}
+
+/**
+ * 发送验证码
+ * @param params
+ * @returns
+ */
+export function SEND_CAPTCHA(params: SendCaptchaDto) {
+  return noAuthRequest.post('/auth/sendCaptcha', { ...params })
 }

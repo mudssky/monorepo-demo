@@ -1,4 +1,3 @@
-import { regexChecker } from '@/global/regex'
 import { equalValidate } from '@/utils/formValidator'
 import { RegisterReq } from '@server/src/modules/auth/types'
 import { Button, Col, Form, FormInstance, Input, Row } from 'antd'
@@ -49,7 +48,7 @@ export default function RegisterForm() {
             message: t('please input'),
           },
           {
-            pattern: regexChecker.emailPattern,
+            type: 'email',
             message: t('email invalid'),
           },
         ]}
@@ -82,10 +81,16 @@ export default function RegisterForm() {
         // label={t('send_captcha')}
         label={t('captcha')}
         name="captcha"
+        rules={[
+          {
+            required: true,
+            message: t('please input'),
+          },
+        ]}
       >
         <Row justify={'space-between'} gutter={10} wrap={false}>
           <Col span={12}>
-            <Input />
+            <Input placeholder={t('please input')} />
           </Col>
           <Col span={12}>
             <Button type="primary" onClick={handleSendCaptcha}>

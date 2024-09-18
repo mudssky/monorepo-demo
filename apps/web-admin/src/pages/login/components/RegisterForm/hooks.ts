@@ -1,4 +1,4 @@
-import { REGISTER } from '@/api/auth'
+import { REGISTER, SEND_CAPTCHA } from '@/api/auth'
 import { omit } from '@mudssky/jsutils'
 import { Form, message } from 'antd'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +26,21 @@ export function useSetupHook() {
       message.error(res.msg)
     }
   }
-  const handleSendCaptcha = async () => {}
+  const handleSendCaptcha = async () => {
+    // const formValues = await form.validateFields(['email'])
+    const formValues = await form.getFieldsValue(['email'])
+
+    console.log({ formValues })
+
+    const res = await SEND_CAPTCHA({
+      email: formValues.email,
+    })
+    if (res.code === 0) {
+      message.success(t('operation success'))
+    } else {
+      message.error(res.msg)
+    }
+  }
   return {
     t,
     form,

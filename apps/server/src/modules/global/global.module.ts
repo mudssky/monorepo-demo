@@ -101,9 +101,10 @@ import { SharedService } from './shared.service'
       ) => {
         return {
           smtpOptions: {
-            host: configService.get('MAIL_HOST'),
-            port: configService.get('MAIL_PORT'),
-            secure: false,
+            // host: configService.get('MAIL_HOST'),
+            // port: configService.get('MAIL_PORT'),
+            // secure: false,
+            service: configService.get('MAIL_SERVICE_NAME'),
             auth: {
               user: configService.get('MAIL_USER'),
               pass: configService.get('MAIL_PASS'),

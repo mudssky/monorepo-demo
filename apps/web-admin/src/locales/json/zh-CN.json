@@ -25,5 +25,6 @@
   "Process Name": "进程名",
   "opretion_success": "操作成功",
   "send_captcha": "发送验证码",
-  "captcha": "验证码"
+  "captcha": "验证码",
+  "operation success": "操作成功"
 }

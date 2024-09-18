@@ -19,6 +19,7 @@ import {
   LoginDto,
   LoginResDto,
   RegisterResDto,
+  SendCaptchaDto,
 } from './dto/auth.dto'
 import { GithubAuthGuard, GoogleAuthGuard } from './guards'
 import { LocalAuthGuard } from './guards/local-auth/local-auth.guard'
@@ -43,6 +44,13 @@ export class AuthController {
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     return this.authService.register(createUserDto)
+  }
+  @Public()
+  @ApiOperation({ summary: '发送验证码' })
+  @ApiCustomResponse({ type: Boolean })
+  @Post('sendCaptcha')
+  async sendCaptcha(@Body() sendCaptchaDto: SendCaptchaDto) {
+    return this.authService.sendCaptcha(sendCaptchaDto)
   }
 
   @Public()
