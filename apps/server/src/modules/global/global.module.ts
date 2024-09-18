@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
 import { GlobalLoggerModule } from '../logger/logger.module'
 import { PrismaModule } from '../prisma/prisma.module'
+import { RedisModule } from '../redis/redis.module'
 import { SharedService } from './shared.service'
 
 @Global()
@@ -77,6 +78,21 @@ import { SharedService } from './shared.service'
     CustomCacheModule,
     GlobalLoggerModule.forRoot(),
     ScheduleModule.forRoot(),
+    // RedisModule.forRoot(),
+    RedisModule.forRootAsync({
+      isGlobal: true,
+      useFactory: async (
+        configService: ConfigService<EnvironmentVariables>,
+      ) => {
+        return {
+          redisOptions: {
+            host: configService.get('REDIS_HOST'),
+            port: configService.get('REDIS_PORT'),
+          },
+        }
+      },
+      inject: [ConfigService],
+    }),
   ],
   providers: [
     {
