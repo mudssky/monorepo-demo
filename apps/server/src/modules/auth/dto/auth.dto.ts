@@ -1,7 +1,7 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger'
 
 import { $Enums } from '@prisma/client'
-import { IsEmail, IsNotEmpty } from 'class-validator'
+import { IsEmail, IsNotEmpty, Length } from 'class-validator'
 import { LoginReq, LoginRes } from '../types'
 
 export class LoginDto implements LoginReq {
@@ -49,4 +49,12 @@ export class RegisterResDto extends OmitType(LoginResDto, ['access_token']) {}
 export class SendCaptchaDto {
   @IsEmail()
   email: string
+}
+
+export class ChangePasswordDto {
+  @IsNotEmpty()
+  @Length(8, 20)
+  newPassword: string
+  @IsNotEmpty()
+  oldPassword: string
 }

@@ -5,6 +5,7 @@ const base62Chars =
  * 生成任意长度的base62随机字符串
  * @param len
  * @returns
+ * @deprecated 直接用generateBase62Code,在npm包中维护了
  */
 export function generateRandomStr(len: number) {
   let str = ''

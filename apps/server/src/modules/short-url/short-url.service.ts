@@ -1,4 +1,4 @@
-import { generateRandomStr } from '@/common/utils/string'
+import { generateBase62Code } from '@mudssky/jsutils'
 import { Injectable } from '@nestjs/common'
 import { Cron, CronExpression } from '@nestjs/schedule'
 import { ShortUrl } from '@prisma/client'
@@ -16,7 +16,7 @@ export class ShortUrlService {
   async generateCode() {
     let res: ShortUrl[] = []
     while (res.length < 1) {
-      const str = generateRandomStr(6)
+      const str = generateBase62Code(6)
       const uniqueCode = await this.prismaService.shortUrl.findUnique({
         where: {
           code: str,

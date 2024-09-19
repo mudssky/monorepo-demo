@@ -1,7 +1,7 @@
 import { RegisterReq } from '@/modules/auth/types'
 import { ApiProperty } from '@nestjs/swagger'
 import { $Enums } from '@prisma/client'
-import { IsEmail, IsNotEmpty } from 'class-validator'
+import { IsEmail, IsNotEmpty, Length } from 'class-validator'
 import { UpdateUserDtoType, UserDtoType } from '../types'
 
 /**
@@ -11,6 +11,7 @@ export class CreateUserDto implements RegisterReq {
   captcha: string
   @ApiProperty()
   @IsNotEmpty()
+  @Length(8, 20)
   password: string
   @ApiProperty()
   @IsNotEmpty()

@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "web-admin:dev",
+      "command": "pnpm dev",
+      "type": "shell",
+      "args": [],
+      "problemMatcher": [],
+      "group": "none",
+      "options": {
+        "cwd": "${workspaceFolder}/apps/web-admin"
+      },
+      "detail": "启动web-admin开发环境"
+    }
+  ]
+}

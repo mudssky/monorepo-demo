@@ -1,20 +1,14 @@
 import { ApiCustomResponse } from '@/common/decorators/swagger'
 import { BaseException } from '@/common/exceptions'
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Req,
-  Request,
-  UseGuards,
-} from '@nestjs/common'
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger'
+import { User } from '@prisma/client'
 import { GlobalLoggerService } from '../logger/logger.service'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { Public, UserInfo } from './auth.decorator'
 import { AuthService } from './auth.service'
 import {
+  ChangePasswordDto,
   GithubCallbackDto,
   LoginDto,
   LoginResDto,
@@ -55,6 +49,11 @@ export class AuthController {
     return this.authService.sendCaptcha(sendCaptchaDto)
   }
 
+  /**
+   * 这里LocalAuthGuard中使用local strategy完成了认证,所以这里req上面的user就是user表的信息。
+   * @param userInfo
+   * @returns
+   */
   @Public()
   @ApiOperation({ summary: '用户登录' })
   @ApiBody({ type: LoginDto })
@@ -63,10 +62,22 @@ export class AuthController {
   })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user)
+  async login(@UserInfo() userInfo: User) {
+    return this.authService.addToken(userInfo)
   }
 
+  @ApiOperation({ summary: '修改密码' })
+  @ApiBody({ type: ChangePasswordDto })
+  @ApiCustomResponse({
+    type: Boolean,
+  })
+  @Post('changePassword')
+  async changePassword(
+    @Body() changePasswordDto: ChangePasswordDto,
+    @UserInfo() userInfo: JwtPayload,
+  ) {
+    return this.authService.changePassword(changePasswordDto, userInfo)
+  }
   /**
    *
    * 两个方法，githubLogin仅用于重定向授权页面，

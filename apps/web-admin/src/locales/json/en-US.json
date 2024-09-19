@@ -31,5 +31,9 @@
   "change password": "change password",
   "input_password": "input password",
   "input_new_password": "input new password",
-  "new_password": "new password"
+  "new_password": "new password",
+  "old_password": "old password",
+  "new password cannot be the same as old password": "new password cannot be the same as old password",
+  "new password and repassword can not be same": "new password and repassword can not be same",
+  "password strength is not enough": "password strength is not enough"
 }

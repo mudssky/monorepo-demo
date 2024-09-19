@@ -10,7 +10,8 @@ export const IS_PUBLIC_KEY = 'isPublic'
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true)
 
 /**
- * 从请求中提取用户信息，也就是Jwt解析的内容
+ * 从请求中提取用户信息（request.user），通常是Jwt解析的内容
+ * 使用localguard的登录接口上，则是user表的内容
  */
 export const UserInfo = createParamDecorator(
   (data: keyof JwtPayload, ctx: ExecutionContext) => {

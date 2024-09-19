@@ -1,7 +1,7 @@
 import { passwordStrengthEnum } from '@/global/enums'
 import { calcPercent } from '@/utils/calc'
+import { calculatePasswordStrengthLevel } from '@mudssky/jsutils'
 import { Progress } from 'antd'
-import { checkPasswordStrength } from './hooks'
 interface Props {
   password: string
 }
@@ -9,7 +9,7 @@ interface Props {
 export default function PasswordStrengthChecker(props: Props) {
   const { password } = props
 
-  const passwordStrength = checkPasswordStrength(password)
+  const passwordStrength = calculatePasswordStrengthLevel(password)
   return (
     <div>
       <span> 密码强度:</span>

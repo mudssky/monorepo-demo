@@ -30,5 +30,9 @@
   "confirm_password": "确认新密码",
   "change password": "修改密码",
   "input_new_password": "输入新密码",
-  "new_password": "新密码"
+  "new_password": "新密码",
+  "old_password": "旧密码",
+  "new password cannot be the same as old password": "新密码不能与旧密码相同",
+  "new password and repassword can not be same": "两次输入的密码不能相同",
+  "password strength is not enough": "密码强度过低"
 }

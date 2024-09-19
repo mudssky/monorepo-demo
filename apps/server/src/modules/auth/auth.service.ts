@@ -1,11 +1,14 @@
 import { MINUTE } from '@/common/constant'
 import { BaseException } from '@/common/exceptions'
 import { DatabaseException } from '@/common/exceptions/database'
-import { generateRandomStr } from '@/common/utils/string'
 import { EmailService } from '@/modules/email/email.service'
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
-import { omit } from '@mudssky/jsutils'
+import {
+  calculatePasswordStrengthLevel,
+  generateBase62Code,
+  omit,
+} from '@mudssky/jsutils'
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
@@ -16,10 +19,10 @@ import { v4 as uuidV4 } from 'uuid'
 import { RedisService } from '../redis/redis.service'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { UserService } from '../user/user.service'
-import { LoginDto, SendCaptchaDto } from './dto/auth.dto'
+import { ChangePasswordDto, LoginDto, SendCaptchaDto } from './dto/auth.dto'
 import { GithubAuthInfo } from './strategy/github.strategy'
 import { GoogleAuthInfo } from './strategy/google.strategy'
-import { LoginRes } from './types'
+import { JwtPayload, LoginRes } from './types'
 
 @Injectable()
 export class AuthService {
@@ -44,6 +47,12 @@ export class AuthService {
   }
 
   async register(createUserDto: CreateUserDto) {
+    const passwordStregth = calculatePasswordStrengthLevel(
+      createUserDto.password,
+    )
+    if (passwordStregth < 2) {
+      throw new BaseException('密码强度不足')
+    }
     const captcha = await this.redisService.get(
       `captcha_${createUserDto.email}`,
     )
@@ -110,7 +119,7 @@ export class AuthService {
     return omit(user, ['password'])
   }
 
-  async login(user: User) {
+  async addToken(user: User) {
     const payload = {
       username: user.name,
       sub: user.id,
@@ -164,7 +173,7 @@ export class AuthService {
         githubAuthInfo: JSON.stringify(gitbubAuthInfo),
       },
     })
-    return this.login(userData)
+    return this.addToken(userData)
   }
   /**
    * @param googleAuthInfo
@@ -211,11 +220,11 @@ export class AuthService {
         googleAuthInfo: JSON.stringify(googleAuthInfo),
       },
     })
-    return this.login(userData)
+    return this.addToken(userData)
   }
 
   async sendCaptcha(sendCaptchaDto: SendCaptchaDto) {
-    const code = generateRandomStr(6)
+    const code = generateBase62Code(6)
     try {
       await this.emailService.sendMail({
         from: {
@@ -238,6 +247,53 @@ export class AuthService {
       // return false
     }
 
+    return true
+  }
+  async changePassword(
+    changePasswordDto: ChangePasswordDto,
+    userInfo: JwtPayload,
+  ) {
+    const passwordStregth = calculatePasswordStrengthLevel(
+      changePasswordDto.newPassword,
+    )
+    if (passwordStregth < 2) {
+      throw new BaseException('密码强度不足')
+    }
+
+    const currentUser = await this.prismaService.user.findUnique({
+      where: { id: userInfo.sub },
+      omit: {
+        password: false,
+      },
+    })
+    if (!currentUser) {
+      throw new BaseException('用户不存在')
+    }
+
+    // 用户密码不存在的情况，可以直接设置密码
+    if (!currentUser.password) {
+      await this.prismaService.user.update({
+        where: { id: userInfo.sub },
+        data: {
+          password: await this.hashPassword(changePasswordDto.newPassword),
+        },
+      })
+      return true
+    }
+    // 密码
+    const isPasswordCorrect = await bcrypt.compare(
+      changePasswordDto.oldPassword,
+      currentUser.password,
+    )
+    if (!isPasswordCorrect) {
+      throw new BaseException('旧密码错误')
+    }
+    await this.prismaService.user.update({
+      where: { id: userInfo.sub },
+      data: {
+        password: await this.hashPassword(changePasswordDto.newPassword),
+      },
+    })
     return true
   }
 }

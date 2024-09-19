@@ -8,14 +8,14 @@ export interface Props {
 }
 
 export type FieldType = {
-  password: string
+  oldPassword: string
+  newPassword: string
   repassword: string
 }
 
 export default function ChangePasswordForm() {
-  const { t, form, navigate, handleRegister, handleSendCaptcha } =
-    useSetupHook()
-  const currentPasswordWatch = Form.useWatch('password', form)
+  const { t, form, handleSubmit } = useSetupHook()
+  const currentPasswordWatch = Form.useWatch('newPassword', form)
   return (
     <div className="card glass w-[450px]">
       <div className="card-title justify-center">
@@ -30,8 +30,20 @@ export default function ChangePasswordForm() {
           wrapperCol={{ span: 17 }}
         >
           <Form.Item<FieldType>
+            label={t('old_password')}
+            name="oldPassword"
+            rules={[
+              {
+                required: true,
+                message: t('please input'),
+              },
+            ]}
+          >
+            <Input.Password maxLength={20} placeholder={t('please input')} />
+          </Form.Item>
+          <Form.Item<FieldType>
             label={t('new_password')}
-            name="password"
+            name="newPassword"
             extra={
               <Row justify={'end'}>
                 <PasswordStrengthChecker
@@ -47,7 +59,7 @@ export default function ChangePasswordForm() {
               },
             ]}
           >
-            <Input.Password placeholder={t('please input')} />
+            <Input.Password maxLength={20} placeholder={t('please input')} />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -58,21 +70,12 @@ export default function ChangePasswordForm() {
                 required: true,
                 message: t('please input'),
               },
-              {
-                type: 'email',
-                message: t('email invalid'),
-              },
             ]}
           >
-            <Input.Password placeholder={t('please input')} />
+            <Input.Password maxLength={20} placeholder={t('please input')} />
           </Form.Item>
 
-          <Button
-            type="primary"
-            htmlType="submit"
-            block
-            onClick={handleRegister}
-          >
+          <Button type="primary" htmlType="submit" block onClick={handleSubmit}>
             {t('submit')}
           </Button>
         </Form>

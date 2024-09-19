@@ -2,6 +2,7 @@ import { GlobalStorage } from '@/global/storage'
 import request, { noAuthRequest } from '@/request/request'
 import { globalRouter } from '@/router'
 import {
+  ChangePasswordDto,
   GithubCallbackDto,
   SendCaptchaDto,
 } from '@server/src/modules/auth/dto/auth.dto'
@@ -49,4 +50,13 @@ export function AUTH_GOOGLE(params: AuthGithubParams) {
  */
 export function SEND_CAPTCHA(params: SendCaptchaDto) {
   return noAuthRequest.post('/auth/sendCaptcha', { ...params })
+}
+
+/**
+ * 修改密码
+ * @param params
+ * @returns
+ */
+export function CHANGE_PASSWORD(params: ChangePasswordDto) {
+  return request.post('/auth/changePassword', { ...params })
 }
