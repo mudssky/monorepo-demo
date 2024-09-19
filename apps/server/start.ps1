@@ -1,7 +1,7 @@
 
 [CmdletBinding()]
 param (
-    [ValidateSet("prisma-doc", "minio-container")]
+    [ValidateSet("prisma-doc", "minio-container", "redis-container")]
     $Mode
 )
     
@@ -20,5 +20,8 @@ switch ($Mode) {
         docker run -d --name minio-dev -p 9000:9000 -p 9001:9001 -v c:/usr/docker/minio:/bitnami/minio/data -e MINIO_ROOT_USER=root -e MINIO_ROOT_PASSWORD=12345678 bitnami/minio
     }
      
+    'redis-container' {
+        docker run -d --name redis-dev -p 6379:6379 redis
+    }
 }
 
