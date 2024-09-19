@@ -6,7 +6,7 @@ import {
 import { GlobalExceptionFilter } from '@/common/filters/http-exception/http-exception.filter'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
-import { EmailModule } from '@/module/email/email.module'
+import { EmailModule } from '@/modules/email/email.module'
 import { CacheInterceptor } from '@nestjs/cache-manager'
 import { Global, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
