@@ -12,6 +12,7 @@ export default function HeaderLayout(props: Props) {
     handleLogoutClick,
     showUserInfoEditModal,
     handleUserInfoEditFinish,
+    navigate,
   } = useSetupHook()
   const items: MenuProps['items'] = [
     {
@@ -21,6 +22,10 @@ export default function HeaderLayout(props: Props) {
     {
       key: '2',
       label: <div onClick={showUserInfoEditModal}>修改资料</div>,
+    },
+    {
+      key: '3',
+      label: <div onClick={() => navigate('/changePassword')}>修改密码</div>,
     },
   ]
 

@@ -26,5 +26,9 @@
   "opretion_success": "操作成功",
   "send_captcha": "发送验证码",
   "captcha": "验证码",
-  "operation success": "操作成功"
+  "operation success": "操作成功",
+  "confirm_password": "确认新密码",
+  "change password": "修改密码",
+  "input_new_password": "输入新密码",
+  "new_password": "新密码"
 }

@@ -25,7 +25,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     const casbinRuleCount = await this.casbinRule.count()
     // 初始化一条规则针对管理员
     if (casbinRuleCount === 0) {
-      this.casbinRule.createMany({
+      await this.casbinRule.createMany({
         data: {
           ptype: 'p',
           v0: 'ADMIN',

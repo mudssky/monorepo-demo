@@ -23,8 +23,6 @@ export class CasbinAuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext) {
-    console.log('casbin auth')
-
     if (checkIsPublic(context, this.reflector)) {
       return true
     }

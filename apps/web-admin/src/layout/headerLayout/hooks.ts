@@ -1,17 +1,18 @@
 import { GlobalStorage } from '@/global/storage'
-import { globalRouter } from '@/router'
 import { useAppStore } from '@/store/appStore'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export function useSetupHook() {
   const userInfo = useAppStore((state) => state.userInfo)
   const getUserInfo = useAppStore((state) => state.getUserInfo)
 
+  const navigate = useNavigate()
   const [isUserInfoEditModalOpen, setIsUserInfoEditModalOpen] = useState(false)
 
   const handleLogoutClick = async () => {
     GlobalStorage.removeStorageSync('TOKEN')
-    globalRouter.navigate('/login')
+    navigate('/login')
   }
   const showUserInfoEditModal = () => {
     setIsUserInfoEditModalOpen(true)
@@ -36,5 +37,6 @@ export function useSetupHook() {
     showUserInfoEditModal,
     cancelUserInfoEditModal,
     handleUserInfoEditFinish,
+    navigate,
   }
 }

@@ -26,5 +26,10 @@
   "opretion_success": "Success",
   "send_captcha": "send captcha",
   "captcha": "captcha",
-  "operation success": "operation success"
+  "operation success": "operation success",
+  "confirm_password": "confirm password",
+  "change password": "change password",
+  "input_password": "input password",
+  "input_new_password": "input new password",
+  "new_password": "new password"
 }

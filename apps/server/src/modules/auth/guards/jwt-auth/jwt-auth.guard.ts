@@ -27,7 +27,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     super()
   }
   canActivate(context: ExecutionContext) {
-    console.log('jwt auth')
+    // console.log('jwt auth')
     // Add your custom authentication logic here
     // for example, call super.logIn(request) to establish a session.
     // 判断是否是public装饰器，添加这个装饰器的请求，直接通过校验
