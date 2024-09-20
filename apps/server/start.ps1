@@ -1,7 +1,7 @@
 
 [CmdletBinding()]
 param (
-    [ValidateSet("prisma-doc", "minio-container", "redis-container", 'postgre-container')]
+    [ValidateSet("prisma-doc", "minio-container", "redis-container", 'postgre-container', 'etcd-container')]
     $Mode
 )
     
@@ -34,6 +34,26 @@ switch ($Mode) {
         # docker exec -it postgre-dev ` psql -U postgres `
         #     -c "CREATE DATABASE nestAdmin"
         
+    }
+    'etcd-container' {
+        # ! 注意这里移除了etcd的认证，意味着本地谁都能访问，只适合本地开发环境使用
+        docker run --name etcd-dev -d -p 2379:2379 `
+            -p 2380:2380 `
+            -e ETCD_ROOT_PASSWORD=123456 `
+            -e ALLOW_NONE_AUTHENTICATION=yes `
+            -e ETCD_ADVERTISE_CLIENT_URLS=http://etcd-server:2379 `
+            bitnami/etcd
+
+        # docker run --name etcd-dev -d -p 2379:2379 `
+        #     -p 2380:2380 `
+        #     -e ETCD_ROOT_PASSWORD=123456 `
+        #     -e ETCDCTL_USER=root `
+        #     -e ETCDCTL_PASSWORD=123456 `
+        #     bitnami/etcd
+       
+
+        # docker login -u mudssky
+        # 需要去docker个人页面获取token登录才能拉取
     }
 
 
