@@ -44,18 +44,7 @@ export class UserService {
     const user = await this.prismaService.user.create({
       data,
     })
-    // 第一个创建的用户特殊处理，自动成为管理员
-    // 根据递增id可以判断，第一个创建的用户id为1
-    if (user.id <= 1) {
-      await this.prismaService.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          role: 'ADMIN',
-        },
-      })
-    }
+
     return user
   }
 
@@ -131,7 +120,7 @@ export class UserService {
     }
     return data
   }
-  async getUserInfoById(id: number): Promise<Partial<UserDtoType>> {
+  async getUserInfoById(id: string): Promise<Partial<UserDtoType>> {
     const data = await this.prismaService.user.findUnique({
       where: {
         id,

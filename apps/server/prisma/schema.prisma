@@ -42,7 +42,7 @@ enum RegistryType {
 
 /// 用户表
 model User {
-  id             Int          @id @default(autoincrement())
+  id             String       @id @default(uuid(7))
   /// 邮箱
   email          String?      @unique
   /// 用户名
@@ -67,11 +67,13 @@ model User {
   googleId       String?      @unique
   /// google 授权信息
   googleAuthInfo String?
+
+  @@index([id])
 }
 
 /// 文件上传表
 model UploadFiles {
-  id               Int      @id @default(autoincrement())
+  id               String   @id @default(uuid(7))
   /// 文件名
   fileName         String
   /// 原始文件名
@@ -97,7 +99,7 @@ enum ShortURLStatus {
 
 /// 短链服务表
 model ShortUrl {
-  id      Int            @id @default(autoincrement())
+  id      String         @id @default(uuid(7))
   /// 压缩码启用状态
   status  ShortURLStatus @default(DISABLE)
   /// 压缩码
@@ -109,12 +111,12 @@ model ShortUrl {
 }
 
 model MeetingRooms {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid(7))
 }
 
 // casbin 权限规则表
 model CasbinRule {
-  id    Int     @id @default(autoincrement())
+  id    String  @id @default(uuid(7))
   ptype String
   v0    String?
   v1    String?

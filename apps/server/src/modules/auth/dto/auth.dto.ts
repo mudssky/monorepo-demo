@@ -30,7 +30,7 @@ export class LoginResDto implements LoginRes {
     description: 'jwt token',
   })
   access_token: string
-  id: number
+  id: string
   email: string
   name: string
   @ApiProperty({ enum: $Enums.Role })

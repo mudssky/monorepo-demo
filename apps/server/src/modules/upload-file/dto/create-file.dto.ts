@@ -6,7 +6,7 @@ import { IsEnum, IsInt, IsOptional } from 'class-validator'
 export class CreateFileDto implements UploadFiles {
   @ApiProperty()
   originalFilename: string
-  id: number
+  id: string
   @ApiProperty()
   fileName: string
   @ApiProperty()

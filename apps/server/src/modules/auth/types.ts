@@ -13,7 +13,7 @@ export type RegisterReq = Pick<User, 'email' | 'name' | 'password'> & {
 export type JwtPayload = {
   username: string
   /*  用户id*/
-  sub: number
+  sub: string
   role: $Enums.Role
   iat: number
 }

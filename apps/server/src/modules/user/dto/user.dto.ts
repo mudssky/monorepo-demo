@@ -31,7 +31,7 @@ export class UserDto implements UserDtoType {
   githubId: string | null
   githubAuthInfo: string | null
   @ApiProperty()
-  id: number
+  id: string
   @ApiProperty()
   email: string
   @ApiProperty()
@@ -55,7 +55,7 @@ export class UpdateUserDto implements UpdateUserDtoType {
   avatarUrl: string
   @ApiProperty()
   @IsNotEmpty()
-  id: number
+  id: string
   @ApiProperty()
   avatarFullUrl: string | null
 }
