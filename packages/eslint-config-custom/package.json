@@ -1,6 +1,6 @@
 {
   "name": "@mudssky/eslint-config-custom",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "eslint配置文件",
   "keywords": [
     "eslint"
