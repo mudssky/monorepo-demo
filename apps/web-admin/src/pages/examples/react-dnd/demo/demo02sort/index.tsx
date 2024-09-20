@@ -93,6 +93,7 @@ function Demo02Sort() {
     cardList[index1] = cardList[index2]
     cardList[index2] = tmp
     setCardList([...cardList])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div className="card-list">

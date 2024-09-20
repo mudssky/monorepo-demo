@@ -21,6 +21,7 @@ export const NewItem: FC<NewItemProps> = (props) => {
 
   useEffect(() => {
     drag(ref)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const cs = clsx(
     'h-[200px] border-2 border-black border-solid',

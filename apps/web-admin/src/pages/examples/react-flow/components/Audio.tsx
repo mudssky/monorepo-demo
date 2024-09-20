@@ -31,6 +31,7 @@ export function toggleAudio() {
   return isRunning() ? context.suspend() : context.resume()
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function updateAudioNode(id: string, data: Record<string, any>) {
   const node = nodes.get(id)
 
@@ -68,6 +69,7 @@ export function disconnect(sourceId: string, targetId: string) {
 export function createAudioNode(
   id: string,
   type: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>,
 ) {
   switch (type) {

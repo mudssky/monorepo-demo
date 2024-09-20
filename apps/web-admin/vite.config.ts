@@ -71,8 +71,10 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tsChecker({
-        typescript: {
-          tsconfigPath: './tsconfig.json',
+        typescript: true,
+        eslint: {
+          lintCommand:
+            'eslint "./src/**/*.{ts,tsx} --report-unused-disable-directives --max-warnings 0',
         },
       }),
       // visualizer({

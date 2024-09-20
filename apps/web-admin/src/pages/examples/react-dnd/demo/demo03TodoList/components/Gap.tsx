@@ -34,6 +34,7 @@ export default function Gap(props: GapProps) {
 
   useEffect(() => {
     drop(ref)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const cs = clsx('h-10', isOver ? 'bg-red-300' : '')

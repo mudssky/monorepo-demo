@@ -26,6 +26,7 @@ export default function Item(props: ItemProps) {
   })
   useEffect(() => {
     drag(ref)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div

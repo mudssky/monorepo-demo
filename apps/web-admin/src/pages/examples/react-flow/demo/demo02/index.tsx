@@ -98,6 +98,7 @@ export default function Demo02() {
     document.addEventListener('keydown', (e) => {
       play(e.key.toUpperCase())
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const map: Record<number, string> = {
@@ -138,7 +139,7 @@ export default function Demo02() {
   return (
     <div className="bg-black">
       <section className={styles.container}>
-        {Object.keys(keys).map((item: any) => {
+        {Object.keys(keys).map((item) => {
           return (
             <div className={styles.keyStyle} key={item} id={`key-${item}`}>
               <div onClick={() => play(item)}>

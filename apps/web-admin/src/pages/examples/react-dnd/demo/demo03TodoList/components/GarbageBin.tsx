@@ -26,6 +26,7 @@ export const GarbageBin: FC<GarbaseProps> = (props) => {
 
   useEffect(() => {
     drop(ref)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const cs = clsx(
