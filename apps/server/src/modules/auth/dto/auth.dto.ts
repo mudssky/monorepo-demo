@@ -5,12 +5,15 @@ import { IsEmail, IsNotEmpty, Length } from 'class-validator'
 import type { LoginReq, LoginRes } from '../types'
 
 export class LoginDto implements LoginReq {
-  @ApiProperty()
+  @ApiProperty({
+    example: '123456',
+  })
   @IsNotEmpty()
   password: string
 
   @ApiProperty({
     description: '可以传入用户名或邮箱',
+    example: 'admin',
   })
   @IsNotEmpty()
   username: string
