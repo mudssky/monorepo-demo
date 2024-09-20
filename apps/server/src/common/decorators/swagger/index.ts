@@ -15,7 +15,33 @@ export const ApiCustomResponse = <TModel extends Type<any>>(options: {
   // 针对type传入数组的兼容处理
   const isModalArray = Array.isArray(type)
   const modelType = isModalArray ? type?.[0] : type
-  // console.log({ modelType })
+
+  function getDataScheme() {
+    if (isModalArray) {
+      return {
+        type: 'array',
+        items: {
+          $ref: getSchemaPath(modelType),
+        },
+        description,
+        required: [],
+      }
+    }
+    // 处理 Boolean 类型
+    if ((modelType as any) === Boolean) {
+      return {
+        type: 'boolean',
+        description,
+        required: [],
+      }
+    }
+    // Dto的情况
+    return {
+      $ref: getSchemaPath(modelType),
+      description,
+      required: [],
+    }
+  }
 
   const okResponseDec = ApiOkResponse({
     schema: {
@@ -23,29 +49,9 @@ export const ApiCustomResponse = <TModel extends Type<any>>(options: {
       allOf: [
         {
           properties: {
-            code: {
-              type: 'number',
-              default: API_CODE.SUCCESS,
-            },
-            data: isModalArray
-              ? {
-                  type: 'array',
-                  items: {
-                    $ref: getSchemaPath(modelType),
-                  },
-                  description,
-                  required: [],
-                }
-              : {
-                  $ref: getSchemaPath(modelType),
-
-                  description,
-                  required: [],
-                },
-            msg: {
-              type: 'string',
-              default: API_MSG[API_CODE.SUCCESS],
-            },
+            code: { type: 'number', default: API_CODE.SUCCESS },
+            data: getDataScheme(),
+            msg: { type: 'string', default: API_MSG[API_CODE.SUCCESS] },
           },
         },
         // 继承的方法，无法控制属性的排列顺序
