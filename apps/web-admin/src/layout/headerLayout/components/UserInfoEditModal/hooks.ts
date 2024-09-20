@@ -42,7 +42,7 @@ export function useSetupHook(props: Props) {
     }
 
     return () => {}
-  }, [open, userInfo])
+  }, [form, open, userInfo])
 
   const handleEditSubmit = async () => {
     const formValues = await form.validateFields()
@@ -51,12 +51,12 @@ export function useSetupHook(props: Props) {
     const res = await UPDATE_USER_INFO({
       ...omit(formValues, ['avatarInfo']),
       avatarUrl: convertFileInfo(formValues.avatarInfo)?.avatarUrl ?? '',
-      id: userInfo?.id ?? -1,
+      id: userInfo?.id ?? '',
     })
     if (res.code === 0) {
       message.success(t('opretion_success'))
       setUserInfo({
-        ...userInfo,
+        ...userInfo!,
         ...res.data,
       })
       onSubmitFinish?.()

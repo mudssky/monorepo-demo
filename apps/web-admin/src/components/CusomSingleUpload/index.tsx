@@ -10,7 +10,7 @@ export interface AvaterInfo {
 }
 export interface Props extends UploadProps {
   uploadButton?: ReactNode
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   value?: AvaterInfo
 }
 
@@ -20,7 +20,7 @@ export default function CustomUpload(props: Props) {
   // const [first, setfirst] = useState(second)
   const {
     listType = 'picture-card',
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+     
     value,
     uploadButton,
     onChange: onValueChange,

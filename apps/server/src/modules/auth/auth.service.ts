@@ -229,7 +229,7 @@ export class AuthService {
       await this.emailService.sendMail({
         from: {
           name: 'monorepo-demo',
-          address: this.emailService.getConfig()?.auth?.user!,
+          address: this.emailService.getConfig()?.auth?.user ?? '',
         },
         to: sendCaptchaDto.email,
         subject: 'monorepo-demo 注册验证码',

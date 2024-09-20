@@ -1,7 +1,7 @@
-import { StoreApi, UseBoundStore, create } from 'zustand'
-import { localeKey } from '@/i18n'
-import { LoginRes } from '@server/src/modules/auth/types'
+import { LoginRes } from '@/api'
 import { GET_USER_INFO } from '@/api/user'
+import { localeKey } from '@/i18n'
+import { StoreApi, UseBoundStore, create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 interface AppState {
   locale: localeKey

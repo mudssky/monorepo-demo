@@ -59,6 +59,7 @@ function Box(props: BoxProps) {
     // 设置预览默认样式为空，这样就不会采用原来的dom作为背景
     // DragLayer就完全作为预览的内容
     dragPreview(getEmptyImage(), { captureDraggingState: true })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

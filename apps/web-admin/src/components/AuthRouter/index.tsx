@@ -1,4 +1,4 @@
-import { checkLogin } from '@/api/auth'
+import { checkLogin } from '@/api'
 import { ReactNode, useEffect, useState } from 'react'
 
 interface Props {

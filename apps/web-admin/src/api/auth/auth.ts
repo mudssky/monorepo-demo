@@ -1,14 +1,17 @@
 import { GlobalStorage } from '@/global/storage'
 import request, { noAuthRequest } from '@/request/request'
 import { globalRouter } from '@/router'
+
+import { message } from 'antd'
+import { t } from 'i18next'
 import {
   ChangePasswordDto,
   GithubCallbackDto,
+  LoginReq,
+  LoginRes,
+  RegisterReq,
   SendCaptchaDto,
-} from '@server/src/modules/auth/dto/auth.dto'
-import { LoginReq, LoginRes, RegisterReq } from '@server/src/modules/auth/types'
-import { message } from 'antd'
-import { t } from 'i18next'
+} from './types'
 
 export function LOGIN(params: LoginReq) {
   return request.post<LoginRes>('/auth/login', params)
@@ -34,12 +37,11 @@ export function checkLogin() {
   return true
 }
 
-export type AuthGithubParams = InstanceType<typeof GithubCallbackDto>
-export function AUTH_GITHUB(params: AuthGithubParams) {
+export function AUTH_GITHUB(params: GithubCallbackDto) {
   return noAuthRequest.get('/auth/githubLoginCallback', { params })
 }
 
-export function AUTH_GOOGLE(params: AuthGithubParams) {
+export function AUTH_GOOGLE(params: GithubCallbackDto) {
   return noAuthRequest.get('/auth/googleLoginCallback', { params })
 }
 

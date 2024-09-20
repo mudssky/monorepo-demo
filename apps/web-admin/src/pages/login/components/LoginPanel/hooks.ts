@@ -1,8 +1,13 @@
-import { AUTH_GITHUB, AUTH_GOOGLE, AuthGithubParams, LOGIN } from '@/api/auth'
+import {
+  AUTH_GITHUB,
+  AUTH_GOOGLE,
+  GithubCallbackDto,
+  LOGIN,
+  LoginRes,
+} from '@/api'
 import { GlobalStorage } from '@/global/storage'
 import { useQuery } from '@/hooks'
 import { useAppStore } from '@/store/appStore'
-import { LoginRes } from '@server/src/modules/auth/types'
 import { App, Form } from 'antd'
 import { useEffect } from 'react'
 // import { Props } from '.'
@@ -46,7 +51,7 @@ export function useSetupHook() {
     window.location.href = `${serverHost}/auth/googleLogin`
   }
 
-  const handleGithubLogin = async (params: AuthGithubParams) => {
+  const handleGithubLogin = async (params: GithubCallbackDto) => {
     const res = await AUTH_GITHUB({
       ...params,
     })
@@ -57,7 +62,7 @@ export function useSetupHook() {
       message.error(res.msg)
     }
   }
-  const handleGoogleLogin = async (params: AuthGithubParams) => {
+  const handleGoogleLogin = async (params: GithubCallbackDto) => {
     const res = await AUTH_GOOGLE({
       ...params,
     })

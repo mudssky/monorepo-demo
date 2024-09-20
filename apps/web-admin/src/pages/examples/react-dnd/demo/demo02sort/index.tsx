@@ -11,7 +11,7 @@ interface CardItem {
 interface CardProps {
   data: CardItem
   index: number
-  swapIndex: Function
+  swapIndex: (fromIndex: number, toIndex: number) => void
 }
 
 interface DragData {
@@ -25,6 +25,7 @@ function Card(props: CardProps) {
 
   const [{ isDragging }, drag] = useDrag<
     DragData,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any,
     { isDragging: boolean }
   >({
@@ -55,6 +56,7 @@ function Card(props: CardProps) {
   useEffect(() => {
     drag(ref)
     drop(ref)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div ref={ref} className={clsx(styles.card, isDragging && styles.dragging)}>

@@ -1,5 +1,5 @@
 import { Table, TableProps } from 'antd'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 interface Props<RecordType> extends TableProps<RecordType> {}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

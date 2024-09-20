@@ -1,6 +1,6 @@
+import { RegisterReq } from '@/api'
 import { LangSwitch } from '@/components/LangSwitch'
 import { equalValidate } from '@/utils/formValidator'
-import { RegisterReq } from '@server/src/modules/auth/types'
 import { Button, Col, Form, FormInstance, Input, Row } from 'antd'
 import PasswordStrengthChecker from '../PasswordStrengthChecker'
 import { useSetupHook } from './hooks'

@@ -5,7 +5,8 @@ import { NewItem } from './components/NewItem'
 
 interface TodoListProps {}
 
-export const TodoList: React.FC<TodoListProps> = (props) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const TodoList: React.FC<TodoListProps> = (_props) => {
   return (
     <div
       className={clsx(

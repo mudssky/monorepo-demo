@@ -14,7 +14,7 @@ export default function Gap(props: GapProps) {
   const [{ isOver }, drop] = useDrop(() => {
     return {
       accept: 'new-item',
-      drop(item) {
+      drop() {
         addItem(
           {
             id: generateUUID(),

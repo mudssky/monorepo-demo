@@ -1,7 +1,6 @@
 import request, { CustomRequestConfig } from '@/request/request'
-import { $Enums } from '@server/node_modules/prisma/prisma-client'
-import { FileInfo } from '@server/src/modules/upload-file/dto/create-file.dto'
-
+import { $Enums } from '@server/node_modules/@prisma/client/index'
+import { FileInfo } from './types'
 interface UploadSingleParam {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   file: any
@@ -27,7 +26,7 @@ export function UPLOAD_SINGLE(
 }
 
 export interface UploadChunkParam {
-  file: any
+  file: File | Blob
   chunkFolderName: string
   chunkIndex: number
 }

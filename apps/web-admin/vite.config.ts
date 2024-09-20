@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { defineConfig, loadEnv } from 'vite'
+import tsChecker from 'vite-plugin-checker'
 // import { visualizer } from 'rollup-plugin-visualizer'
 
 // 分包策略，1.把node_modules中的内容单独打包
@@ -35,6 +36,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
+        '@server/*': path.resolve(__dirname, '。。/server/*'),
       },
     },
     server: {
@@ -68,6 +70,11 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      tsChecker({
+        typescript: {
+          tsconfigPath: './tsconfig.json',
+        },
+      }),
       // visualizer({
       //   open: true, //在默认用户代理中打开生成的文件
       //   gzipSize: true, // 收集 gzip 大小并将其显示

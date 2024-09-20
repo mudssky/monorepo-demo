@@ -1,11 +1,10 @@
-import { REGISTER, SEND_CAPTCHA } from '@/api/auth'
+import { REGISTER, SEND_CAPTCHA } from '@/api'
 import { omit } from '@mudssky/jsutils'
 import { Form, message } from 'antd'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { FieldType } from '.'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function useSetupHook() {
   const { t } = useTranslation()
   const navigate = useNavigate()

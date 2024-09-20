@@ -1,6 +1,8 @@
 import request from '@/request/request'
-import { LoginRes } from '@server/src/modules/auth/types'
+
 import { UpdateUserDtoType, UserDtoType } from '@server/src/modules/user/types'
+import { LoginRes } from './auth/types'
+
 export function GET_USER_INFO() {
   return request.get<LoginRes>('/user/userInfo')
 }
