@@ -27,6 +27,9 @@ export class CreateUserDto implements RegisterReq {
 export class UserDto implements UserDtoType {
   googleId: string | null
   googleAuthInfo: string | null
+  @ApiProperty({
+    enum: $Enums.RegistryType,
+  })
   registryType: $Enums.RegistryType
   githubId: string | null
   githubAuthInfo: string | null

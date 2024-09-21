@@ -4,10 +4,7 @@ import { ApiCustomResponse } from '@/common/decorators/swagger'
 import {
   Body,
   Controller,
-  Delete,
-  Get,
   HttpStatus,
-  Param,
   ParseFilePipeBuilder,
   Post,
   UploadedFile,

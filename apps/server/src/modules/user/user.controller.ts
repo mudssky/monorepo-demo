@@ -1,8 +1,20 @@
-import { Body, Controller, Get, Post, Put, Request } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Query,
+  Request,
+} from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import type { User as UserModel } from '@prisma/client'
 
-import { ApiCustomResponse } from '@/common/decorators/swagger'
+import {
+  ApiCustomResponse,
+  ApiPaginatedResponse,
+} from '@/common/decorators/swagger'
+import { PaginationDto } from '@/common/dto'
 import { JwtPayload } from '../auth/types'
 import { CreateUserDto, UpdateUserDto, UserDto } from './dto/user.dto'
 import { UserService } from './user.service'
@@ -30,11 +42,13 @@ export class UserController {
     })
   }
 
+  @ApiOperation({ summary: '分页查询用户列表' })
+  @ApiPaginatedResponse({
+    type: UserDto,
+  })
   @Get('users')
-  async getUsers() {
-    return this.userService.users({
-      take: 10,
-    })
+  async getUsers(@Query() paginationDto: PaginationDto) {
+    return this.userService.users(paginationDto)
   }
 
   @ApiOperation({ summary: '获取当前登录用户信息' })

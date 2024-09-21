@@ -17,8 +17,8 @@ import {
 
 import { EnvironmentVariables } from '@/common/config/config'
 import { pick, range } from '@mudssky/jsutils'
-import { SharedService } from '../global/shared.service'
 import { FileTag } from '@prisma/client'
+import { SharedService } from '../global/shared.service'
 
 @Injectable()
 export class UploadFileService {
@@ -104,7 +104,7 @@ export class UploadFileService {
         )
         return chunkPath
       })
-      for (let chunkPath of chunkPaths) {
+      for (const chunkPath of chunkPaths) {
         const data = await fs.promises.readFile(chunkPath)
         writeStream.write(data)
       }

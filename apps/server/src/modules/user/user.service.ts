@@ -1,3 +1,4 @@
+import { PaginationDto, PaginationVo, parsePaginationDto } from '@/common/dto'
 import { BaseException } from '@/common/exceptions'
 import { PrismaService } from '@/modules/prisma/prisma.service'
 import { Injectable } from '@nestjs/common'
@@ -22,22 +23,18 @@ export class UserService {
     })
   }
 
-  async users(params: {
-    skip?: number
-    take?: number
-    cursor?: Prisma.UserWhereUniqueInput
-    where?: Prisma.UserWhereInput
-    orderBy?: Prisma.UserOrderByWithRelationInput
-  }): Promise<User[]> {
-    const { skip, take, cursor, where, orderBy } = params
-    // await new Promise((resolve) => setTimeout(resolve, 3000))
-    return this.prismaService.user.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
+  async users(paginationDto: PaginationDto) {
+    const params = parsePaginationDto(paginationDto)
+    const data = await this.prismaService.user.findMany({
+      ...params,
     })
+    const totalCount = await this.prismaService.user.count()
+    const vo = new PaginationVo<(typeof data)[number]>()
+    vo.results = data
+    vo.totalCount = totalCount
+    vo.pageNo = paginationDto.pageNo
+    vo.pageSize = paginationDto.pageSize
+    return vo
   }
 
   async createUser(data: Prisma.UserCreateInput): Promise<User> {

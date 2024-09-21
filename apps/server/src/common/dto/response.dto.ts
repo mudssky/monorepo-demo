@@ -1,6 +1,7 @@
 import { API_CODE, API_MSG } from '@/common/constant/response'
 import { HttpException, HttpStatus } from '@nestjs/common'
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger'
+import { PaginationDto } from './request.dto'
 interface APIResponse<T = any> {
   code: API_CODE
   data: T | null
@@ -46,3 +47,12 @@ export class CustomResponse {
 }
 
 export const GlobalApiResponse = new CustomResponse()
+
+export class PaginationBaseVo extends PaginationDto {
+  @ApiProperty()
+  totalCount: number
+}
+export class PaginationVo<T = any> extends PaginationBaseVo {
+  @ApiProperty({ type: 'array' })
+  results: T[]
+}
