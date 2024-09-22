@@ -39,7 +39,8 @@
       "sourceRoot": "libs/redis/src",
       "compilerOptions": {
         "tsConfigPath": "libs/redis/tsconfig.lib.json",
-        "builder": "swc"
+        "builder": "swc",
+        "typeCheck": true
       }
     },
     "logger": {
@@ -49,7 +50,8 @@
       "sourceRoot": "libs/logger/src",
       "compilerOptions": {
         "tsConfigPath": "libs/logger/tsconfig.lib.json",
-        "builder": "swc"
+        "builder": "swc",
+        "typeCheck": true
       }
     }
   }
