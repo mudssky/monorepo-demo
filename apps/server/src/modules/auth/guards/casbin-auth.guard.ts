@@ -1,6 +1,6 @@
 import { DatabaseException } from '@/common/exceptions'
-import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
+import { GlobalLoggerService } from '@lib'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Reflector } from '@nestjs/core'

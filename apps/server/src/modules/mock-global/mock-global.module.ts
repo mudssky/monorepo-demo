@@ -1,6 +1,7 @@
 import { getEnvConfig, validate } from '@/common/config/config'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
+import { GlobalLoggerModule } from '@lib'
 import { CacheInterceptor } from '@nestjs/cache-manager'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
@@ -8,7 +9,6 @@ import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import * as path from 'node:path'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
-import { GlobalLoggerModule } from '../logger/logger.module'
 import { PrismaModule } from '../prisma/prisma.module'
 
 @Module({

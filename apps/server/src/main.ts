@@ -1,3 +1,4 @@
+import { GlobalLoggerService } from '@lib'
 import { INestApplication } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
@@ -6,7 +7,6 @@ import helmet from 'helmet'
 import { AppModule } from './app.module'
 import { CustomResponseDto } from './common/dto/response.dto'
 import metadata from './metadata'
-import { GlobalLoggerService } from './modules/logger/logger.service'
 
 declare const module: any
 function configHotReload(app: INestApplication<any>) {
@@ -88,10 +88,10 @@ async function bootstrap() {
   const globalLogger = await app.resolve(GlobalLoggerService)
 
   app.useLogger(globalLogger)
-  globalLogger.info(
+  globalLogger.debug(
     `global logger setup succeed,NODE_ENV:${process.env.NODE_ENV}`,
   )
-  globalLogger.info({
+  globalLogger.debug({
     message: 'config setup success',
     config: configService,
   })
@@ -102,11 +102,11 @@ async function bootstrap() {
   // 前缀感觉太累赘了，还是去掉
   // app.setGlobalPrefix(configService.get('GLOBAL_PREFIX') ?? '/api')
   await setupSwagger(app)
-  globalLogger.info('swagger setup succeed')
+  globalLogger.debug('swagger setup succeed')
 
   const port = configService.get<number>('PORT') ?? 33101
-  globalLogger.info(`server start at http://localhost:${port}`)
-  globalLogger.info(`docs at http://localhost:${port}/docs`)
+  globalLogger.debug(`server start at http://localhost:${port}`)
+  globalLogger.debug(`docs at http://localhost:${port}/docs`)
   await app.listen(port)
   configHotReload(app)
 }

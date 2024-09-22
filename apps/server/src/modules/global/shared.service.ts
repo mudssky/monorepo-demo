@@ -1,16 +1,15 @@
 import { EnvironmentVariables } from '@/common/config/config'
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import fs from 'fs'
-import { GlobalLoggerService } from '../logger/logger.service'
 import { PrismaService } from '../prisma/prisma.service'
 @Injectable()
 export class SharedService {
   private imagePath: string
   private tempPath: string
+  private readonly logger = new Logger(SharedService.name)
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly logger: GlobalLoggerService,
     private readonly configService: ConfigService<EnvironmentVariables>,
   ) {}
 

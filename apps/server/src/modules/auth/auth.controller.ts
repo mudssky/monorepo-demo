@@ -1,9 +1,16 @@
 import { ApiCustomResponse } from '@/common/decorators/swagger'
 import { BaseException } from '@/common/exceptions'
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { User } from '@prisma/client'
-import { GlobalLoggerService } from '../logger/logger.service'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { Public, UserInfo } from './auth.decorator'
 import { AuthService } from './auth.service'
@@ -23,12 +30,8 @@ import { JwtPayload } from './types'
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private loggerService: GlobalLoggerService,
-  ) {
-    this.loggerService.setContext({ label: AuthController.name })
-  }
+  private readonly logger = new Logger(AuthController.name)
+  constructor(private authService: AuthService) {}
   /**
    * 注册和登录接口需要公开
    * @param createUserDto

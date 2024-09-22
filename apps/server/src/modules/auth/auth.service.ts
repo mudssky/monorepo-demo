@@ -2,9 +2,8 @@ import { MINUTE } from '@/common/constant'
 import { BaseException } from '@/common/exceptions'
 import { DatabaseException } from '@/common/exceptions/database'
 import { EmailService } from '@/modules/email/email.service'
-import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
-import { RedisService } from '@lib'
+import { GlobalLoggerService, RedisService } from '@lib'
 import {
   calculatePasswordStrengthLevel,
   generateBase62Code,
@@ -36,9 +35,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly redisService: RedisService,
     private readonly emailService: EmailService,
-  ) {
-    this.logger.setContext({ label: AuthService.name })
-  }
+  ) {}
 
   async hashPassword(password: string) {
     const saltOrRounds = 10

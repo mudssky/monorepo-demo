@@ -1,6 +1,5 @@
-import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { omit, pick } from '@mudssky/jsutils'
-import { Injectable, NestMiddleware } from '@nestjs/common'
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common'
 import { NextFunction, Request, Response } from 'express'
 
 function bodyShowMessage(req: Request) {
@@ -15,7 +14,8 @@ function bodyShowMessage(req: Request) {
 }
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-  constructor(private readonly logger: GlobalLoggerService) {}
+  private readonly logger = new Logger(LoggerMiddleware.name)
+
   async use(req: Request, res: Response, next: NextFunction) {
     const dayjs = (await import('dayjs')).default
     // console.log({ dayjs })

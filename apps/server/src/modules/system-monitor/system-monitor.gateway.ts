@@ -1,22 +1,21 @@
-import { GlobalLoggerService } from '@/modules/logger/logger.service'
-import { PrismaService } from '@/modules/prisma/prisma.service'
 import { WsJwtAuthGuard } from '@/modules/auth/guards/ws-jwt-auth/ws-jwt-auth.guard'
+import { PrismaService } from '@/modules/prisma/prisma.service'
 import {
+  ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  OnGatewayInit,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  OnGatewayInit,
-  OnGatewayConnection,
-  OnGatewayDisconnect,
-  ConnectedSocket,
   WsException,
 } from '@nestjs/websockets'
 
-import { Server, Socket } from 'socket.io'
 import { GlobalWsExceptionFilter } from '@/common/filters/ws-exception/ws-exception.filter'
-import { UseFilters } from '@nestjs/common'
 import { IS_NOT_PROD } from '@/common/global/env'
+import { Logger, UseFilters } from '@nestjs/common'
+import { Server, Socket } from 'socket.io'
 
 // 默认端口和nest启动端口一致，可以通过 127.0.0.1:33101连接，注意要用socket.io协议
 // 因为nest默认使用socket.io
@@ -32,15 +31,13 @@ import { IS_NOT_PROD } from '@/common/global/env'
 export class SystemMonitorGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
+  private readonly logger = new Logger(SystemMonitorGateway.name)
+
   constructor(
     private readonly prisma: PrismaService,
-    private readonly logger: GlobalLoggerService,
+
     private readonly jwtAuthGuard: WsJwtAuthGuard,
-  ) {
-    this.logger.setContext({
-      label: SystemMonitorGateway.name,
-    })
-  }
+  ) {}
 
   @WebSocketServer()
   server: Server
@@ -51,7 +48,7 @@ export class SystemMonitorGateway
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   afterInit(server: Server) {
-    this.logger.info({ info: 'websocket gateway init' })
+    this.logger.debug({ info: 'websocket gateway init' })
   }
 
   /**
@@ -69,7 +66,7 @@ export class SystemMonitorGateway
 
     if (!canAc) {
       client.disconnect()
-      this.logger.info('auth failed')
+      this.logger.debug('auth failed')
       return
     }
     if (IS_NOT_PROD) {

@@ -1,17 +1,16 @@
 import { PaginationDto, PaginationVo, parsePaginationDto } from '@/common/dto'
 import { BaseException } from '@/common/exceptions'
 import { PrismaService } from '@/modules/prisma/prisma.service'
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
 import { SharedService } from '../global/shared.service'
-import { GlobalLoggerService } from '../logger/logger.service'
 import { UserDtoType } from './types'
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name)
   constructor(
     private prismaService: PrismaService,
-    private readonly logger: GlobalLoggerService,
     private readonly sharedService: SharedService,
   ) {}
 

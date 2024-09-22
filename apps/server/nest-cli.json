@@ -13,10 +13,7 @@
       {
         "name": "@nestjs/swagger",
         "options": {
-          "dtoFileNameSuffix": [
-            ".dto.ts",
-            ".entity.ts"
-          ],
+          "dtoFileNameSuffix": [".dto.ts", ".entity.ts"],
           "controllerFileNameSuffix": ".controller.ts",
           "classValidatorShim": true,
           "dtoKeyOfComment": "description",
@@ -41,7 +38,18 @@
       "entryFile": "index",
       "sourceRoot": "libs/redis/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/redis/tsconfig.lib.json"
+        "tsConfigPath": "libs/redis/tsconfig.lib.json",
+        "builder": "swc"
+      }
+    },
+    "logger": {
+      "type": "library",
+      "root": "libs/logger",
+      "entryFile": "index",
+      "sourceRoot": "libs/logger/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/logger/tsconfig.lib.json",
+        "builder": "swc"
       }
     }
   }

@@ -1,6 +1,6 @@
 import { FileException } from '@/common/exceptions'
-import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
+import { GlobalLoggerService } from '@lib'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import fs from 'fs'
@@ -30,7 +30,6 @@ export class UploadFileService {
     private readonly configService: ConfigService<EnvironmentVariables>,
     private readonly sharedService: SharedService,
   ) {
-    this.logger.setContext({ label: UploadFileService.name })
     this.imagePath = this.sharedService.getImagePath()
     this.tempPath = this.sharedService.getTempPath()
     // 下面是异步操作

@@ -12,6 +12,8 @@
   },
   "moduleNameMapper": {
     "@app/redis/(.*)": "<rootDir>/../libs/redis/src/$1",
-    "@app/redis": "<rootDir>/../libs/redis/src"
+    "@app/redis": "<rootDir>/../libs/redis/src",
+    "@app/logger/(.*)": "<rootDir>/../libs/logger/src/$1",
+    "@app/logger": "<rootDir>/../libs/logger/src"
   }
 }

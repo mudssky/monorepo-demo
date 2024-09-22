@@ -1,3 +1,4 @@
+import { ZodValidationPipe } from '@/common/pipes/zod-validation/zod-validation.pipe'
 import {
   Body,
   Controller,
@@ -10,10 +11,9 @@ import {
   UsePipes,
 } from '@nestjs/common'
 import { ApiProperty, ApiTags } from '@nestjs/swagger'
+import { z } from 'zod'
 import { CatsService } from './cats.service'
 import { Cat } from './interfaces/cat.interface'
-import { z } from 'zod'
-import { ZodValidationPipe } from '@/common/pipes/zod-validation/zod-validation.pipe'
 
 export const createCatSchema = z
   .object({

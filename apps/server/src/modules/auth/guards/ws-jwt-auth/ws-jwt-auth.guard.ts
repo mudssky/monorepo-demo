@@ -1,9 +1,9 @@
-import { GlobalLoggerService } from '@/modules/logger/logger.service'
+import { GlobalLoggerService } from '@lib'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { JwtService } from '@nestjs/jwt'
-import { JwtPayload } from '../../types'
 import { Socket } from 'socket.io'
+import { JwtPayload } from '../../types'
 
 /**
  * 从socket.io,发送的header中提取jwt token进行鉴权。
@@ -34,9 +34,7 @@ export class WsJwtAuthGuard implements CanActivate {
     private logger: GlobalLoggerService,
     private reflector: Reflector,
     private jwtService: JwtService,
-  ) {
-    this.logger.setContext({ label: WsJwtAuthGuard.name })
-  }
+  ) {}
   async canActivate(context: ExecutionContext) {
     // Add your custom authentication logic here
     // for example, call super.logIn(request) to establish a session.

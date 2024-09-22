@@ -1,7 +1,7 @@
+import { TerminusLogger } from '@lib'
 import { HttpModule } from '@nestjs/axios'
 import { Module } from '@nestjs/common'
 import { TerminusModule } from '@nestjs/terminus'
-import { TerminusLogger } from '../logger/terminus-logger.service'
 import { PrismaModule } from '../prisma/prisma.module'
 import { HealthController } from './health.controller'
 @Module({

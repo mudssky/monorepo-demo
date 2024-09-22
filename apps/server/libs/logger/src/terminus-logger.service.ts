@@ -1,11 +1,10 @@
-import { ConsoleLogger, Injectable, Scope } from '@nestjs/common'
-import { GlobalLoggerService } from './logger.service'
+import { ConsoleLogger, Injectable, Logger, Scope } from '@nestjs/common'
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class TerminusLogger extends ConsoleLogger {
-  constructor(private readonly logger: GlobalLoggerService) {
+  private readonly logger = new Logger(TerminusLogger.name)
+  constructor() {
     super()
-    this.logger.setContext({ label: TerminusLogger.name })
   }
   error(message: any, stack?: string, context?: string): void
   error(message: any, ...optionalParams: any[]): void

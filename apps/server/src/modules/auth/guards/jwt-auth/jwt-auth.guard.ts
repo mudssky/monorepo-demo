@@ -1,5 +1,5 @@
 import { GuardException } from '@/common/exceptions/guard'
-import { GlobalLoggerService } from '@/modules/logger/logger.service'
+import { GlobalLoggerService } from '@lib'
 import { ExecutionContext, HttpStatus, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { AuthGuard } from '@nestjs/passport'

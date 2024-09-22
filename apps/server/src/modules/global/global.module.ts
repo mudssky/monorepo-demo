@@ -7,7 +7,8 @@ import { GlobalExceptionFilter } from '@/common/filters/http-exception/http-exce
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
 import { EmailModule } from '@/modules/email/email.module'
-import { RedisModule } from '@lib'
+import { commonFileFormat, customLogFormat } from '@app/logger/logger.format'
+import { GlobalLoggerModule, RedisModule } from '@lib'
 import { CacheInterceptor } from '@nestjs/cache-manager'
 import { Global, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
@@ -15,10 +16,10 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { ScheduleModule } from '@nestjs/schedule'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import path from 'path'
+import winston from 'winston'
 import { CasbinAuthGuard } from '../auth/guards/casbin-auth.guard'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
-import { GlobalLoggerModule } from '../logger/logger.module'
 import { PrismaModule } from '../prisma/prisma.module'
 import { SharedService } from './shared.service'
 
@@ -77,7 +78,44 @@ import { SharedService } from './shared.service'
     }),
     PrismaModule,
     CustomCacheModule,
-    GlobalLoggerModule.forRoot(),
+    GlobalLoggerModule.forRootAsync({
+      isGlobal: true,
+      useFactory: async (
+        configService: ConfigService<EnvironmentVariables>,
+      ) => {
+        return {
+          winstonConfig: {
+            level: configService.get('LOG_LEVEL') ?? 'debug',
+            transports: [
+              new winston.transports.File({
+                filename: 'log/error.log',
+                level: 'error',
+                format: commonFileFormat,
+              }),
+              new winston.transports.File({
+                filename: 'log/combined.log',
+                format: commonFileFormat,
+              }),
+              // 开发环境添加控制台输出
+              ...(process.env.NODE_ENV !== 'production'
+                ? [
+                    new winston.transports.Console({
+                      format: winston.format.combine(
+                        winston.format.colorize(),
+                        winston.format.timestamp({
+                          format: 'YYYY-MM-DD HH:mm:ss',
+                        }),
+                        customLogFormat,
+                      ),
+                    }),
+                  ]
+                : []),
+            ],
+          },
+        }
+      },
+      inject: [ConfigService],
+    }),
     ScheduleModule.forRoot(),
     // RedisModule.forRoot(),
     RedisModule.forRootAsync({
