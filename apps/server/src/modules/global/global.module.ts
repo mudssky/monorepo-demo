@@ -7,6 +7,7 @@ import { GlobalExceptionFilter } from '@/common/filters/http-exception/http-exce
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
 import { EmailModule } from '@/modules/email/email.module'
+import { RedisModule } from '@lib'
 import { CacheInterceptor } from '@nestjs/cache-manager'
 import { Global, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
@@ -19,7 +20,6 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
 import { GlobalLoggerModule } from '../logger/logger.module'
 import { PrismaModule } from '../prisma/prisma.module'
-import { RedisModule } from '../redis/redis.module'
 import { SharedService } from './shared.service'
 
 @Global()

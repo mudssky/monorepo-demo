@@ -13,7 +13,10 @@
       {
         "name": "@nestjs/swagger",
         "options": {
-          "dtoFileNameSuffix": [".dto.ts", ".entity.ts"],
+          "dtoFileNameSuffix": [
+            ".dto.ts",
+            ".entity.ts"
+          ],
           "controllerFileNameSuffix": ".controller.ts",
           "classValidatorShim": true,
           "dtoKeyOfComment": "description",
@@ -27,7 +30,19 @@
         "include": "**/*.conf",
         "watchAssets": true
       }
-    ]
+    ],
+    "webpack": true
   },
-  "monorepo": true
+  "monorepo": true,
+  "projects": {
+    "redis": {
+      "type": "library",
+      "root": "libs/redis",
+      "entryFile": "index",
+      "sourceRoot": "libs/redis/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/redis/tsconfig.lib.json"
+      }
+    }
+  }
 }

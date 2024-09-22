@@ -4,11 +4,14 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@app/redis": ["libs/redis/src"],
+      "@app/redis/*": ["libs/redis/src/*"],
+      "@lib": ["libs/index"]
     },
     "composite": true
   },
-  "include": ["test", "src/**/*.ts"],
+  "include": ["test", "src/**/*.ts", "libs/**/*.ts"],
   "watchOptions": {
     "excludeFiles": [
       "node_modules",

@@ -4,6 +4,7 @@ import { DatabaseException } from '@/common/exceptions/database'
 import { EmailService } from '@/modules/email/email.service'
 import { GlobalLoggerService } from '@/modules/logger/logger.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
+import { RedisService } from '@lib'
 import {
   calculatePasswordStrengthLevel,
   generateBase62Code,
@@ -16,7 +17,6 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import * as bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
 import { v4 as uuidV4 } from 'uuid'
-import { RedisService } from '../redis/redis.service'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { UserService } from '../user/user.service'
 import { ChangePasswordDto, LoginDto, SendCaptchaDto } from './dto/auth.dto'

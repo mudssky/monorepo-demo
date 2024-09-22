@@ -14,7 +14,7 @@ export class ShortUrlService {
    * @returns
    */
   async generateCode() {
-    let res: ShortUrl[] = []
+    const res: ShortUrl[] = []
     while (res.length < 1) {
       const str = generateBase62Code(6)
       const uniqueCode = await this.prismaService.shortUrl.findUnique({
@@ -53,7 +53,7 @@ export class ShortUrlService {
     }
     await this.prismaService.shortUrl.update({
       where: {
-        code: uniqueCode?.code!,
+        code: uniqueCode?.code,
       },
       data: {
         longUrl,
