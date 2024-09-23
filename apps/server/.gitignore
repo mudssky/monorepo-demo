@@ -32,7 +32,6 @@ lerna-debug.log*
 # 因为配置了数据库相关
 .env
 prisma/db
-prisma/migrations
 
 # compodoc生成的文档
 documentation
