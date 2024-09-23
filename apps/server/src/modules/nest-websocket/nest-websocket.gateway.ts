@@ -8,11 +8,15 @@ import { CreateNestWebsocketDto } from './dto/create-nest-websocket.dto'
 import { UpdateNestWebsocketDto } from './dto/update-nest-websocket.dto'
 import { NestWebsocketService } from './nest-websocket.service'
 
-@WebSocketGateway(33155, {
+// @WebSocketGateway(33155, {
+//   namespace: 'nest-websocket',
+//   cors: {
+//     origin: '*',
+//   },
+// })
+
+@WebSocketGateway({
   namespace: 'nest-websocket',
-  // cors: {
-  //   origin: '*',
-  // },
 })
 export class NestWebsocketGateway {
   constructor(private readonly nestWebsocketService: NestWebsocketService) {}
