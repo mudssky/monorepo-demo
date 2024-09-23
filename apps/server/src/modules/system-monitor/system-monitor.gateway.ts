@@ -25,9 +25,9 @@ import { Server, Socket } from 'socket.io'
 @UseFilters(new GlobalWsExceptionFilter())
 @WebSocketGateway({
   namespace: '/system-monitor',
-  cors: {
-    origin: '*',
-  },
+  // cors: {
+  //   origin: '*',
+  // },
 })
 export class SystemMonitorGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect

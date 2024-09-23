@@ -7,11 +7,12 @@ import { UserModule } from '@/modules/user/user.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './modules/auth/auth.module'
+import { GroupChatroomDemoModule } from './modules/demos/group-chatroom-demo/group-chatroom-demo.module'
+import { NestWebsocketModule } from './modules/demos/nest-websocket/nest-websocket.module'
 import { GlobalModule } from './modules/global/global.module'
 import { HealthModule } from './modules/health/health.module'
 import { ShortUrlModule } from './modules/short-url/short-url.module'
 import { FileModule } from './modules/upload-file/upload-file.module'
-import { NestWebsocketModule } from './modules/nest-websocket/nest-websocket.module';
 @Module({
   imports: [
     CatsModule,
@@ -26,6 +27,7 @@ import { NestWebsocketModule } from './modules/nest-websocket/nest-websocket.mod
     GlobalModule,
     ShortUrlModule,
     NestWebsocketModule,
+    GroupChatroomDemoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
