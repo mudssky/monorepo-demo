@@ -24,6 +24,7 @@ import { Server, Socket } from 'socket.io'
 
 @UseFilters(new GlobalWsExceptionFilter())
 @WebSocketGateway({
+  namespace: '/system-monitor',
   cors: {
     origin: '*',
   },

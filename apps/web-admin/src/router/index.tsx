@@ -9,6 +9,7 @@ import DndKitDemo from '@/pages/examples/dnd-kit'
 import ReactDndDemo from '@/pages/examples/react-dnd'
 import ReactFlowDemo from '@/pages/examples/react-flow'
 import UploadDemo from '@/pages/examples/upload'
+import WebsocketDemo from '@/pages/examples/web-socket'
 import SystemMonitor from '@/pages/system-monitor'
 
 export interface CustomRouteObject extends NonIndexRouteObject {
@@ -56,6 +57,10 @@ export const routeList = [
   {
     path: '/upload-demo',
     element: <UploadDemo />,
+  },
+  {
+    path: '/websocket-demo',
+    element: <WebsocketDemo />,
   },
 ] as const satisfies CustomRouteObject[]
 

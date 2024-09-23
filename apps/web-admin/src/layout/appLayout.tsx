@@ -69,6 +69,17 @@ const items: MenuItem[] = [
       },
     ],
   },
+  {
+    label: 'websocket',
+    key: 'websocket',
+    icon: <NodeIndexOutlined />,
+    children: [
+      {
+        label: <Link to={'/websocket-demo'}> {'websocket-demo'}</Link>,
+        key: '4-1',
+      },
+    ],
+  },
   getItem('Option 1', '1', <PieChartOutlined />),
   getItem('Option 2', '2', <DesktopOutlined />),
   getItem('User', 'sub1', <UserOutlined />, [

@@ -11,6 +11,7 @@ import { GlobalModule } from './modules/global/global.module'
 import { HealthModule } from './modules/health/health.module'
 import { ShortUrlModule } from './modules/short-url/short-url.module'
 import { FileModule } from './modules/upload-file/upload-file.module'
+import { NestWebsocketModule } from './modules/nest-websocket/nest-websocket.module';
 @Module({
   imports: [
     CatsModule,
@@ -24,6 +25,7 @@ import { FileModule } from './modules/upload-file/upload-file.module'
     // 全局加载的模块，放在一起
     GlobalModule,
     ShortUrlModule,
+    NestWebsocketModule,
   ],
   controllers: [AppController],
   providers: [AppService],
