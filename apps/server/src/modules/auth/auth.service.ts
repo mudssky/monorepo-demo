@@ -9,7 +9,7 @@ import {
   generateBase62Code,
   omit,
 } from '@mudssky/jsutils'
-import { Injectable } from '@nestjs/common'
+import { Injectable, OnModuleInit } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
@@ -24,7 +24,7 @@ import { GoogleAuthInfo } from './strategy/google.strategy'
 import { JwtPayload, LoginRes } from './types'
 
 @Injectable()
-export class AuthService {
+export class AuthService implements OnModuleInit {
   //  private readonly logger = new Logger()
 
   private readonly captchaRedixPrefix = 'captcha_'
@@ -292,5 +292,43 @@ export class AuthService {
       },
     })
     return true
+  }
+
+  async onModuleInit() {
+    await this.initTables()
+  }
+  async initTables() {
+    await this.initUserTable()
+    await this.initCasbinTable()
+  }
+
+  async initCasbinTable() {
+    const casbinRuleCount = await this.prismaService.casbinRule.count()
+    // 初始化一条规则针对管理员
+    if (casbinRuleCount === 0) {
+      await this.prismaService.casbinRule.createMany({
+        data: {
+          ptype: 'p',
+          v0: 'ADMIN',
+          v1: '/*',
+          v2: '(GET|POST|PUT|DELETE|PATCH)',
+        },
+      })
+    }
+  }
+  async initUserTable() {
+    const userCount = await this.prismaService.user.count()
+    if (userCount === 0) {
+      const password = await this.hashPassword('zxc123456')
+      await this.prismaService.user.create({
+        data: {
+          name: 'admin',
+          password,
+          role: 'ADMIN',
+          registryType: 'NORMAL',
+          email: 'admin@163.com',
+        },
+      })
+    }
   }
 }
