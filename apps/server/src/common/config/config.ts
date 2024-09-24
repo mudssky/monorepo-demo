@@ -42,6 +42,10 @@ export class EnvironmentVariables {
   @Transform(({ value }) => parseInt(value), { toClassOnly: true })
   PORT = 33101
 
+  @Expose()
+  /* 初始添加的管理员账号密码 */
+  DEFAUT_ADMIN_PASSWORD
+
   //-----------------------日志相关配置------------------
   @Expose()
   @IsEnum(LogLevel)

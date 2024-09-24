@@ -1,3 +1,4 @@
+import { EnvironmentVariables } from '@/common/config'
 import { MINUTE } from '@/common/constant'
 import { BaseException } from '@/common/exceptions'
 import { DatabaseException } from '@/common/exceptions/database'
@@ -10,6 +11,7 @@ import {
   omit,
 } from '@mudssky/jsutils'
 import { Injectable, OnModuleInit } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
@@ -35,6 +37,7 @@ export class AuthService implements OnModuleInit {
     private readonly jwtService: JwtService,
     private readonly redisService: RedisService,
     private readonly emailService: EmailService,
+    private readonly configService: ConfigService<EnvironmentVariables>,
   ) {}
 
   async hashPassword(password: string) {
@@ -319,7 +322,9 @@ export class AuthService implements OnModuleInit {
   async initUserTable() {
     const userCount = await this.prismaService.user.count()
     if (userCount === 0) {
-      const password = await this.hashPassword('zxc123456')
+      const password = await this.hashPassword(
+        this.configService.get('DEFAUT_ADMIN_PASSWORD') ?? '123456',
+      )
       await this.prismaService.user.create({
         data: {
           name: 'admin',
