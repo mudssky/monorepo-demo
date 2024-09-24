@@ -3,6 +3,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets'
+import { pick } from 'lodash-es'
 import { Server, Socket } from 'socket.io'
 
 @WebSocketGateway({
@@ -17,12 +18,17 @@ export class GroupChatroomDemoGateway {
     client.join(room)
     this.serverSocket
       .to(room)
-      .emit('message', `User ${client.id} joined the room`)
+      .emit('message', {
+        message: `User ${client.id} joined the room`,
+        nickName: 'system',
+      })
   }
 
   @SubscribeMessage('sendMessage')
   sendMessage(client: Socket, payload: any): void {
     console.log({ payload })
-    this.serverSocket.to(payload.room).emit('message', payload.message)
+    this.serverSocket
+      .to(payload.roomName)
+      .emit('message', pick(payload, ['message', 'nickName']))
   }
 }
