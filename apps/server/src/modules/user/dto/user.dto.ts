@@ -25,6 +25,7 @@ export class CreateUserDto implements RegisterReq {
  * 用户信息对象,登录用户可查看的部分
  */
 export class UserDto implements UserDtoType {
+  nickName: string | null
   googleId: string | null
   googleAuthInfo: string | null
   @ApiProperty({
@@ -52,6 +53,8 @@ export class UserDto implements UserDtoType {
 }
 
 export class UpdateUserDto implements UpdateUserDtoType {
+  @ApiProperty()
+  nickName: string | null
   @ApiProperty()
   name: string
   @ApiProperty()

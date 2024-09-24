@@ -39,6 +39,9 @@ export default function UserInfoEditModal(props: Props) {
         >
           <Input></Input>
         </Form.Item>
+        <Form.Item label="昵称" name={'nickName'}>
+          <Input></Input>
+        </Form.Item>
       </Form>
     </Modal>
   )

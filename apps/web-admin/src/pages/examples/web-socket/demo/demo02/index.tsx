@@ -31,7 +31,7 @@ export default function ChatDemo() {
     return () => {
       socket.off('message')
     }
-  }, [])
+  }, [formData?.roomName, message, socket])
 
   const joinRoom = async () => {
     const formValues = await form.validateFields()

@@ -30,7 +30,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
           ptype: 'p',
           v0: 'ADMIN',
           v1: '/*',
-          v2: '(GET|POST)',
+          v2: '(GET|POST|PUT|DELETE|PATCH)',
         },
       })
     }

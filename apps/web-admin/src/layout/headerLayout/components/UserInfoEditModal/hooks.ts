@@ -21,6 +21,7 @@ interface FormValuesType {
   name: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   avatarInfo: any
+  nickName: string
 }
 export function useSetupHook(props: Props) {
   const { open, onSubmitFinish } = props
