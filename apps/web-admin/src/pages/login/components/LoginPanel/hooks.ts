@@ -50,7 +50,9 @@ export function useSetupHook() {
   const jumpGoogleLogin = async () => {
     window.location.href = `${serverHost}/auth/googleLogin`
   }
-
+  function handleJumpForgetPassword() {
+    navigate('/forgetPassword')
+  }
   const handleGithubLogin = async (params: GithubCallbackDto) => {
     const res = await AUTH_GITHUB({
       ...params,
@@ -94,5 +96,6 @@ export function useSetupHook() {
     handleLogin,
     jumpGithubLogin,
     jumpGoogleLogin,
+    handleJumpForgetPassword,
   }
 }

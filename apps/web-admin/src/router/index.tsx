@@ -32,6 +32,11 @@ const notInLayoutRouter = [
   {
     path: '/changePassword',
     element: <Login />,
+    title: '修改密码',
+  },
+  {
+    path: '/forgetPassword',
+    element: <Login />,
     title: '忘记密码',
   },
   // 404页面配置

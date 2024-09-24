@@ -22,6 +22,7 @@ export class GithubCallbackDto {
   code: string
 }
 export class LoginResDto implements LoginRes {
+  nickName: string | null
   googleId: string | null
   googleAuthInfo: string | null
   registryType: $Enums.RegistryType
@@ -60,4 +61,8 @@ export class ChangePasswordDto {
   newPassword: string
   @IsNotEmpty()
   oldPassword: string
+  @IsNotEmpty()
+  captcha: string
+  @IsEmail()
+  email: string
 }

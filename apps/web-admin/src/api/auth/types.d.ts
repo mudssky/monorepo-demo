@@ -2,6 +2,8 @@ import { User } from '@server/node_modules/prisma/prisma-client'
 export type ChangePasswordDto = {
   newPassword: string
   oldPassword: string
+  captcha: string
+  email: string
 }
 
 export interface GithubCallbackDto {

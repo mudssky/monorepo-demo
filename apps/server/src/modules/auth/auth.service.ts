@@ -25,11 +25,18 @@ import { GithubAuthInfo } from './strategy/github.strategy'
 import { GoogleAuthInfo } from './strategy/google.strategy'
 import { JwtPayload, LoginRes } from './types'
 
+const captchaPrefixDict = {
+  login: 'login_',
+  changePassword: 'changePassword_',
+  forgetPassword: 'forgetPassword_',
+  register: 'register_',
+} as const
+export type CaptchaType = keyof typeof captchaPrefixDict
+
 @Injectable()
 export class AuthService implements OnModuleInit {
   //  private readonly logger = new Logger()
 
-  private readonly captchaRedixPrefix = 'captcha_'
   constructor(
     private readonly prismaService: PrismaService,
     private readonly logger: GlobalLoggerService,
@@ -46,6 +53,26 @@ export class AuthService implements OnModuleInit {
     return hash
   }
 
+  joinCaptchaKey(options: { captchaType: CaptchaType; email: string }) {
+    const prefix = captchaPrefixDict[options.captchaType]
+    return `${prefix}${options.email}`
+  }
+
+  async checkCaptcha(options: {
+    captcha: string
+    captchaType: CaptchaType
+    email: string
+  }) {
+    const { captcha, captchaType, email } = options
+    const captchaKey = this.joinCaptchaKey({ captchaType, email })
+    const captchaFromRedis = await this.redisService.get(captchaKey)
+    if (!captcha) {
+      throw new BaseException('验证码已过期')
+    }
+    if (captchaFromRedis !== captcha) {
+      throw new BaseException('验证码错误')
+    }
+  }
   async register(createUserDto: CreateUserDto) {
     const passwordStregth = calculatePasswordStrengthLevel(
       createUserDto.password,
@@ -53,15 +80,11 @@ export class AuthService implements OnModuleInit {
     if (passwordStregth < 2) {
       throw new BaseException('密码强度不足')
     }
-    const captcha = await this.redisService.get(
-      `captcha_${createUserDto.email}`,
-    )
-    if (!captcha) {
-      throw new BaseException('验证码已过期')
-    }
-    if (createUserDto.captcha !== captcha) {
-      throw new BaseException('验证码错误')
-    }
+    await this.checkCaptcha({
+      captcha: createUserDto.captcha,
+      captchaType: 'register',
+      email: createUserDto.email,
+    })
     try {
       const data = await this.prismaService.user.create({
         data: {
@@ -223,8 +246,27 @@ export class AuthService implements OnModuleInit {
     return this.addToken(userData)
   }
 
-  async sendCaptcha(sendCaptchaDto: SendCaptchaDto) {
+  async sendCaptcha(
+    sendCaptchaDto: SendCaptchaDto,
+    options: { captchaType: CaptchaType },
+  ) {
+    const { captchaType } = options
     const code = generateBase62Code(6)
+    let emailHtml = `<p>您的验证码是 ${code}</p>`
+    switch (captchaType) {
+      case 'register':
+        emailHtml = `<p>您的注册验证码是 ${code}</p>`
+        break
+      case 'login':
+        emailHtml = `<p>您的登录验证码是 ${code}</p>`
+        break
+      case 'changePassword':
+        emailHtml = `<p>您的修改密码验证码是 ${code}</p>`
+        break
+      case 'forgetPassword':
+        emailHtml = `<p>您的忘记密码验证码是 ${code}</p>`
+        break
+    }
     try {
       await this.emailService.sendMail({
         from: {
@@ -233,14 +275,13 @@ export class AuthService implements OnModuleInit {
         },
         to: sendCaptchaDto.email,
         subject: 'monorepo-demo 注册验证码',
-        html: `<p>你的注册验证码是 ${code}</p>`,
+        html: emailHtml,
       })
-
-      await this.redisService.set(
-        `${this.captchaRedixPrefix}${sendCaptchaDto.email}`,
-        code,
-        5 * MINUTE,
-      )
+      const captchaKey = this.joinCaptchaKey({
+        captchaType,
+        email: sendCaptchaDto.email,
+      })
+      await this.redisService.set(captchaKey, code, 5 * MINUTE)
     } catch (err) {
       this.logger.error({ msg: '发送验证码失败', error: err })
       throw new BaseException('发送验证码失败')
@@ -259,6 +300,11 @@ export class AuthService implements OnModuleInit {
     if (passwordStregth < 2) {
       throw new BaseException('密码强度不足')
     }
+    await this.checkCaptcha({
+      captcha: changePasswordDto.captcha,
+      captchaType: 'register',
+      email: changePasswordDto.email,
+    })
 
     const currentUser = await this.prismaService.user.findUnique({
       where: { id: userInfo.sub },

@@ -3,8 +3,10 @@ import { Button, Flex, Form, Input, Row, Space } from 'antd'
 import { LangSwitch } from '@/components/LangSwitch'
 import { debugRenderLog } from '@/global/debug'
 import { GithubOutlined, GoogleOutlined } from '@ant-design/icons'
+import { Typography } from 'antd'
 import React from 'react'
 import { useSetupHook } from './hooks'
+const { Text } = Typography
 
 type FieldType = {
   username?: string
@@ -24,6 +26,7 @@ export const LoginPanel = React.memo(function Login() {
     handleLogin,
     jumpGithubLogin,
     jumpGoogleLogin,
+    handleJumpForgetPassword,
   } = useSetupHook()
   console.log({ pathname })
 
@@ -59,6 +62,14 @@ export const LoginPanel = React.memo(function Login() {
             >
               <Input.Password placeholder={t('password')} />
             </Form.Item>
+            <Row justify={'end'} className="h-[16px]">
+              <Text
+                className={'text-gray-400 cursor-pointer'}
+                onClick={handleJumpForgetPassword}
+              >
+                忘记密码?
+              </Text>
+            </Row>
             {/* <Form.Item<FieldType>
               name="remember"
               valuePropName="checked"

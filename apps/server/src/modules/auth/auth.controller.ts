@@ -45,11 +45,31 @@ export class AuthController {
     return this.authService.register(createUserDto)
   }
   @Public()
-  @ApiOperation({ summary: '发送验证码' })
+  @ApiOperation({ summary: '发送注册验证码' })
   @ApiCustomResponse({ type: Boolean })
-  @Post('sendCaptcha')
-  async sendCaptcha(@Body() sendCaptchaDto: SendCaptchaDto) {
-    return this.authService.sendCaptcha(sendCaptchaDto)
+  @Post('sendRegisterCaptcha')
+  async sendRegisterCaptcha(@Body() sendCaptchaDto: SendCaptchaDto) {
+    return this.authService.sendCaptcha(sendCaptchaDto, {
+      captchaType: 'register',
+    })
+  }
+
+  @ApiOperation({ summary: '发送修改密码验证码' })
+  @ApiCustomResponse({ type: Boolean })
+  @Post('sendChangePasswordCaptcha')
+  async sendChangePasswordCaptcha(@Body() sendCaptchaDto: SendCaptchaDto) {
+    return this.authService.sendCaptcha(sendCaptchaDto, {
+      captchaType: 'changePassword',
+    })
+  }
+
+  @ApiOperation({ summary: '发送忘记密码验证码' })
+  @ApiCustomResponse({ type: Boolean })
+  @Post('sendForgetPasswordCaptcha')
+  async sendForgetPasswordCaptcha(@Body() sendCaptchaDto: SendCaptchaDto) {
+    return this.authService.sendCaptcha(sendCaptchaDto, {
+      captchaType: 'forgetPassword',
+    })
   }
 
   /**

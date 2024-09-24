@@ -34,5 +34,6 @@
   "old_password": "旧密码",
   "new password cannot be the same as old password": "新密码不能与旧密码相同",
   "new password and repassword can not be same": "两次输入的密码不能相同",
-  "password strength is not enough": "密码强度过低"
+  "password strength is not enough": "密码强度过低",
+  "back": "返回"
 }

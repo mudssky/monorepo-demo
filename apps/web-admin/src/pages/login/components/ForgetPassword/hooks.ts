@@ -1,5 +1,4 @@
-import { CHANGE_PASSWORD, SEND_CHANGE_PASSWORD_CAPTCHA } from '@/api'
-import { useAppStore } from '@/store/appStore'
+import { CHANGE_PASSWORD } from '@/api'
 import { calculatePasswordStrengthLevel, omit } from '@mudssky/jsutils'
 import { Form, message } from 'antd'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +9,6 @@ export function useSetupHook() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [form] = Form.useForm<FieldType>()
-  const userInfo = useAppStore((state) => state.userInfo)
 
   const handleSubmit = async () => {
     const formValues = await form.validateFields()
@@ -32,27 +30,12 @@ export function useSetupHook() {
     }
     const res = await CHANGE_PASSWORD({
       ...omit(formValues, ['repassword']),
-      email: userInfo?.email,
     })
     console.log({ res })
 
     if (res.code === 0) {
       message.success(t('operation success'))
       navigate('/')
-    } else {
-      message.error(res.msg)
-    }
-  }
-  async function handleSendChangePasswordCaptcha() {
-    if (userInfo?.email) {
-      message.warning('用户邮箱尚未设置')
-      return
-    }
-    const res = await SEND_CHANGE_PASSWORD_CAPTCHA({
-      email: userInfo?.email || '',
-    })
-    if (res.code === 0) {
-      message.success(t('operation success'))
     } else {
       message.error(res.msg)
     }
@@ -67,6 +50,5 @@ export function useSetupHook() {
     navigate,
     handleSubmit,
     handleBack,
-    handleSendChangePasswordCaptcha,
   }
 }

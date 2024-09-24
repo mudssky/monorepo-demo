@@ -51,7 +51,25 @@ export function AUTH_GOOGLE(params: GithubCallbackDto) {
  * @returns
  */
 export function SEND_CAPTCHA(params: SendCaptchaDto) {
-  return noAuthRequest.post('/auth/sendCaptcha', { ...params })
+  return noAuthRequest.post('/auth/sendRegisterCaptcha', { ...params })
+}
+
+/**
+ * 发送忘记密码验证码
+ * @param params
+ * @returns
+ */
+export function SEND_FORGET_PASSWORD_CAPTCHA(params: SendCaptchaDto) {
+  return noAuthRequest.post('/auth/sendForgetPasswordCaptcha', { ...params })
+}
+
+/**
+ * 发送修改密码验证码
+ * @param params
+ * @returns
+ */
+export function SEND_CHANGE_PASSWORD_CAPTCHA(params: SendCaptchaDto) {
+  return noAuthRequest.post('/auth/sendChangePasswordCaptcha', { ...params })
 }
 
 /**
