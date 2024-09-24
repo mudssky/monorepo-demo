@@ -15,6 +15,7 @@ import {
   ApiPaginatedResponse,
 } from '@/common/decorators/swagger'
 import { PaginationDto } from '@/common/dto'
+import { UserInfo } from '../auth/auth.decorator'
 import { JwtPayload } from '../auth/types'
 import { CreateUserDto, UpdateUserDto, UserDto } from './dto/user.dto'
 import { UserService } from './user.service'
@@ -65,5 +66,13 @@ export class UserController {
     return userInfo
   }
 
+  @ApiOperation({ summary: '查询好友列表' })
+  @ApiCustomResponse({
+    type: [UserDto],
+  })
+  @Get('getFriendship')
+  async getFriendship(@UserInfo() userInfo) {
+    return this.userService.getFriendship(userInfo)
+  }
   // TODO 用户管理后续再做，人少的情况下直接编辑数据库就行了。
 }

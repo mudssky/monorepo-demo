@@ -68,8 +68,25 @@ model User {
   googleId       String?      @unique
   /// google 授权信息
   googleAuthInfo String?
+  /// 用户主动添加好友的用户列表
+  friends        Friendship[] @relation("friends")
+  /// 用户被添加好友的用户列表
+  friendBys      Friendship[] @relation("friendBys")
 
   @@index([id])
+}
+
+/// 好友关系表
+model Friendship {
+  user     User   @relation("friends", fields: [userId], references: [id])
+  /// 用户id
+  userId   String
+  // 这里@relation后面跟的名字，指的是外键，也就是用frientId来查friendBys列表
+  /// 好友用户id
+  friend   User   @relation("friendBys", fields: [friendId], references: [id])
+  friendId String
+
+  @@id([userId, friendId])
 }
 
 /// 文件上传表
