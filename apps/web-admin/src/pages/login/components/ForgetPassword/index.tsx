@@ -1,5 +1,5 @@
 import { LangSwitch } from '@/components/LangSwitch'
-import { Button, Form, FormInstance, Input, Row } from 'antd'
+import { Button, Col, Form, FormInstance, Input, Row } from 'antd'
 import PasswordStrengthChecker from '../PasswordStrengthChecker'
 import { useSetupHook } from './hooks'
 
@@ -8,18 +8,20 @@ export interface Props {
 }
 
 export type FieldType = {
-  oldPassword: string
   newPassword: string
   repassword: string
+  captcha: string
+  email: string
 }
 
 export default function ForgetPassword() {
-  const { t, form, handleSubmit, handleBack } = useSetupHook()
+  const { t, form, handleSubmit, handleBack, handleSendForgetPasswordCaptcha } =
+    useSetupHook()
   const currentPasswordWatch = Form.useWatch('newPassword', form)
   return (
     <div className="card glass w-[450px]">
       <div className="card-title justify-center">
-        <span>{t('change password')}</span>
+        <span>{t('forget password')}</span>
         <LangSwitch></LangSwitch>
       </div>
       <div className="card-body">
@@ -30,17 +32,22 @@ export default function ForgetPassword() {
           wrapperCol={{ span: 17 }}
         >
           <Form.Item<FieldType>
-            label={t('old_password')}
-            name="oldPassword"
+            label={t('email')}
+            name="email"
             rules={[
               {
                 required: true,
                 message: t('please input'),
               },
+              {
+                type: 'email',
+                message: t('email_format_error'),
+              },
             ]}
           >
-            <Input.Password maxLength={20} placeholder={t('please input')} />
+            <Input placeholder={t('please input')} />
           </Form.Item>
+
           <Form.Item<FieldType>
             label={t('new_password')}
             name="newPassword"
@@ -75,6 +82,31 @@ export default function ForgetPassword() {
             <Input.Password maxLength={20} placeholder={t('please input')} />
           </Form.Item>
 
+          <Form.Item<FieldType>
+            // label={t('send_captcha')}
+            label={t('captcha')}
+            name="captcha"
+            rules={[
+              {
+                required: true,
+                message: t('please input'),
+              },
+            ]}
+          >
+            <Row justify={'space-between'} gutter={10} wrap={false}>
+              <Col span={12}>
+                <Input placeholder={t('please input')} />
+              </Col>
+              <Col span={12}>
+                <Button
+                  type="primary"
+                  onClick={handleSendForgetPasswordCaptcha}
+                >
+                  {t('send_captcha')}
+                </Button>
+              </Col>
+            </Row>
+          </Form.Item>
           <Button type="primary" htmlType="submit" block onClick={handleSubmit}>
             {t('submit')}
           </Button>

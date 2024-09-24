@@ -1,4 +1,4 @@
-import { CHANGE_PASSWORD } from '@/api'
+import { FORGET_PASSWORD, SEND_FORGET_PASSWORD_CAPTCHA } from '@/api'
 import { calculatePasswordStrengthLevel, omit } from '@mudssky/jsutils'
 import { Form, message } from 'antd'
 import { useTranslation } from 'react-i18next'
@@ -13,10 +13,7 @@ export function useSetupHook() {
   const handleSubmit = async () => {
     const formValues = await form.validateFields()
     console.log({ formValues })
-    if (formValues.oldPassword === formValues.newPassword) {
-      message.warning(t('new password cannot be the same as old password'))
-      return
-    }
+
     if (formValues.newPassword !== formValues.repassword) {
       message.warning(t('new password and repassword can not be same'))
       return
@@ -28,7 +25,7 @@ export function useSetupHook() {
       message.warning(t('password strength is not enough'))
       return
     }
-    const res = await CHANGE_PASSWORD({
+    const res = await FORGET_PASSWORD({
       ...omit(formValues, ['repassword']),
     })
     console.log({ res })
@@ -40,6 +37,24 @@ export function useSetupHook() {
       message.error(res.msg)
     }
   }
+
+  async function handleSendForgetPasswordCaptcha() {
+    const formValues = await form.validateFields(['email'])
+    const { email } = formValues
+    if (!email) {
+      message.warning('邮箱尚未设置')
+      return
+    }
+    const res = await SEND_FORGET_PASSWORD_CAPTCHA({
+      email,
+    })
+    if (res.code === 0) {
+      message.success(t('operation success'))
+    } else {
+      message.error(res.msg)
+    }
+  }
+
   function handleBack() {
     navigate(-1)
   }
@@ -50,5 +65,6 @@ export function useSetupHook() {
     navigate,
     handleSubmit,
     handleBack,
+    handleSendForgetPasswordCaptcha,
   }
 }

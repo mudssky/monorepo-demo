@@ -66,3 +66,7 @@ export class ChangePasswordDto {
   @IsEmail()
   email: string
 }
+
+export class ForgetPasswordDto extends OmitType(ChangePasswordDto, [
+  'oldPassword',
+]) {}

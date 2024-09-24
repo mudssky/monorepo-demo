@@ -5,6 +5,7 @@ export type ChangePasswordDto = {
   captcha: string
   email: string
 }
+export type ForgetPasswordDto = Omit<ChangePasswordDto, 'oldPassword'>
 
 export interface GithubCallbackDto {
   code: string

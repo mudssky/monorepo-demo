@@ -36,5 +36,7 @@
   "new password cannot be the same as old password": "new password cannot be the same as old password",
   "new password and repassword can not be same": "new password and repassword can not be same",
   "password strength is not enough": "password strength is not enough",
-  "back": "go back"
+  "back": "go back",
+  "email_format_error": "email format error",
+  "forget password": "forget password"
 }

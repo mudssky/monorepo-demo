@@ -59,10 +59,11 @@ export const LoginPanel = React.memo(function Login() {
               rules={[
                 { required: true, message: t('please-input-your-password') },
               ]}
+              className="mb-0"
             >
               <Input.Password placeholder={t('password')} />
             </Form.Item>
-            <Row justify={'end'} className="h-[16px]">
+            <Row justify={'end'} className="h-[16px] mb-[10px]">
               <Text
                 className={'text-gray-400 cursor-pointer'}
                 onClick={handleJumpForgetPassword}

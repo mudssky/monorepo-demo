@@ -16,6 +16,7 @@ import { Public, UserInfo } from './auth.decorator'
 import { AuthService } from './auth.service'
 import {
   ChangePasswordDto,
+  ForgetPasswordDto,
   GithubCallbackDto,
   LoginDto,
   LoginResDto,
@@ -101,6 +102,18 @@ export class AuthController {
   ) {
     return this.authService.changePassword(changePasswordDto, userInfo)
   }
+
+  @Public()
+  @ApiOperation({ summary: '忘记密码' })
+  @ApiBody({ type: ForgetPasswordDto })
+  @ApiCustomResponse({
+    type: Boolean,
+  })
+  @Post('forgetPassword')
+  async forgetPassword(@Body() changePasswordDto: ForgetPasswordDto) {
+    return this.authService.forgetPassword(changePasswordDto)
+  }
+
   /**
    *
    * 两个方法，githubLogin仅用于重定向授权页面，

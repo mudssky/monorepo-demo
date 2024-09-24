@@ -6,6 +6,7 @@ import { message } from 'antd'
 import { t } from 'i18next'
 import {
   ChangePasswordDto,
+  ForgetPasswordDto,
   GithubCallbackDto,
   LoginReq,
   LoginRes,
@@ -79,4 +80,13 @@ export function SEND_CHANGE_PASSWORD_CAPTCHA(params: SendCaptchaDto) {
  */
 export function CHANGE_PASSWORD(params: ChangePasswordDto) {
   return request.post('/auth/changePassword', { ...params })
+}
+
+/**
+ * 忘记密码（重置密码）
+ * @param params
+ * @returns
+ */
+export function FORGET_PASSWORD(params: ForgetPasswordDto) {
+  return request.post('/auth/forgetPassword', { ...params })
 }

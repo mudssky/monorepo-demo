@@ -20,7 +20,12 @@ import dayjs from 'dayjs'
 import { v4 as uuidV4 } from 'uuid'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { UserService } from '../user/user.service'
-import { ChangePasswordDto, LoginDto, SendCaptchaDto } from './dto/auth.dto'
+import {
+  ChangePasswordDto,
+  ForgetPasswordDto,
+  LoginDto,
+  SendCaptchaDto,
+} from './dto/auth.dto'
 import { GithubAuthInfo } from './strategy/github.strategy'
 import { GoogleAuthInfo } from './strategy/google.strategy'
 import { JwtPayload, LoginRes } from './types'
@@ -338,6 +343,32 @@ export class AuthService implements OnModuleInit {
       where: { id: userInfo.sub },
       data: {
         password: await this.hashPassword(changePasswordDto.newPassword),
+      },
+    })
+    return true
+  }
+
+  async forgetPassword(forgetPasswordDto: ForgetPasswordDto) {
+    // throw new Error('Method not implemented.')
+    await this.checkCaptcha({
+      captcha: forgetPasswordDto.captcha,
+      captchaType: 'forgetPassword',
+      email: forgetPasswordDto.email,
+    })
+    const currentUser = await this.prismaService.user.findUnique({
+      where: { email: forgetPasswordDto.email },
+      omit: {
+        password: false,
+      },
+    })
+    if (!currentUser) {
+      throw new BaseException('用户不存在')
+    }
+
+    await this.prismaService.user.update({
+      where: { id: forgetPasswordDto.email },
+      data: {
+        password: await this.hashPassword(forgetPasswordDto.newPassword),
       },
     })
     return true
