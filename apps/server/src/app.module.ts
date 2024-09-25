@@ -13,6 +13,7 @@ import { GlobalModule } from './modules/global/global.module'
 import { HealthModule } from './modules/health/health.module'
 import { ShortUrlModule } from './modules/short-url/short-url.module'
 import { FileModule } from './modules/upload-file/upload-file.module'
+import { FriendshipModule } from './modules/friendship/friendship.module';
 @Module({
   imports: [
     CatsModule,
@@ -28,6 +29,7 @@ import { FileModule } from './modules/upload-file/upload-file.module'
     ShortUrlModule,
     NestWebsocketModule,
     GroupChatroomDemoModule,
+    FriendshipModule,
   ],
   controllers: [AppController],
   providers: [AppService],

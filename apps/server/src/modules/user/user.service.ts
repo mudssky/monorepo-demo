@@ -3,7 +3,6 @@ import { BaseException } from '@/common/exceptions'
 import { PrismaService } from '@/modules/prisma/prisma.service'
 import { Injectable, Logger } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
-import { JwtPayload } from '../auth/types'
 import { SharedService } from '../global/shared.service'
 import { UserDtoType } from './types'
 
@@ -37,45 +36,6 @@ export class UserService {
     return vo
   }
 
-  async getFriendship(userInfo: JwtPayload) {
-    // 查询朋友关系表，获取所有和当前用户相关的关系列表
-    const friends = await this.prismaService.friendship.findMany({
-      where: {
-        OR: [
-          {
-            userId: userInfo.sub,
-          },
-          {
-            friendId: userInfo.sub,
-          },
-        ],
-      },
-    })
-    const idSet = new Set<string>()
-    // 无论对方加你还是你加对方，都属于两个人的好友列表
-    for (let i = 0; i < friends.length; i++) {
-      idSet.add(friends[i].userId)
-      idSet.add(friends[i].friendId)
-    }
-    // 过滤掉用户自身id
-    idSet.delete(userInfo.sub)
-    const friendIds = Array.from(idSet)
-    const friendsList = await this.prismaService.user.findMany({
-      where: {
-        id: {
-          in: friendIds,
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        nickName: true,
-        email: true,
-      },
-    })
-
-    return friendsList
-  }
   async createUser(data: Prisma.UserCreateInput): Promise<User> {
     const user = await this.prismaService.user.create({
       data,

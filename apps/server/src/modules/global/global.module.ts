@@ -9,7 +9,6 @@ import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-va
 import { EmailModule } from '@/modules/email/email.module'
 import { commonFileFormat, customLogFormat } from '@app/logger/logger.format'
 import { GlobalLoggerModule, RedisModule } from '@lib'
-import { CacheInterceptor } from '@nestjs/cache-manager'
 import { Global, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
@@ -173,10 +172,11 @@ import { SharedService } from './shared.service'
       useClass: CasbinAuthGuard,
     },
     // 所有GET请求加缓存
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
-    },
+    // 有的GET请求执行的是操作，不能缓存
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: CacheInterceptor,
+    // },
     {
       provide: APP_FILTER,
       useClass: GlobalExceptionFilter,
