@@ -15,6 +15,7 @@
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.2",
     "@mudssky/prettier-config-custom": "workspace:*",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^20.12.7",
