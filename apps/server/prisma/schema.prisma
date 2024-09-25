@@ -89,6 +89,7 @@ model Friendship {
   @@id([userId, friendId])
 }
 
+/// 好友申请表
 model FriendRequest {
   id         String   @id @default(uuid(7))
   /// 请求发送者
@@ -110,6 +111,29 @@ model FriendRequest {
   // status     Int      @db.SmallInt()
   createTime DateTime @default(now())
   updateTime DateTime @updatedAt
+}
+
+/// 聊天室类型
+enum ChatRoomType {
+  GROUP //群聊
+  SINGLE //私聊
+}
+
+/// 聊天室表
+model Chatroom {
+  id        String       @id @default(uuid(7))
+  name      String
+  type      ChatRoomType @default(SINGLE)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+/// 用户所在的聊天室
+model UserChatroom {
+  userId     String
+  chatroomId String
+
+  @@id([userId, chatroomId])
 }
 
 /// 文件上传表
