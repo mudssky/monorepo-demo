@@ -14,6 +14,7 @@ import { HealthModule } from './modules/health/health.module'
 import { ShortUrlModule } from './modules/short-url/short-url.module'
 import { FileModule } from './modules/upload-file/upload-file.module'
 import { FriendshipModule } from './modules/friendship/friendship.module';
+import { ChatroomModule } from './modules/chatroom/chatroom.module';
 @Module({
   imports: [
     CatsModule,
@@ -30,6 +31,7 @@ import { FriendshipModule } from './modules/friendship/friendship.module';
     NestWebsocketModule,
     GroupChatroomDemoModule,
     FriendshipModule,
+    ChatroomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
