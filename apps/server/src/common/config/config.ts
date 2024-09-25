@@ -1,7 +1,8 @@
-import { splitAndTrim } from '@/common/utils'
+import { parseBoolString, splitAndTrim } from '@/common/utils'
 import { ConfigService } from '@nestjs/config'
 import { Expose, Transform, plainToInstance } from 'class-transformer'
 import {
+  IsBoolean,
   IsEmail,
   IsEnum,
   IsIP,
@@ -45,6 +46,11 @@ export class EnvironmentVariables {
   @Expose()
   /* 初始添加的管理员账号密码 */
   DEFAUT_ADMIN_PASSWORD
+
+  @Expose()
+  @Transform(({ value }) => parseBoolString(value, true), { toClassOnly: true })
+  @IsBoolean()
+  ENABLE_CHECK_CAPTCHA = true
 
   //-----------------------日志相关配置------------------
   @Expose()
@@ -187,6 +193,7 @@ export function validate(config: Record<string, unknown>) {
   const errors = validateSync(validatedConfig, { skipMissingProperties: false })
   if (errors.length > 0) {
     console.log({ errors })
+    console.log({ validatedConfig })
     throw new Error(errors.toString())
   }
   return validatedConfig

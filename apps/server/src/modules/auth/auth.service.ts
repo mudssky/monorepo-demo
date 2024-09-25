@@ -68,6 +68,10 @@ export class AuthService implements OnModuleInit {
     captchaType: CaptchaType
     email: string
   }) {
+    // 关闭验证码配置，这样方便开发环境调试添加用户
+    if (!this.configService.get('ENABLE_CHECK_CAPTCHA')) {
+      return
+    }
     const { captcha, captchaType, email } = options
     const captchaKey = this.joinCaptchaKey({ captchaType, email })
     const captchaFromRedis = await this.redisService.get(captchaKey)
@@ -85,11 +89,11 @@ export class AuthService implements OnModuleInit {
     if (passwordStregth < 2) {
       throw new BaseException('密码强度不足')
     }
-    // await this.checkCaptcha({
-    //   captcha: createUserDto.captcha,
-    //   captchaType: 'register',
-    //   email: createUserDto.email,
-    // })
+    await this.checkCaptcha({
+      captcha: createUserDto.captcha,
+      captchaType: 'register',
+      email: createUserDto.email,
+    })
     try {
       const data = await this.prismaService.user.create({
         data: {
