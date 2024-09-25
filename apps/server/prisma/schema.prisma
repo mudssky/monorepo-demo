@@ -89,6 +89,29 @@ model Friendship {
   @@id([userId, friendId])
 }
 
+model FriendRequest {
+  id         String   @id @default(uuid(7))
+  /// 请求发送者
+  fromUserId String
+  /// 请求接收者
+  toUserId   String
+  /// 添加理由
+  reason     String
+  // 枚举数据类型的使用
+  // 1. 固定不变的场合可以使用enum，比如男女，星期等，因为枚举的调整要修改表结构，
+  // 数据量大了分库分表以后，操作会很麻烦
+  // 2. 大部分情况使用tinyInt 或者varchar，tinyInt在mysql中性能会更好一些，但是可读性更差
+  // 还有一种char类型，类似varchar，少两个头部字节，适合枚举长度确定的情况，后续增加长度要改表结构。
+  // 使用tinyInt有个技巧，就是使用类似下面这种有间隔的值，而不是连续值，方便中间插入状态
+  // postgreSql中类似的类型是 SmallInt 2字节(+- 2**15) Integer 4字节 (+- 2**31)
+  // 因为用SmallInt不方便迁移到其他数据库，所以还是用Int吧
+  /// 请求状态 10.请求中，20.已同意，30.已拒绝
+  status     Int
+  // status     Int      @db.SmallInt()
+  createTime DateTime @default(now())
+  updateTime DateTime @updatedAt
+}
+
 /// 文件上传表
 model UploadFiles {
   id               String   @id @default(uuid(7))
