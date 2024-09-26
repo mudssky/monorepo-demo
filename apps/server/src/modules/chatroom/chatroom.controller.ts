@@ -1,5 +1,5 @@
 import { BaseException } from '@/common/exceptions'
-import { Controller, Get, Query } from '@nestjs/common'
+import { Controller, Get, Param, Query } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { UserInfo } from '../auth'
 import { ChatroomService } from './chatroom.service'
@@ -52,5 +52,36 @@ export class ChatroomController {
       throw new BaseException('chatroomId 不能为空')
     }
     return this.chatroomService.getRoomMemberList(chatroomId)
+  }
+
+  @ApiOperation({ summary: '获取聊天室所有信息' })
+  @Get('getChatroomInfo')
+  async getChatroomInfo(@Query('chatroomId') chatroomId: string) {
+    if (!chatroomId) {
+      throw new BaseException('chatroomId 不能为空')
+    }
+    return this.chatroomService.getChatroomInfo(chatroomId)
+  }
+
+  @ApiOperation({ summary: '获取聊天室所有信息' })
+  @Get('join/:id')
+  async joinRoom(
+    @Param('id') chatroomId: string,
+    @UserInfo('sub') userId: string,
+  ) {
+    if (!chatroomId) {
+      throw new BaseException('chatroomId 不能为空')
+    }
+    return this.chatroomService.joinRoom({ chatroomId, userId })
+  }
+
+  async quitRoom(
+    @Param('id') chatroomId: string,
+    @UserInfo('sub') userId: string,
+  ) {
+    if (!chatroomId) {
+      throw new BaseException('chatroomId 不能为空')
+    }
+    return this.chatroomService.quitRoom({ chatroomId, userId })
   }
 }
