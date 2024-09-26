@@ -60,8 +60,15 @@ async function setupSwagger(app: INestApplication<any>) {
   SwaggerModule.setup('docs', app, document, {
     // explorer: true,
     // http://localhost:33101/docs/swagger.json
-    jsonDocumentUrl: 'docs/swagger.json',
+    jsonDocumentUrl: 'docs/json',
     swaggerOptions: {
+      // 搭配explorer使用，可以在顶部展示选择框选择不同的文档
+      // urls: [
+      //   {
+      //     name: 'admin',
+      //     url: 'docs/swagger.json',
+      //   },
+      // ],
       docExpansion: 'list', //文档展开配置(默认是列表展开)  "list", "full", "none"
       defaultModelsExpandDepth: 0, //配置schema列表默认的展开深度， 默认是1,设为-1是完全隐藏,这里设为0，默认是折叠状态比较好，因为这个用的不多
       defaultModelExpandDepth: 5, //配置response之类地方schema默认展开深度，默认是1,设为-1是完全隐藏
