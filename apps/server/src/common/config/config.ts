@@ -52,6 +52,20 @@ export class EnvironmentVariables {
   @IsBoolean()
   ENABLE_CHECK_CAPTCHA = true
 
+  // #-----------------------oss相关配置---------------
+
+  @Expose()
+  MINIO_ENDPOINT = 'localhost'
+  @Expose()
+  @Transform(({ value }) => parseInt(value), { toClassOnly: true })
+  @IsPortNum()
+  MINIO_PORT = 9000
+  @Expose()
+  MINIO_ACCESS_KEY
+  @Expose()
+  MINIO_SECRET_KEY
+  @Expose()
+  MINIO_PROJECT_BUCKET
   //-----------------------日志相关配置------------------
   @Expose()
   @IsEnum(LogLevel)

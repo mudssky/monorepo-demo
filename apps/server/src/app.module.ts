@@ -15,6 +15,7 @@ import { ShortUrlModule } from './modules/short-url/short-url.module'
 import { FileModule } from './modules/upload-file/upload-file.module'
 import { FriendshipModule } from './modules/friendship/friendship.module';
 import { ChatroomModule } from './modules/chatroom/chatroom.module';
+import { MinioModule } from './modules/minio/minio.module';
 @Module({
   imports: [
     CatsModule,
@@ -32,6 +33,7 @@ import { ChatroomModule } from './modules/chatroom/chatroom.module';
     GroupChatroomDemoModule,
     FriendshipModule,
     ChatroomModule,
+    MinioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
