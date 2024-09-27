@@ -70,6 +70,13 @@ export default defineConfig(({ mode }) => {
         ...vendorRollupOption,
       },
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+        },
+      },
+    },
     plugins: [
       react(),
       tsChecker({
