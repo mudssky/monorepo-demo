@@ -3,7 +3,7 @@ import { DownOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Dropdown, Layout, LayoutProps, MenuProps, Space } from 'antd'
 import UserInfoEditModal from './components/UserInfoEditModal'
 import { useSetupHook } from './hooks'
-interface Props extends LayoutProps {}
+type Props = LayoutProps
 export default function HeaderLayout(props: Props) {
   const {
     userInfo,

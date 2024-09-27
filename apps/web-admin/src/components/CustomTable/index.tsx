@@ -1,6 +1,6 @@
 import { Table, TableProps } from 'antd'
- 
-interface Props<RecordType> extends TableProps<RecordType> {}
+
+type Props<RecordType> = TableProps<RecordType>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function CustomTable<RecordType extends object = any>(

@@ -91,7 +91,7 @@ export function handleDownloadProgress(progressEvent: AxiosProgressEvent) {
   console.log(progressMsg)
 }
 
-export interface CustomInterceptorOptions extends AxiosInterceptorOptions {}
+export type CustomInterceptorOptions = AxiosInterceptorOptions
 
 export type CustomInterceptor<V> = [
   onFulfilled?: ((value: V) => V | Promise<V>) | null,

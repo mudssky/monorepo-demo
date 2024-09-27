@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { GlobalStorage } from '@/global/storage'
-import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client'
 import { singletonProxy } from '@mudssky/jsutils'
+import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client'
 
-interface CustomSocketIOOptions
-  extends Partial<ManagerOptions & SocketOptions> {}
+type CustomSocketIOOptions = Partial<ManagerOptions & SocketOptions>
 
 class CustomSocketIO {
   public socket: Socket

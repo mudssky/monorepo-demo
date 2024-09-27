@@ -1,7 +1,7 @@
 import { App, ConfigProvider } from 'antd'
 import { ConfigProviderProps } from 'antd/es/config-provider'
 
-interface Props extends ConfigProviderProps {}
+type Props = ConfigProviderProps
 
 export default function CustomAntdConfigProvider(props: Props) {
   const { children } = props

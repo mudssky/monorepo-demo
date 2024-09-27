@@ -3,10 +3,7 @@ import { GarbageBin } from './components/GarbageBin'
 import { List } from './components/List'
 import { NewItem } from './components/NewItem'
 
-interface TodoListProps {}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const TodoList: React.FC<TodoListProps> = (_props) => {
+export const TodoList: React.FC = () => {
   return (
     <div
       className={clsx(
