@@ -36,6 +36,11 @@ export class ShortUrlService {
 
   @Cron(CronExpression.EVERY_DAY_AT_4AM)
   async bactchGenerateCode() {
+    const shortUrlCount = await this.prismaService.shortUrl.count()
+    // 数量达到侯就不需要继续生成了
+    if (shortUrlCount > 10000) {
+      return
+    }
     for (let i = 0; i < 10000; i++) {
       await this.generateCode()
     }
