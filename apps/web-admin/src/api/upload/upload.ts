@@ -1,6 +1,6 @@
 import request, { CustomRequestConfig } from '@/request/request'
 import { $Enums } from '@server/node_modules/@prisma/client/index'
-import { FileInfo } from './types'
+import { FileInfo, PresignedUrlParam } from './types'
 interface UploadSingleParam {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   file: any
@@ -55,4 +55,13 @@ interface MergeChunkParam extends Partial<Pick<UploadSingleParam, 'fileTag'>> {
  */
 export function MERGE_CHUNKS(params: MergeChunkParam) {
   return request.post('/upload-file/mergeChunks', params)
+}
+
+/**
+ * 上传oss获取授权好的put url
+ * @param params
+ * @returns
+ */
+export function PRESIGNED_PUT_URL(params: PresignedUrlParam) {
+  return request.post<string>('/upload-file/presignedPutUrl', params)
 }

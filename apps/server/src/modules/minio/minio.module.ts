@@ -2,12 +2,10 @@ import { EnvironmentVariables } from '@/common/config'
 import { Global, Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as Minio from 'minio'
-import { MinioController } from './minio.controller'
 import { MinioService } from './minio.service'
 
 @Global()
 @Module({
-  controllers: [MinioController],
   providers: [
     MinioService,
     {
@@ -26,5 +24,6 @@ import { MinioService } from './minio.service'
       inject: [ConfigService],
     },
   ],
+  exports: [MinioService],
 })
 export class MinioModule {}

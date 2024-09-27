@@ -3,7 +3,7 @@ import { $Enums, FileTag, UploadFiles } from '@prisma/client'
 import { Transform } from 'class-transformer'
 import { IsEnum, IsInt, IsOptional } from 'class-validator'
 
-export class CreateFileDto implements UploadFiles {
+export class CreateFileDto implements Omit<UploadFiles, 'storageType'> {
   @ApiProperty()
   originalFilename: string
   id: string

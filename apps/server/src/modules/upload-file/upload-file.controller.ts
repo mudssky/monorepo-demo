@@ -12,7 +12,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { PresignedUrlParamDto } from '../minio/dto/minio.dto'
+import { MinioService } from '../minio/minio.service'
 import {
   FileUploadDto,
   FilesUploadDto,
@@ -25,7 +27,11 @@ import { UploadFileService } from './upload-file.service'
 @ApiTags('文件上传')
 @Controller('upload-file')
 export class FileController {
-  constructor(private readonly uploadFileService: UploadFileService) {}
+  constructor(
+    private readonly uploadFileService: UploadFileService,
+
+    private readonly minioService: MinioService,
+  ) {}
 
   // multer支持处理multipart/form-data 格式的文件上传
   @Post('uploadSingleFile')
@@ -127,4 +133,12 @@ export class FileController {
   // uploadFile(@UploadedFiles() files: Array<Express.Multer.File>) {
   //   console.log(files);
   // }
+
+  @ApiOperation({
+    summary: '获取 minio 预签名的上传URL,前端采用put方式可上传',
+  })
+  @Post('presignedPutUrl')
+  async presignedPutUrl(@Body() presignedUrlParamDto: PresignedUrlParamDto) {
+    return await this.minioService.presignedPutUrl(presignedUrlParamDto)
+  }
 }

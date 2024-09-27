@@ -6,6 +6,7 @@ import {
   IsEmail,
   IsEnum,
   IsIP,
+  IsNotEmpty,
   IsNumberString,
   IsString,
   validateSync,
@@ -65,6 +66,7 @@ export class EnvironmentVariables {
   @Expose()
   MINIO_SECRET_KEY
   @Expose()
+  @IsNotEmpty()
   MINIO_PROJECT_BUCKET
   //-----------------------日志相关配置------------------
   @Expose()

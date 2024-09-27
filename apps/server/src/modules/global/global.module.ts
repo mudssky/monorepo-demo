@@ -19,6 +19,7 @@ import winston from 'winston'
 import { CasbinAuthGuard } from '../auth/guards/casbin-auth.guard'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
+import { MinioModule } from '../minio/minio.module'
 import { PrismaModule } from '../prisma/prisma.module'
 import { SharedService } from './shared.service'
 
@@ -41,12 +42,12 @@ import { SharedService } from './shared.service'
       useFactory: (configService: ConfigService<EnvironmentVariables>) => {
         const staticFolder = configService.get('STATIC_DIR')
         // const uploadTemp = configService.get('UPLOAD_TEMP')
-
+        const rootPath = path.join(__dirname, '../', staticFolder)
         // 可以配置多个静态目录
         return [
           {
             //放到global模块后路径加了2层
-            rootPath: path.join(__dirname, '../../../', staticFolder),
+            rootPath,
             //服务器根路径配置
             serveRoot: `/${staticFolder}`,
             serveStaticOptions: {
@@ -151,6 +152,7 @@ import { SharedService } from './shared.service'
       },
       inject: [ConfigService],
     }),
+    MinioModule,
   ],
   providers: [
     {

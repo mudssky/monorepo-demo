@@ -24,6 +24,7 @@ export default function UserInfoEditModal(props: Props) {
           <CustomUpload
             listType="picture-circle"
             showUploadList={false}
+            ossPrefix="/avatar"
             // customRequest={}
           ></CustomUpload>
         </Form.Item>
