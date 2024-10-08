@@ -23,7 +23,7 @@ export interface Props extends UploadProps {
  */
 function generateOssFileName(options: { extName: string }) {
   const timeStamp = new Date().getTime()
-  return `${timeStamp}${generateBase62Code(10)}${options.extName}`
+  return `${timeStamp}${generateBase62Code(10)}.${options.extName}`
 }
 export default function CustomUpload(props: Props) {
   const [loading, setLoading] = useState(false)
@@ -31,7 +31,7 @@ export default function CustomUpload(props: Props) {
   // const [first, setfirst] = useState(second)
   const {
     listType = 'picture-card',
-    ossPrefix = '/avatar',
+    ossPrefix = 'avatar',
     value,
     uploadButton,
     onChange: onValueChange,
@@ -47,15 +47,10 @@ export default function CustomUpload(props: Props) {
 
   const currentButton = uploadButton ?? defaultButton
 
-  // useEffect(() => {
-  //   console.log({ value })
-
-  //   return () => {}
-  // }, [value])
-
   const customProps: UploadProps = {
-    customRequest: async (options) => {
-      const fileExt = getFileExt(options.filename ?? '')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    customRequest: async (options: any) => {
+      const fileExt = getFileExt(options?.file?.name ?? '')
       const newFileName = generateOssFileName({
         extName: fileExt,
       })
