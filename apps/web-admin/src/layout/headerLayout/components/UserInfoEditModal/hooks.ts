@@ -28,6 +28,7 @@ export function useSetupHook(props: Props) {
   const [form] = Form.useForm<FormValuesType>()
   const userInfo = useAppStore((state) => state.userInfo)
   const setUserInfo = useAppStore((state) => state.setUserInfo)
+  const getUserInfo = useAppStore((state) => state.getUserInfo)
   const [isConfirmLoading, setIsConfirmLoading] = useState(false)
   const { t } = useTranslation()
 
@@ -40,9 +41,13 @@ export function useSetupHook(props: Props) {
           avatarFullUrl: userInfo?.avatarFullUrl,
         },
       })
+    } else {
+      // 关闭后，更新下用户信息
+      getUserInfo()
     }
 
     return () => {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form, open, userInfo])
 
   const handleEditSubmit = async () => {

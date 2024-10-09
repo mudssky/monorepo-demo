@@ -12,7 +12,7 @@ export interface AvaterInfo {
 export interface Props extends UploadProps {
   uploadButton?: ReactNode
   value?: AvaterInfo
-  ossPrefix: '/avatar'
+  ossPrefix: 'avatar'
 }
 
 /**
