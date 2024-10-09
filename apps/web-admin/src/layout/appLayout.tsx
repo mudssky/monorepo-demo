@@ -80,6 +80,17 @@ const items: MenuItem[] = [
       },
     ],
   },
+  {
+    label: '聊天室',
+    key: 'chatroom',
+    icon: <NodeIndexOutlined />,
+    children: [
+      {
+        label: <Link to={'/chatroom'}> {'chatroom'}</Link>,
+        key: '5-1',
+      },
+    ],
+  },
   getItem('Option 1', '1', <PieChartOutlined />),
   getItem('Option 2', '2', <DesktopOutlined />),
   getItem('User', 'sub1', <UserOutlined />, [

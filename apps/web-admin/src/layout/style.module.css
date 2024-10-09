@@ -1,6 +1,3 @@
-
-
-
 .layout-container {
-	@apply  h-screen w-screen;
+  @apply h-screen w-screen;
 }

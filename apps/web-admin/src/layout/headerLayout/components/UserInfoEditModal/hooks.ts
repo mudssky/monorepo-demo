@@ -48,7 +48,7 @@ export function useSetupHook(props: Props) {
 
     return () => {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form, open, userInfo])
+  }, [open])
 
   const handleEditSubmit = async () => {
     const formValues = await form.validateFields()

@@ -11,11 +11,13 @@ import ReactFlowDemo from '@/pages/examples/react-flow'
 import UploadDemo from '@/pages/examples/upload'
 import WebsocketDemo from '@/pages/examples/web-socket'
 import SystemMonitor from '@/pages/system-monitor'
+import { chatroomRouter } from './chatroom'
 
 export interface CustomRouteObject extends NonIndexRouteObject {
   title?: string // 路由标题
   needAuth?: boolean // 是否需要鉴权
   // 导航条返回上一页的url
+  children?: CustomRouteObject[]
 }
 
 const notInLayoutRouter = [
@@ -46,6 +48,7 @@ const notInLayoutRouter = [
     title: '404',
   },
 ] as const satisfies CustomRouteObject[]
+
 export const routeList = [
   {
     path: '/react-dnd-demo',
@@ -67,6 +70,7 @@ export const routeList = [
     path: '/websocket-demo',
     element: <WebsocketDemo />,
   },
+  chatroomRouter,
 ] as const satisfies CustomRouteObject[]
 
 export const globalRouter = createBrowserRouter([
