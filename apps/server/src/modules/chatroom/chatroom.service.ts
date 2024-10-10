@@ -3,6 +3,8 @@ import { generateBase62Code } from '@mudssky/jsutils'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import {
+  ChatRoomListResDto,
+  ChatroomQueryDto,
   CreateGroupChatroomDto,
   CreateSingleChatroomDto,
 } from './dto/create-chatroom.dto'
@@ -91,7 +93,8 @@ export class ChatroomService {
     })
     return users
   }
-  async getRoomList(userId: string) {
+  async getRoomList(userId: string, chatroomQueryDto: ChatroomQueryDto) {
+    // 查找用户相关的所有房间id
     const chatroomIds = await this.prismaService.userChatroom.findMany({
       where: {
         userId,
@@ -100,23 +103,40 @@ export class ChatroomService {
         chatroomId: true,
       },
     })
-    const res: any[] = []
-    for (let i = 0; i < chatroomIds.length; i++) {
+
+    // 查找房间id相关的房间信息
+    const chatrooms = await this.prismaService.chatroom.findMany({
+      where: {
+        id: {
+          in: chatroomIds.map((item) => item.chatroomId),
+        },
+        name: {
+          contains: chatroomQueryDto?.roomName ?? '',
+        },
+      },
+      // omit: {
+      //   type: true,
+      // },
+    })
+    // 查找房间相关的用户信息
+    const res: ChatRoomListResDto[] = []
+
+    for (let i = 0; i < chatrooms.length; i++) {
+      const chatroom = chatrooms[i]
       const userIds = await this.prismaService.userChatroom.findMany({
         where: {
-          chatroomId: chatroomIds[i].chatroomId,
+          chatroomId: chatroom.id,
         },
         select: {
           userId: true,
         },
       })
       res.push({
-        ...chatroomIds[i],
-        userCount: userIds.length,
+        ...chatroom,
         userIds: userIds.map((item) => item.userId),
+        userCount: userIds.length,
       })
     }
-
     return res
     // const chatrooms = await this.prismaService.chatroom.findMany({
     //   where: {

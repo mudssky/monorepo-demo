@@ -1,9 +1,12 @@
+import { ApiCustomResponse } from '@/common/decorators/swagger'
 import { BaseException } from '@/common/exceptions'
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { UserInfo } from '../auth'
 import { ChatroomService } from './chatroom.service'
 import {
+  ChatRoomListResDto,
+  ChatroomQueryDto,
   CreateGroupChatroomDto,
   CreateSingleChatroomDto,
 } from './dto/create-chatroom.dto'
@@ -41,8 +44,14 @@ export class ChatroomController {
 
   @ApiOperation({ summary: '获取用户的聊天房间列表' })
   @Get('getRoomList')
-  async getRoomList(@UserInfo('sub') userId: string) {
-    return this.chatroomService.getRoomList(userId)
+  @ApiCustomResponse({
+    type: [ChatRoomListResDto],
+  })
+  async getRoomList(
+    @UserInfo('sub') userId: string,
+    @Query() chatroomQueryDto: ChatroomQueryDto,
+  ) {
+    return this.chatroomService.getRoomList(userId, chatroomQueryDto)
   }
 
   @ApiOperation({ summary: '获取聊天室成员列表' })
@@ -63,7 +72,7 @@ export class ChatroomController {
     return this.chatroomService.getChatroomInfo(chatroomId)
   }
 
-  @ApiOperation({ summary: '获取聊天室所有信息' })
+  @ApiOperation({ summary: '加入聊天室房间' })
   @Get('join/:id')
   async joinRoom(
     @Param('id') chatroomId: string,
