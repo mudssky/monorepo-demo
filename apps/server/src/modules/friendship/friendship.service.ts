@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { JwtPayload } from '../auth/types'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreateFriendshipDto } from './dto/create-friendship.dto'
+import {
+  CreateFriendshipDto,
+  FriendshipQueryDto,
+} from './dto/create-friendship.dto'
 import { FriendRequestStatus } from './friendship.enum'
 interface FriendRequestParam {
   friendId: string
@@ -76,7 +79,10 @@ export class FriendshipService {
     return '添加成功'
   }
 
-  async getFriendship(userInfo: JwtPayload) {
+  async getFriendship(
+    userInfo: JwtPayload,
+    friendshipQueryDto: FriendshipQueryDto,
+  ) {
     // 查询朋友关系表，获取所有和当前用户相关的关系列表
     const friends = await this.prismaService.friendship.findMany({
       where: {
@@ -104,12 +110,16 @@ export class FriendshipService {
         id: {
           in: friendIds,
         },
+        nickName: {
+          contains: friendshipQueryDto.nickName,
+        },
       },
       select: {
         id: true,
         name: true,
         nickName: true,
         email: true,
+        avatarUrl: true,
       },
     })
 

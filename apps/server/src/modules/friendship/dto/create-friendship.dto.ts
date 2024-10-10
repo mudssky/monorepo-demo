@@ -16,3 +16,10 @@ export class CreateFriendshipDto
   @IsNotEmpty()
   reason: string
 }
+
+export class FriendshipQueryDto {
+  @ApiProperty({
+    description: '好友昵称',
+  })
+  nickName: string
+}

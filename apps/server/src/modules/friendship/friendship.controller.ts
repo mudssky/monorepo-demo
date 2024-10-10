@@ -1,10 +1,13 @@
 import { ApiCustomResponse } from '@/common/decorators/swagger'
 import { BaseException } from '@/common/exceptions'
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { UserInfo } from '../auth'
 import { UserDto } from '../user/dto/user.dto'
-import { CreateFriendshipDto } from './dto/create-friendship.dto'
+import {
+  CreateFriendshipDto,
+  FriendshipQueryDto,
+} from './dto/create-friendship.dto'
 import { FriendshipService } from './friendship.service'
 
 @ApiTags('好友关系')
@@ -56,7 +59,10 @@ export class FriendshipController {
     type: [UserDto],
   })
   @Get('getFriendship')
-  async getFriendship(@UserInfo() userInfo) {
-    return this.friendshipService.getFriendship(userInfo)
+  async getFriendship(
+    @UserInfo() userInfo,
+    @Query() friendshipQueryDto: FriendshipQueryDto,
+  ) {
+    return this.friendshipService.getFriendship(userInfo, friendshipQueryDto)
   }
 }

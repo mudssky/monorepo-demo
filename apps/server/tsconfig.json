@@ -4,32 +4,16 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@app/redis": [
-        "libs/redis/src"
-      ],
-      "@app/redis/*": [
-        "libs/redis/src/*"
-      ],
-      "@lib": [
-        "libs/index"
-      ],
-      "@app/logger": [
-        "libs/logger/src"
-      ],
-      "@app/logger/*": [
-        "libs/logger/src/*"
-      ]
+      "@/*": ["src/*"],
+      "@app/redis": ["libs/redis/src"],
+      "@app/redis/*": ["libs/redis/src/*"],
+      "@lib": ["libs/index"],
+      "@app/logger": ["libs/logger/src"],
+      "@app/logger/*": ["libs/logger/src/*"]
     },
     "composite": true
   },
-  "include": [
-    "test",
-    "src/**/*.ts",
-    "libs/**/*.ts"
-  ],
+  "include": ["test", "src/**/*.ts", "libs/**/*.ts", "src/**/*.json"],
   "watchOptions": {
     "excludeFiles": [
       "node_modules",

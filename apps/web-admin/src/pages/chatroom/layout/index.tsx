@@ -1,5 +1,5 @@
 import { chatroomRouter } from '@/router/chatroom'
-import { Menu, MenuProps } from 'antd'
+import { Divider, Menu, MenuProps } from 'antd'
 import { useEffect } from 'react'
 
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
@@ -40,17 +40,23 @@ export default function ChatroomLayout() {
   }, [pathname])
 
   return (
-    <div className="flex flex-row">
-      <div className="w-[200px]">
-        <Menu
-          defaultSelectedKeys={getSelectedKeys()}
-          items={items}
-          onClick={handleMenuItemClick}
-        />
+    <div className="bg-white">
+      <div className="text-5xl font-bold flex justify-start p-[10px]">
+        聊天室
       </div>
-      <div className="">
-        <Outlet></Outlet>
-      </div>
+      <Divider></Divider>
+      <div className="flex flex-row">
+        <div className="w-[200px]">
+          <Menu
+            defaultSelectedKeys={getSelectedKeys()}
+            items={items}
+            onClick={handleMenuItemClick}
+          />
+        </div>
+        <div className="">
+          <Outlet></Outlet>
+        </div>
+      </div>{' '}
     </div>
   )
 }

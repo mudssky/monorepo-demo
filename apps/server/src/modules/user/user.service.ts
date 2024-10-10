@@ -1,11 +1,16 @@
 import { PaginationDto, PaginationVo, parsePaginationDto } from '@/common/dto'
 import { BaseException } from '@/common/exceptions'
 import { PrismaService } from '@/modules/prisma/prisma.service'
+import { getRandomItemFromArray } from '@mudssky/jsutils'
 import { Injectable, Logger } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
 import { SharedService } from '../global/shared.service'
+import NameDictionary from './nickNameDict.json'
 import { UserDtoType } from './types'
-
+// type NickNameDict = {
+//   adjectives: string[]
+//   nouns: string[]
+// }
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name)
@@ -132,5 +137,17 @@ export class UserService {
       ...data,
       avatarFullUrl: this.sharedService.getFullImageUrl(data?.avatarUrl ?? ''),
     }
+  }
+
+  async generateNickName(): Promise<string> {
+    if (
+      NameDictionary.adjectives.length < 1 ||
+      NameDictionary.nouns.length < 1
+    ) {
+      throw new BaseException('昵称词库不足')
+    }
+    const adjective = getRandomItemFromArray(NameDictionary.adjectives)
+    const noun = getRandomItemFromArray(NameDictionary.nouns)
+    return `${adjective}的${noun}`
   }
 }
