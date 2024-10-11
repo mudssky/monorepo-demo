@@ -54,6 +54,7 @@ export function GroupPage() {
     searchGroup({
       name: form.getFieldValue('name'),
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

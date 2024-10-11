@@ -2,9 +2,18 @@ import {
   FriendshipListRes,
   GET_FRIENDSHIP_LIST,
 } from '@/api/chatroom/friendship'
-import { Avatar, Button, Form, Input, message, Table } from 'antd'
+import {
+  Avatar,
+  Button,
+  ConfigProvider,
+  Form,
+  Input,
+  message,
+  Table,
+} from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import { useEffect, useMemo, useState } from 'react'
+import { AddFriendModal } from '../components/AddFriendModal'
 
 interface SearchFriend {
   nickName: string
@@ -14,6 +23,8 @@ export function FriendshipPage() {
   const [friendshipResult, setFriendshipResult] = useState<
     Array<FriendshipListRes>
   >([])
+
+  const [isAddFriendModalOpen, setIsAddFriendModalOpen] = useState(false)
 
   const columns: ColumnsType<FriendshipListRes> = useMemo(
     () => [
@@ -86,6 +97,21 @@ export function FriendshipPage() {
               搜索
             </Button>
           </Form.Item>
+
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: '#9333ea',
+              },
+            }}
+          >
+            <Button
+              type="primary"
+              onClick={() => setIsAddFriendModalOpen(true)}
+            >
+              添加好友
+            </Button>
+          </ConfigProvider>
         </Form>
       </div>
       <div className="pt-[10px]">
@@ -95,6 +121,10 @@ export function FriendshipPage() {
           style={{ width: '1000px' }}
         />
       </div>
+      <AddFriendModal
+        open={isAddFriendModalOpen}
+        onCancel={() => setIsAddFriendModalOpen(false)}
+      />
     </div>
   )
 }

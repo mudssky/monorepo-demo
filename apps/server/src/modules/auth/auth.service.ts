@@ -98,6 +98,7 @@ export class AuthService implements OnModuleInit {
       const data = await this.prismaService.user.create({
         data: {
           ...omit(createUserDto, ['captcha']),
+          nickName: await this.userSevice.generateNickName(),
           password: await this.hashPassword(createUserDto.password),
         },
       })

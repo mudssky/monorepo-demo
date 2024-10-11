@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common'
+import { BaseException } from '@/common/exceptions'
+import { Injectable, Logger } from '@nestjs/common'
 import { JwtPayload } from '../auth/types'
 import { PrismaService } from '../prisma/prisma.service'
 import {
-  CreateFriendshipDto,
+  AddFriendshipDto,
   FriendshipQueryDto,
 } from './dto/create-friendship.dto'
 import { FriendRequestStatus } from './friendship.enum'
@@ -12,28 +13,89 @@ interface FriendRequestParam {
 }
 @Injectable()
 export class FriendshipService {
+  private readonly logger = new Logger(FriendshipService.name)
   constructor(private readonly prismaService: PrismaService) {}
 
   async sendFriendRequest(
-    createFriendshipDto: CreateFriendshipDto,
+    createFriendshipDto: AddFriendshipDto,
     userInfo: JwtPayload,
   ) {
+    const friend = await this.prismaService.user.findUnique({
+      where: {
+        name: createFriendshipDto.username,
+      },
+    })
+
+    if (!friend) {
+      throw new BaseException('用户不存在')
+    }
+    if (friend.id === userInfo.sub) {
+      throw new BaseException('不能添加自己为好友')
+    }
+
+    // 检查是否已经添加好友
+    const found = await this.prismaService.friendship.findMany({
+      where: {
+        userId: userInfo.sub,
+        friendId: friend.id,
+      },
+    })
+    if (found.length) {
+      throw new BaseException('已经是好友了')
+    }
     return await this.prismaService.friendRequest.create({
       data: {
         fromUserId: userInfo.sub,
-        toUserId: createFriendshipDto.toUserId,
+        toUserId: friend.id,
         reason: createFriendshipDto.reason,
         status: FriendRequestStatus.Pending,
       },
     })
   }
   async getFriendRequestList(userId: string) {
-    // throw new Error('Method not implemented.')
-    return this.prismaService.friendRequest.findMany({
+    // 我发送的好友请求
+    const fromMeRequests = await this.prismaService.friendRequest.findMany({
       where: {
         fromUserId: userId,
       },
     })
+    // 我收到的好友请求
+    const toMeRequests = await this.prismaService.friendRequest.findMany({
+      where: {
+        toUserId: userId,
+      },
+    })
+
+    const res: any = {
+      toMe: [],
+      fromMe: [],
+    }
+
+    // 遍历好友请求获取相关得到用户信息
+    for (let i = 0; i < fromMeRequests.length; i++) {
+      const user = await this.prismaService.user.findUnique({
+        where: {
+          id: fromMeRequests[i].toUserId,
+        },
+      })
+      res.fromMe.push({
+        ...fromMeRequests[i],
+        toUser: user,
+      })
+    }
+
+    for (let i = 0; i < toMeRequests.length; i++) {
+      const user = await this.prismaService.user.findUnique({
+        where: {
+          id: toMeRequests[i].fromUserId,
+        },
+      })
+      res.toMe.push({
+        ...toMeRequests[i],
+        fromUser: user,
+      })
+    }
+    return res
   }
   async reject({ friendId, userId }: FriendRequestParam) {
     await this.prismaService.friendRequest.updateMany({
@@ -49,7 +111,7 @@ export class FriendshipService {
     return '已拒绝'
   }
   async agree({ friendId, userId }: FriendRequestParam) {
-    await this.prismaService.friendRequest.updateMany({
+    const updateRes = await this.prismaService.friendRequest.updateMany({
       where: {
         fromUserId: friendId,
         toUserId: userId,
@@ -59,8 +121,11 @@ export class FriendshipService {
         status: FriendRequestStatus.Accepted,
       },
     })
-
-    // 检查好友关系表中是否村啊在这条
+    this.logger.debug(updateRes)
+    if (updateRes.count === 0) {
+      throw new BaseException('该好友请求已处理过')
+    }
+    // 检查好友关系表中是否存在这条
     const res = await this.prismaService.friendship.findMany({
       where: {
         userId,

@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, PickType } from '@nestjs/swagger'
 import { FriendRequest } from '@prisma/client'
 import { IsNotEmpty } from 'class-validator'
 
@@ -22,4 +22,16 @@ export class FriendshipQueryDto {
     description: '好友昵称',
   })
   nickName: string
+}
+
+/**
+ * 添加好友时，使用用户id会不方便，这里使用用户名
+ */
+export class AddFriendshipDto extends PickType(CreateFriendshipDto, [
+  'reason',
+]) {
+  @ApiProperty({
+    description: '添加的好友用户名',
+  })
+  username: string
 }

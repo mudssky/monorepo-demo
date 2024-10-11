@@ -5,7 +5,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { UserInfo } from '../auth'
 import { UserDto } from '../user/dto/user.dto'
 import {
-  CreateFriendshipDto,
+  AddFriendshipDto,
   FriendshipQueryDto,
 } from './dto/create-friendship.dto'
 import { FriendshipService } from './friendship.service'
@@ -18,7 +18,7 @@ export class FriendshipController {
   @ApiOperation({ summary: '发送好友请求' })
   @Post('sendFriendRequest')
   async sendFriendRequest(
-    @Body() friendAddDto: CreateFriendshipDto,
+    @Body() friendAddDto: AddFriendshipDto,
     @UserInfo() userInfo,
   ) {
     return this.friendshipService.sendFriendRequest(friendAddDto, userInfo)
