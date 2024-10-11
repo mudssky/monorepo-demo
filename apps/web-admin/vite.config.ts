@@ -57,7 +57,7 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
         // socket.io 转发配置
-        // ws://localhost:5173/socket.io -> http://env.VITE_WS_TARGET/socket.io
+        // ws://localhost:5173/socket.io -> ws://env.VITE_WS_TARGET/socket.io
         '/socket.io': {
           target: env.VITE_WS_TARGET,
           ws: true,

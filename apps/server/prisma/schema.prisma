@@ -206,3 +206,16 @@ model CasbinRule {
 
   @@map("casbin_rule")
 }
+
+/// 聊天历史记录
+model ChatHistory {
+  id         Int      @id @default(autoincrement())
+  content    String   @db.VarChar(500)
+  ///聊天记录类型 text:10、image:20、file:30
+  type       Int
+  chatroomId String
+  /// 发送者id
+  senderId   String
+  createTime DateTime @default(now())
+  updateTime DateTime @updatedAt
+}
