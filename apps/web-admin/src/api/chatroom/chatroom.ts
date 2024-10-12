@@ -26,3 +26,14 @@ export function GET_CHATROOM_LIST(params: GetChatRoomListParams) {
     params,
   })
 }
+
+/**
+ * 创建群聊聊天室
+ * @param params
+ * @returns
+ */
+export function CREATE_GROUP_CHATROOM(params: GetChatRoomListParams) {
+  return request.get<string>('/chatroom/creteGroupChatroom', {
+    params,
+  })
+}

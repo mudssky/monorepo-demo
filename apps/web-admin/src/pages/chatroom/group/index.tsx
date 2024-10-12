@@ -3,6 +3,7 @@ import { Button, Form, Input, Table } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { ColumnsType } from 'antd/es/table'
 import { useEffect, useMemo, useState } from 'react'
+import { CreateGroupModal } from '../components/CreateGroupModal'
 
 interface SearchGroup {
   name: string
@@ -10,7 +11,7 @@ interface SearchGroup {
 
 export function GroupPage() {
   const [groupResult, setGroupResult] = useState<Array<ChatRoomListResDto>>([])
-
+  const [isCreateGroupModalOpen, setCreateGroupModalOpen] = useState(false)
   const columns: ColumnsType<ChatRoomListResDto> = useMemo(
     () => [
       {
@@ -76,6 +77,15 @@ export function GroupPage() {
               搜索
             </Button>
           </Form.Item>
+          <Form.Item label=" ">
+            <Button
+              type="primary"
+              style={{ background: 'green' }}
+              onClick={() => setCreateGroupModalOpen(true)}
+            >
+              创建群聊
+            </Button>
+          </Form.Item>
         </Form>
       </div>
       <div className="pt-[10px]">
@@ -85,6 +95,15 @@ export function GroupPage() {
           style={{ width: '1000px' }}
         />
       </div>
+      <CreateGroupModal
+        open={isCreateGroupModalOpen}
+        onClose={() => {
+          setCreateGroupModalOpen(false)
+          searchGroup({
+            name: form.getFieldValue('name'),
+          })
+        }}
+      />
     </div>
   )
 }
