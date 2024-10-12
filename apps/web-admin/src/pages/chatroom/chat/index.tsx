@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChatRoomListResDto, GET_CHATROOM_LIST } from '@/api'
+import {
+  ChatHistoryRes,
+  ChatRoomListResDto,
+  GET_CHATROOM_HISTORY_LIST,
+  GET_CHATROOM_LIST,
+} from '@/api'
 import { useAppStore } from '@/store/appStore'
 import { message } from 'antd'
 import { useEffect, useRef, useState } from 'react'
@@ -42,6 +47,7 @@ type Reply =
 export function ChatPage() {
   const [messageList, setMessageList] = useState<Array<Message>>([])
   const [roomList, setRoomList] = useState<Array<ChatRoomListResDto>>()
+  const [chatHistory, setChatHistory] = useState<Array<ChatHistoryRes>>()
   const socketRef = useRef<Socket>()
   const userInfo = useAppStore((state) => state.userInfo)
 
@@ -62,6 +68,22 @@ export function ChatPage() {
       message.error(res.msg)
     }
   }
+  async function queryChatHistoryList(chatroomId: string) {
+    const res = await GET_CHATROOM_HISTORY_LIST({ chatroomId })
+    if (res.code === 0) {
+      setChatHistory(
+        res.data.map((item) => {
+          return {
+            ...item,
+            key: item.id,
+          }
+        }),
+      )
+    } else {
+      message.error(res.msg)
+    }
+  }
+
   useEffect(() => {
     queryChatroomList()
     const socket = (socketRef.current = io('/chatroom'))
@@ -107,7 +129,12 @@ export function ChatPage() {
       <div className="chat-room-list">
         {roomList?.map((item) => {
           return (
-            <div className="chat-room-item" data-id={item.id} key={item.id}>
+            <div
+              className="chat-room-item"
+              data-id={item.id}
+              key={item.id}
+              onClick={() => queryChatHistoryList(item.id)}
+            >
               {item.name}
             </div>
           )
