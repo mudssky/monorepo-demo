@@ -1,4 +1,5 @@
 #chat-container {
+  position: relative;
   margin: 20px;
   display: flex;
   flex-direction: row;
@@ -27,6 +28,8 @@
     border: 1px solid #000;
     flex: 1;
     overflow-y: auto;
+    height: calc(100% - 100px);
+    border-bottom: 0;
 
     .message-item {
       padding: 20px;
@@ -61,6 +64,37 @@
           justify-content: right;
           background: #fff;
         }
+      }
+    }
+  }
+  .message-input {
+    width: 648px;
+    border: 1px solid #000;
+
+    height: 100px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    .message-type {
+      display: flex;
+
+      .message-type-item {
+        width: 100px;
+        &:hover {
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .message-input-area {
+      width: 650px;
+
+      display: flex;
+      .message-send-btn {
+        width: 50px;
+        height: 50px;
       }
     }
   }

@@ -6,7 +6,7 @@ import {
   GET_CHATROOM_LIST,
 } from '@/api'
 import { useAppStore } from '@/store/appStore'
-import { message } from 'antd'
+import { Avatar, Button, Input, message } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
 import './styles.scss'
@@ -51,6 +51,9 @@ export function ChatPage() {
   const socketRef = useRef<Socket>()
   const userInfo = useAppStore((state) => state.userInfo)
 
+  const [inputText, setInputText] = useState('')
+  const [roomId, setChatroomId] = useState<string>()
+
   async function queryChatroomList() {
     const res = await GET_CHATROOM_LIST({
       roomName: '',
@@ -89,32 +92,33 @@ export function ChatPage() {
     const socket = (socketRef.current = io('/chatroom'))
     socket.on('connect', function () {
       const payload: JoinRoomPayload = {
-        chatroomId: '1',
+        chatroomId: roomId!,
         userId: userInfo?.id,
       }
 
       socket.emit('joinRoom', payload)
 
       socket.on('message', (reply: Reply) => {
-        if (reply.type === 'joinRoom') {
-          setMessageList((messageList) => [
-            ...messageList,
-            {
-              type: MessageTypeEnum.TEXT,
-              content: '用户 ' + reply.userId + '加入聊天室',
-            },
-          ])
-        } else {
-          setMessageList((messageList) => [...messageList, reply.message])
-        }
+        queryChatHistoryList(roomId!)
+        setTimeout(() => {
+          document
+            .getElementById('bottom-bar')
+            ?.scrollIntoView({ block: 'end' })
+        }, 300)
       })
     })
   }, [])
 
   function sendMessage(value: string) {
+    if (!value) {
+      return
+    }
+    if (!roomId) {
+      return
+    }
     const payload2: SendMessagePayload = {
       sendUserId: userInfo?.id,
-      chatroomId: '1',
+      chatroomId: roomId,
       message: {
         type: MessageTypeEnum.TEXT,
         content: value,
@@ -133,7 +137,10 @@ export function ChatPage() {
               className="chat-room-item"
               data-id={item.id}
               key={item.id}
-              onClick={() => queryChatHistoryList(item.id)}
+              onClick={() => {
+                queryChatHistoryList(item.id)
+                setChatroomId(item.id)
+              }}
             >
               {item.name}
             </div>
@@ -141,26 +148,56 @@ export function ChatPage() {
         })}
       </div>
       <div className="message-list">
-        <div className="message-item">
-          <div className="message-sender">
-            <img src="http://localhost:9000/chat-room/dong.png" />
-            <span className="sender-nickname">神说要有光</span>
+        {chatHistory?.map((item) => {
+          return (
+            <div
+              className={`message-item ${item.senderId === userInfo!.id ? 'from-me' : ''}`}
+              data-id={item.id}
+              key={item.id}
+            >
+              <div className="message-sender">
+                <Avatar src={item.sender.avatarUrl}></Avatar>
+
+                <span className="sender-nickname">
+                  {item.sender.nickName || item.sender.name}
+                </span>
+              </div>
+              <div className="message-content">{item.content}</div>
+            </div>
+          )
+        })}
+        <div id="bottom-bar" key="bottom-bar"></div>
+      </div>
+      <div className="message-input">
+        <div className="message-type">
+          <div className="message-type-item" key={1}>
+            表情
           </div>
-          <div className="message-content">你好</div>
+          <div className="message-type-item" key={2}>
+            图片
+          </div>
+          <div className="message-type-item" key={3}>
+            文件
+          </div>
         </div>
-        <div className="message-item">
-          <div className="message-sender">
-            <img src="http://localhost:9000/chat-room/dong.png" />
-            <span className="sender-nickname">神说要有光</span>
-          </div>
-          <div className="message-content">你好</div>
-        </div>
-        <div className="message-item from-me">
-          <div className="message-sender">
-            <img src="http://localhost:9000/chat-room/dong.png" />
-            <span className="sender-nickname">神说要有光</span>
-          </div>
-          <div className="message-content">你好</div>
+        <div className="message-input-area">
+          <Input.TextArea
+            className="message-input-box"
+            value={inputText}
+            onChange={(e) => {
+              setInputText(e.target.value)
+            }}
+          />
+          <Button
+            className="message-send-btn"
+            type="primary"
+            onClick={() => {
+              sendMessage(inputText)
+              setInputText('')
+            }}
+          >
+            发送
+          </Button>
         </div>
       </div>
     </div>
