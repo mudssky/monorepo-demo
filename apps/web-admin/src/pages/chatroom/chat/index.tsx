@@ -37,7 +37,8 @@ type Reply =
   | {
       type: 'sendMessage'
       userId: number
-      message: Message
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      message: any
     }
   | {
       type: 'joinRoom'
@@ -88,7 +89,10 @@ export function ChatPage() {
   }
 
   useEffect(() => {
-    queryChatroomList()
+    if (!roomId) {
+      return
+    }
+
     const socket = (socketRef.current = io('/chatroom'))
     socket.on('connect', function () {
       const payload: JoinRoomPayload = {
@@ -99,14 +103,30 @@ export function ChatPage() {
       socket.emit('joinRoom', payload)
 
       socket.on('message', (reply: Reply) => {
-        queryChatHistoryList(roomId!)
-        setTimeout(() => {
-          document
-            .getElementById('bottom-bar')
-            ?.scrollIntoView({ block: 'end' })
-        }, 300)
+        // 发送消息后会返回更新人和消息，这样可以直接加到消息列表，不用再请求消息历史接口
+        // queryChatHistoryList(roomId!)
+        if (reply.type === 'sendMessage') {
+          setChatHistory((chatHistory) => {
+            return chatHistory
+              ? [...chatHistory, reply.message]
+              : [reply.message]
+          })
+          setTimeout(() => {
+            document
+              .getElementById('bottom-bar')
+              ?.scrollIntoView({ block: 'end' })
+          }, 300)
+        }
       })
     })
+
+    return () => {
+      socket.disconnect()
+    }
+  }, [roomId])
+  useEffect(() => {
+    queryChatroomList()
+    return () => {}
   }, [])
 
   function sendMessage(value: string) {

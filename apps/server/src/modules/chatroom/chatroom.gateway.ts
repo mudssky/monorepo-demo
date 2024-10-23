@@ -8,6 +8,7 @@ import {
 
 import { Server, Socket } from 'socket.io'
 import { ChatHistoryService } from '../chat-history/chat-history.service'
+import { UserService } from '../user/user.service'
 
 interface JoinRoomPayload {
   chatroomId: string
@@ -46,6 +47,10 @@ export class ChatroomGateway {
 
   @Inject(ChatHistoryService)
   private chatHistoryService: ChatHistoryService
+
+  @Inject(UserService)
+  private userService: UserService
+
   @SubscribeMessage('joinRoom')
   joinRoom(client: Socket, payload: JoinRoomPayload): void {
     const roomName = payload.chatroomId.toString()
@@ -59,16 +64,17 @@ export class ChatroomGateway {
   @SubscribeMessage('sendMessage')
   async sendMessage(@MessageBody() payload: SendMessagePayload) {
     const roomName = payload.chatroomId.toString()
-    await this.chatHistoryService.add(payload.chatroomId, {
+    const history = await this.chatHistoryService.add(payload.chatroomId, {
       content: payload.message.content,
       type: payload.message.type,
       chatroomId: payload.chatroomId,
       senderId: payload.sendUserId,
     })
+    const sender = await this.userService.getUserInfoById(payload.sendUserId)
     this.serverSocket.to(roomName).emit('message', {
       type: 'sendMessage',
       userId: payload.sendUserId,
-      message: payload.message,
+      message: { ...history, sender },
     })
   }
 }
