@@ -65,6 +65,14 @@ export function FriendshipPage() {
   const columns: ColumnsType<FriendshipListRes> = useMemo(
     () => [
       {
+        title: 'id',
+        dataIndex: 'id',
+      },
+      {
+        title: '用户名',
+        dataIndex: 'name',
+      },
+      {
         title: '昵称',
         dataIndex: 'nickName',
       },

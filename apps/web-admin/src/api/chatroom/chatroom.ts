@@ -103,3 +103,34 @@ export function CREATE_SINGLE_CHATROOM(params: { friendId: string }) {
     params,
   })
 }
+
+export interface MemberRes {
+  avatarUrl: string
+  createdAt: string
+  email: string
+  id: string
+  name: string
+  nickName: string
+}
+
+/**
+ * 获取聊天室成员
+ * @param params
+ * @returns
+ */
+export function GET_GROUP_MENMBERS(params: { chatroomId: string }) {
+  return request.get<MemberRes[]>('/chatroom/getRoomMemberList', {
+    params,
+  })
+}
+
+/**
+ * 邀请指定用户名加入聊天室
+ * @param params
+ * @returns
+ */
+export function JOIN_ROOM(params: { chatroomId: string; name: string }) {
+  return request.get<string>('/chatroom/joinRoomByUserName', {
+    params,
+  })
+}

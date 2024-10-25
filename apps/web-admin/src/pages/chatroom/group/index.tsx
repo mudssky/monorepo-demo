@@ -3,7 +3,10 @@ import { Button, Form, Input, Table } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { ColumnsType } from 'antd/es/table'
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AddMemberModal } from '../components/AddMemberModal'
 import { CreateGroupModal } from '../components/CreateGroupModal'
+import { GroupDetailModal } from '../components/GroupDetailModal'
 
 interface SearchGroup {
   name: string
@@ -12,25 +15,64 @@ interface SearchGroup {
 export function GroupPage() {
   const [groupResult, setGroupResult] = useState<Array<ChatRoomListResDto>>([])
   const [isCreateGroupModalOpen, setCreateGroupModalOpen] = useState(false)
-  const columns: ColumnsType<ChatRoomListResDto> = useMemo(
-    () => [
-      {
-        title: '名称',
-        dataIndex: 'name',
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'createdAt',
-      },
-      {
-        title: '操作',
-        render: () => (
-          <div>
-            <a href="#">聊天</a>
-          </div>
-        ),
-      },
-    ],
+  const [isMembersModalOpen, setMembersModalOpen] = useState(false)
+  const [isMemberAddModalOpen, setIsMemberAddModalOpen] = useState(false)
+  const [chatroomId, setChatroomId] = useState<string>('')
+
+  const navigate = useNavigate()
+  const columns = useMemo(
+    () =>
+      [
+        {
+          title: '名称',
+          dataIndex: 'name',
+        },
+        {
+          title: '创建时间',
+          dataIndex: 'createdAt',
+        },
+        {
+          title: '人数',
+          dataIndex: 'userCount',
+        },
+        {
+          title: '操作',
+          render: (_, record) => (
+            <div>
+              <Button
+                type="link"
+                onClick={() => {
+                  setChatroomId(record.id)
+                  setMembersModalOpen(true)
+                }}
+              >
+                群聊详情
+              </Button>
+              <Button
+                type="link"
+                onClick={() => {
+                  navigate('/chatroom/chat', {
+                    state: {
+                      chatroomId: record.id,
+                    },
+                  })
+                }}
+              >
+                聊天
+              </Button>
+              <Button
+                type="link"
+                onClick={() => {
+                  setChatroomId(record.id)
+                  setIsMemberAddModalOpen(true)
+                }}
+              >
+                添加成员
+              </Button>
+            </div>
+          ),
+        },
+      ] satisfies ColumnsType<ChatRoomListResDto>,
     [],
   )
 
@@ -104,6 +146,21 @@ export function GroupPage() {
           })
         }}
       />
+      <GroupDetailModal
+        open={isMembersModalOpen}
+        chatroomId={chatroomId}
+        onCancel={() => {
+          setMembersModalOpen(false)
+        }}
+      ></GroupDetailModal>
+      <AddMemberModal
+        open={isMemberAddModalOpen}
+        chatroomId={chatroomId}
+        onCancel={() => {
+          setIsMemberAddModalOpen(false)
+          searchGroup({ name: '' })
+        }}
+      ></AddMemberModal>
     </div>
   )
 }

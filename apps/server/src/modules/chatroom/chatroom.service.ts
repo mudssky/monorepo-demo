@@ -13,6 +13,33 @@ import {
 export class ChatroomService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async joinRoomByUserName(params: { chatroomId: string; name: string }) {
+    const { chatroomId, name } = params
+    const chatroom = await this.prismaService.chatroom.findUnique({
+      where: {
+        id: chatroomId,
+      },
+    })
+    if (chatroom?.type === 'SINGLE') {
+      throw new BaseException('一对一聊天室不能加人')
+    }
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        name,
+      },
+    })
+
+    if (!user) {
+      throw new BaseException('用户不存在')
+    }
+    await this.prismaService.userChatroom.create({
+      data: {
+        userId: user.id,
+        chatroomId,
+      },
+    })
+    return chatroom?.id
+  }
   async queryOneToOneChatroom(userId1: string, userId2: string) {
     const chatrooms = await this.prismaService.userChatroom.findMany({
       where: {

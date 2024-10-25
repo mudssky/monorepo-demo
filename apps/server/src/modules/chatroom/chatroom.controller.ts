@@ -72,7 +72,7 @@ export class ChatroomController {
     return this.chatroomService.getChatroomInfo(chatroomId)
   }
 
-  @ApiOperation({ summary: '加入聊天室房间' })
+  @ApiOperation({ summary: '该用户加入聊天室房间' })
   @Get('join/:id')
   async joinRoom(
     @Param('id') chatroomId: string,
@@ -82,6 +82,18 @@ export class ChatroomController {
       throw new BaseException('chatroomId 不能为空')
     }
     return this.chatroomService.joinRoom({ chatroomId, userId })
+  }
+
+  @ApiOperation({ summary: '指定用户名加入指定聊天室房间' })
+  @Get('joinRoomByUserName')
+  async joinRoomByUserName(
+    @Query('chatroomId') chatroomId: string,
+    @Query('name') name: string,
+  ) {
+    if (!chatroomId) {
+      throw new BaseException('chatroomId 不能为空')
+    }
+    return this.chatroomService.joinRoomByUserName({ chatroomId, name })
   }
 
   @ApiOperation({ summary: '退出聊天室房间' })

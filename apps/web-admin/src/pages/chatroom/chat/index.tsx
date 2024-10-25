@@ -6,7 +6,9 @@ import {
   GET_CHATROOM_LIST,
 } from '@/api'
 import { useAppStore } from '@/store/appStore'
-import { Avatar, Button, Input, message } from 'antd'
+import data from '@emoji-mart/data'
+import EmojiPicker from '@emoji-mart/react'
+import { Avatar, Button, Input, message, Popover } from 'antd'
 import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -92,7 +94,10 @@ export function ChatPage() {
   }
 
   useEffect(() => {
-    setChatroomId(location.state?.chatroomId)
+    if (location.state?.chatroomId) {
+      setChatroomId(location.state?.chatroomId)
+      queryChatHistoryList(location.state?.chatroomId)
+    }
   }, [location.state?.chatroomId])
   useEffect(() => {
     if (!roomId) {
@@ -199,8 +204,22 @@ export function ChatPage() {
       <div className="message-input">
         <div className="message-type">
           <div className="message-type-item" key={1}>
-            表情
+            <Popover
+              content={
+                <EmojiPicker
+                  data={data}
+                  onEmojiSelect={(emoji: { native: string }) => {
+                    setInputText((inputText) => inputText + emoji.native)
+                  }}
+                />
+              }
+              title="Title"
+              trigger="hover"
+            >
+              表情
+            </Popover>
           </div>
+
           <div className="message-type-item" key={2}>
             图片
           </div>
