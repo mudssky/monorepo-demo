@@ -1,7 +1,9 @@
+import { CREATE_SINGLE_CHATROOM, GET_ONE_TO_ONE_CHATROOM } from '@/api'
 import {
   FriendshipListRes,
   GET_FRIENDSHIP_LIST,
 } from '@/api/chatroom/friendship'
+import { useAppStore } from '@/store/appStore'
 import {
   Avatar,
   Button,
@@ -13,6 +15,7 @@ import {
 } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AddFriendModal } from '../components/AddFriendModal'
 
 interface SearchFriend {
@@ -25,7 +28,40 @@ export function FriendshipPage() {
   >([])
 
   const [isAddFriendModalOpen, setIsAddFriendModalOpen] = useState(false)
+  const userInfo = useAppStore((state) => state.userInfo)
+  const navigate = useNavigate()
 
+  async function goToChat(friendId: string) {
+    const userId = userInfo!.id
+    try {
+      const res = await GET_ONE_TO_ONE_CHATROOM({
+        userId1: userId,
+        userId2: friendId,
+      })
+
+      if (res.code === 0) {
+        if (res.data) {
+          navigate('/chatroom/chat', {
+            state: {
+              chatroomId: res.data,
+            },
+          })
+        } else {
+          const res2 = await CREATE_SINGLE_CHATROOM({ friendId })
+          navigate('/chatroom/chat', {
+            state: {
+              chatroomId: res2.data,
+            },
+          })
+        }
+      } else {
+        message.error(res.msg)
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
+      message.error(e.response?.data?.message || '系统繁忙，请稍后再试')
+    }
+  }
   const columns: ColumnsType<FriendshipListRes> = useMemo(
     () => [
       {
@@ -48,9 +84,11 @@ export function FriendshipPage() {
       },
       {
         title: '操作',
-        render: () => (
+        render: (_, record) => (
           <div>
-            <a href="#">聊天</a>
+            <a href="#" onClick={() => goToChat(record?.id)}>
+              聊天
+            </a>
           </div>
         ),
       },

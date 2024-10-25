@@ -78,3 +78,28 @@ export function GET_CHATROOM_HISTORY_LIST(params: GetChatroomHistoryParams) {
     params,
   })
 }
+
+/**
+ * 获取单聊房间
+ * @param params
+ * @returns
+ */
+export function GET_ONE_TO_ONE_CHATROOM(params: {
+  userId1: string
+  userId2: string
+}) {
+  return request.get<string>('/chatroom/queryOneToOneChatroom', {
+    params,
+  })
+}
+
+/**
+ * 创建单聊房间
+ * @param params
+ * @returns
+ */
+export function CREATE_SINGLE_CHATROOM(params: { friendId: string }) {
+  return request.get<string>('/chatroom/createSingleChatroom', {
+    params,
+  })
+}

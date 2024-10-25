@@ -89,11 +89,11 @@ export class AuthService implements OnModuleInit {
     if (passwordStregth < 2) {
       throw new BaseException('密码强度不足')
     }
-    await this.checkCaptcha({
-      captcha: createUserDto.captcha,
-      captchaType: 'register',
-      email: createUserDto.email,
-    })
+    // await this.checkCaptcha({
+    //   captcha: createUserDto.captcha,
+    //   captchaType: 'register',
+    //   email: createUserDto.email,
+    // })
     try {
       const data = await this.prismaService.user.create({
         data: {

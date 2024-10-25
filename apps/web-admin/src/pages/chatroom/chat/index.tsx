@@ -7,7 +7,9 @@ import {
 } from '@/api'
 import { useAppStore } from '@/store/appStore'
 import { Avatar, Button, Input, message } from 'antd'
+import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { io, Socket } from 'socket.io-client'
 import './styles.scss'
 
@@ -52,6 +54,7 @@ export function ChatPage() {
   const socketRef = useRef<Socket>()
   const userInfo = useAppStore((state) => state.userInfo)
 
+  const location = useLocation()
   const [inputText, setInputText] = useState('')
   const [roomId, setChatroomId] = useState<string>()
 
@@ -88,6 +91,9 @@ export function ChatPage() {
     }
   }
 
+  useEffect(() => {
+    setChatroomId(location.state?.chatroomId)
+  }, [location.state?.chatroomId])
   useEffect(() => {
     if (!roomId) {
       return
@@ -154,7 +160,10 @@ export function ChatPage() {
         {roomList?.map((item) => {
           return (
             <div
-              className="chat-room-item"
+              className={clsx(
+                'chat-room-item',
+                item.id === roomId && 'selected',
+              )}
               data-id={item.id}
               key={item.id}
               onClick={() => {
@@ -177,7 +186,6 @@ export function ChatPage() {
             >
               <div className="message-sender">
                 <Avatar src={item.sender.avatarUrl}></Avatar>
-
                 <span className="sender-nickname">
                   {item.sender.nickName || item.sender.name}
                 </span>

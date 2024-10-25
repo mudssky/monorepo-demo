@@ -84,6 +84,8 @@ export class ChatroomController {
     return this.chatroomService.joinRoom({ chatroomId, userId })
   }
 
+  @ApiOperation({ summary: '退出聊天室房间' })
+  @Get('quit/:id')
   async quitRoom(
     @Param('id') chatroomId: string,
     @UserInfo('sub') userId: string,
@@ -92,5 +94,17 @@ export class ChatroomController {
       throw new BaseException('chatroomId 不能为空')
     }
     return this.chatroomService.quitRoom({ chatroomId, userId })
+  }
+
+  @ApiOperation({ summary: '查询1对1聊天室' })
+  @Get('queryOneToOneChatroom')
+  async queryOneToOneChatroom(
+    @Query('userId1') userId1: string,
+    @Query('userId2') userId2: string,
+  ) {
+    if (!userId1 || !userId2) {
+      throw new BaseException('userId1和userId2不能为空')
+    }
+    return this.chatroomService.queryOneToOneChatroom(userId1, userId2)
   }
 }

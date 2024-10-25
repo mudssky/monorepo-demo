@@ -13,6 +13,41 @@ import {
 export class ChatroomService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async queryOneToOneChatroom(userId1: string, userId2: string) {
+    const chatrooms = await this.prismaService.userChatroom.findMany({
+      where: {
+        userId: userId1,
+      },
+    })
+    const chatrooms2 = await this.prismaService.userChatroom.findMany({
+      where: {
+        userId: userId2,
+      },
+    })
+
+    let res
+    // 获取user1所有chatroom和user2所有chatroom的交集
+    for (let i = 0; i < chatrooms.length; i++) {
+      const chatroom = await this.prismaService.chatroom.findFirst({
+        where: {
+          id: chatrooms[i].chatroomId,
+        },
+      })
+
+      // 排除群聊的聊天室
+      if (!chatroom || chatroom.type === 'GROUP') {
+        continue
+      }
+
+      const found = chatrooms2.find((item2) => item2.chatroomId === chatroom.id)
+      if (found) {
+        res = found.chatroomId
+        break
+      }
+    }
+
+    return res
+  }
   async quitRoom(params: { chatroomId: string; userId: string }) {
     const { chatroomId, userId } = params
     const chatroom = await this.prismaService.chatroom.findUnique({
@@ -131,6 +166,16 @@ export class ChatroomService {
           userId: true,
         },
       })
+
+      // 私聊，聊天室房间名采用对方的昵称或用户名
+      if (chatrooms[i].type === 'SINGLE') {
+        const user = await this.prismaService.user.findUnique({
+          where: {
+            id: userIds.filter((item) => item.userId !== userId)[0].userId,
+          },
+        })
+        chatrooms[i].name = (user?.nickName || user?.name) ?? ''
+      }
       res.push({
         ...chatroom,
         userIds: userIds.map((item) => item.userId),
@@ -201,6 +246,6 @@ export class ChatroomService {
         },
       ],
     })
-    return '创建成功'
+    return id
   }
 }
