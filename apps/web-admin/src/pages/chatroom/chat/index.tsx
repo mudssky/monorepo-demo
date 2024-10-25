@@ -9,10 +9,13 @@ import { useAppStore } from '@/store/appStore'
 import data from '@emoji-mart/data'
 import EmojiPicker from '@emoji-mart/react'
 import { Avatar, Button, Input, message, Popover } from 'antd'
+import { UploadChangeParam } from 'antd/es/upload'
+import { UploadFile } from 'antd/lib'
 import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { io, Socket } from 'socket.io-client'
+import { UploadImageModal } from '../components/UploadImageModal'
 import './styles.scss'
 
 interface JoinRoomPayload {
@@ -59,6 +62,7 @@ export function ChatPage() {
   const location = useLocation()
   const [inputText, setInputText] = useState('')
   const [roomId, setChatroomId] = useState<string>()
+  const [isUploadImageModalOpen, setUploadImageModalOpen] = useState(false)
 
   async function queryChatroomList() {
     const res = await GET_CHATROOM_LIST({
@@ -140,8 +144,9 @@ export function ChatPage() {
     return () => {}
   }, [])
 
-  function sendMessage(value: string) {
-    if (!value) {
+  function sendMessage(options: { type?: MessageTypeEnum; content: string }) {
+    const { type = MessageTypeEnum.TEXT, content } = options
+    if (!content) {
       return
     }
     if (!roomId) {
@@ -151,14 +156,23 @@ export function ChatPage() {
       sendUserId: userInfo?.id,
       chatroomId: roomId,
       message: {
-        type: MessageTypeEnum.TEXT,
-        content: value,
+        type: type,
+        content,
       },
     }
 
     socketRef.current?.emit('sendMessage', payload2)
   }
 
+  async function handleUploadOk(data: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    image: UploadChangeParam<UploadFile<any>>
+  }) {
+    const { image } = data
+    const imageUrl = '/api' + image.file.response?.url
+    sendMessage({ type: MessageTypeEnum.IMAGE, content: imageUrl })
+    setUploadImageModalOpen(false)
+  }
   return (
     <div id="chat-container">
       <div className="chat-room-list">
@@ -195,7 +209,18 @@ export function ChatPage() {
                   {item.sender.nickName || item.sender.name}
                 </span>
               </div>
-              <div className="message-content">{item.content}</div>
+              <div className="message-content">
+                {item.type === MessageTypeEnum.TEXT && (
+                  <span>{item.content}</span>
+                )}
+                {item.type === MessageTypeEnum.IMAGE && (
+                  <img
+                    src={item.content}
+                    alt="图片"
+                    className="max-w-[200px]"
+                  />
+                )}
+              </div>
             </div>
           )
         })}
@@ -220,7 +245,13 @@ export function ChatPage() {
             </Popover>
           </div>
 
-          <div className="message-type-item" key={2}>
+          <div
+            className="message-type-item"
+            key={2}
+            onClick={() => {
+              setUploadImageModalOpen(true)
+            }}
+          >
             图片
           </div>
           <div className="message-type-item" key={3}>
@@ -239,7 +270,7 @@ export function ChatPage() {
             className="message-send-btn"
             type="primary"
             onClick={() => {
-              sendMessage(inputText)
+              sendMessage({ content: inputText })
               setInputText('')
             }}
           >
@@ -247,6 +278,10 @@ export function ChatPage() {
           </Button>
         </div>
       </div>
+      <UploadImageModal
+        open={isUploadImageModalOpen}
+        handleOk={handleUploadOk}
+      ></UploadImageModal>
     </div>
   )
 }
