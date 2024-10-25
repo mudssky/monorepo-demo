@@ -15,6 +15,7 @@ import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { io, Socket } from 'socket.io-client'
+import { UploadFileModal } from '../components/UploadFileModal'
 import { UploadImageModal } from '../components/UploadImageModal'
 import './styles.scss'
 
@@ -63,6 +64,7 @@ export function ChatPage() {
   const [inputText, setInputText] = useState('')
   const [roomId, setChatroomId] = useState<string>()
   const [isUploadImageModalOpen, setUploadImageModalOpen] = useState(false)
+  const [isUploadFileModalOpen, setIsUploadFileModalOpen] = useState(false)
 
   async function queryChatroomList() {
     const res = await GET_CHATROOM_LIST({
@@ -173,6 +175,16 @@ export function ChatPage() {
     sendMessage({ type: MessageTypeEnum.IMAGE, content: imageUrl })
     setUploadImageModalOpen(false)
   }
+  async function handleUploadFileOk(data: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    image: UploadChangeParam<UploadFile<any>>
+  }) {
+    const { image } = data
+    const imageUrl = '/api' + image.file.response?.url
+    sendMessage({ type: MessageTypeEnum.FILE, content: imageUrl })
+    setIsUploadFileModalOpen(false)
+  }
+
   return (
     <div id="chat-container">
       <div className="chat-room-list">
@@ -220,6 +232,13 @@ export function ChatPage() {
                     className="max-w-[200px]"
                   />
                 )}
+                {item.type === MessageTypeEnum.FILE && (
+                  <div>
+                    <a download href={item.content}>
+                      {item.content}
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           )
@@ -254,7 +273,13 @@ export function ChatPage() {
           >
             图片
           </div>
-          <div className="message-type-item" key={3}>
+          <div
+            className="message-type-item"
+            key={3}
+            onClick={() => {
+              setIsUploadFileModalOpen(true)
+            }}
+          >
             文件
           </div>
         </div>
@@ -282,6 +307,10 @@ export function ChatPage() {
         open={isUploadImageModalOpen}
         handleOk={handleUploadOk}
       ></UploadImageModal>
+      <UploadFileModal
+        open={isUploadFileModalOpen}
+        handleOk={handleUploadFileOk}
+      ></UploadFileModal>
     </div>
   )
 }

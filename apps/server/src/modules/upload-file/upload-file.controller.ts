@@ -1,5 +1,4 @@
 import { MB } from '@/common/constant'
-import { IMAGE_EXTENSION_PATTERN } from '@/common/constant/regex'
 import { ApiCustomResponse } from '@/common/decorators/swagger'
 import {
   Body,
@@ -49,9 +48,9 @@ export class FileController {
     @Body() fileUploadDto: FileUploadDto,
     @UploadedFile(
       new ParseFilePipeBuilder()
-        .addFileTypeValidator({
-          fileType: IMAGE_EXTENSION_PATTERN,
-        })
+        // .addFileTypeValidator({
+        //   fileType: IMAGE_EXTENSION_PATTERN,
+        // })
         .addMaxSizeValidator({
           maxSize: 10 * MB,
         })

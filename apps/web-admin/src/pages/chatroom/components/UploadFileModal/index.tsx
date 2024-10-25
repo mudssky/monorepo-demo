@@ -7,7 +7,7 @@ interface UploadImageModalProps extends ModalProps {
   handleOk: (item: any) => void
 }
 
-export function UploadImageModal(props: UploadImageModalProps) {
+export function UploadFileModal(props: UploadImageModalProps) {
   const { handleOk, ...restProps } = props
   const [form] = Form.useForm()
   async function handleOkInner() {
@@ -16,7 +16,7 @@ export function UploadImageModal(props: UploadImageModalProps) {
   }
   return (
     <Modal
-      title="上传图片"
+      title="上传文件"
       onOk={handleOkInner}
       okText={'确认'}
       cancelText={'取消'}
@@ -25,9 +25,10 @@ export function UploadImageModal(props: UploadImageModalProps) {
       <Form form={form}>
         <Form.Item name="image">
           <CustomUpload
-            listType="picture-circle"
-            showUploadList={false}
-            ossPrefix="chatroomImage"
+            uploaderType="file"
+            listType="text"
+            showUploadList
+            ossPrefix="chatroomFile"
           ></CustomUpload>
         </Form.Item>
       </Form>

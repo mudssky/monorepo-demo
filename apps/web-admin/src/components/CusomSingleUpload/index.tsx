@@ -12,7 +12,8 @@ export interface AvaterInfo {
 export interface Props extends UploadProps {
   uploadButton?: ReactNode
   value?: AvaterInfo
-  ossPrefix: 'avatar' | 'chatroom'
+  ossPrefix: 'avatar' | 'chatroomImage' | 'chatroomFile'
+  uploaderType?: 'image' | 'file'
 }
 
 /**
@@ -30,6 +31,7 @@ export default function CustomUpload(props: Props) {
   const [imageUrl, setImageUrl] = useState<string>()
   // const [first, setfirst] = useState(second)
   const {
+    uploaderType = 'image',
     listType = 'picture-card',
     ossPrefix = 'avatar',
     value,
@@ -105,7 +107,7 @@ export default function CustomUpload(props: Props) {
   const currentImageUrl = value?.avatarFullUrl ?? imageUrl
   return (
     <Upload listType={listType} {...restProps} {...customProps}>
-      {currentImageUrl ? (
+      {currentImageUrl && uploaderType === 'image' ? (
         <img src={currentImageUrl} alt="avatar" style={{ width: '100%' }} />
       ) : (
         currentButton
