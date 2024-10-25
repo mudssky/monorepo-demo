@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ChatHistoryRes,
   ChatRoomListResDto,
@@ -54,7 +53,6 @@ type Reply =
     }
 
 export function ChatPage() {
-  const [messageList, setMessageList] = useState<Array<Message>>([])
   const [roomList, setRoomList] = useState<Array<ChatRoomListResDto>>()
   const [chatHistory, setChatHistory] = useState<Array<ChatHistoryRes>>()
   const socketRef = useRef<Socket>()
@@ -140,6 +138,7 @@ export function ChatPage() {
     return () => {
       socket.disconnect()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId])
   useEffect(() => {
     queryChatroomList()
