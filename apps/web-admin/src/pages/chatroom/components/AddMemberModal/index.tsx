@@ -17,7 +17,6 @@ export interface AddMember {
 }
 
 export function AddMemberModal(props: AddMemberModalProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { chatroomId, ...restProps } = props
   const [form] = useForm<AddMember>()
 

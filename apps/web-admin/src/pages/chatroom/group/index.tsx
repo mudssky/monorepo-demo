@@ -73,6 +73,7 @@ export function GroupPage() {
           ),
         },
       ] satisfies ColumnsType<ChatRoomListResDto>,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   )
 

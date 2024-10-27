@@ -33,6 +33,7 @@ export function GroupDetailModal(props: MembersModalProps) {
 
   useEffect(() => {
     queryMembers()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatroomId])
 
   const columns: ColumnsType<MemberRes> = [
