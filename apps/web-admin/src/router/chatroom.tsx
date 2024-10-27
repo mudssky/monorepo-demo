@@ -1,5 +1,4 @@
 import { ChatPage } from '@/pages/chatroom/chat'
-import { CollectionPage } from '@/pages/chatroom/collection'
 import { FriendshipPage } from '@/pages/chatroom/friendship'
 import { GroupPage } from '@/pages/chatroom/group'
 import ChatroomLayout from '@/pages/chatroom/layout'
@@ -24,11 +23,11 @@ export const chatroomRouter = {
       element: <ChatPage />,
       title: '聊天',
     },
-    {
-      path: 'collection',
-      element: <CollectionPage />,
-      title: '收藏',
-    },
+    // {
+    //   path: 'collection',
+    //   element: <CollectionPage />,
+    //   title: '收藏',
+    // },
     {
       path: 'notification',
       element: <NotificationPage />,
