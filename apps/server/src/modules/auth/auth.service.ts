@@ -4,13 +4,13 @@ import { BaseException } from '@/common/exceptions'
 import { DatabaseException } from '@/common/exceptions/database'
 import { EmailService } from '@/modules/email/email.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
-import { GlobalLoggerService, RedisService } from '@lib'
+import { RedisService } from '@lib'
 import {
   calculatePasswordStrengthLevel,
   generateBase62Code,
   omit,
 } from '@mudssky/jsutils'
-import { Injectable, OnModuleInit } from '@nestjs/common'
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { User } from '@prisma/client'
@@ -40,11 +40,10 @@ export type CaptchaType = keyof typeof captchaPrefixDict
 
 @Injectable()
 export class AuthService implements OnModuleInit {
-  //  private readonly logger = new Logger()
+  private readonly logger = new Logger(AuthService.name)
 
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly logger: GlobalLoggerService,
     private readonly userSevice: UserService,
     private readonly jwtService: JwtService,
     private readonly redisService: RedisService,
