@@ -1,5 +1,5 @@
 {
-  "extends": ["tsconfig/jsbookmark.json"],
+  "extends": ["@mudssky/tsconfig/jsbookmark.json"],
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist/tsoutput",
