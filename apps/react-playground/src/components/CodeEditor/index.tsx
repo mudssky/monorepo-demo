@@ -1,13 +1,11 @@
-/* eslint-disable prefer-rest-params */
-import FileNameList from './components/FileNameList/index'
-import Editor from './components/Editor/index'
+import { debounce } from '@mudssky/jsutils'
 import { useContext } from 'react'
 import { PlaygroundContext } from '../ReactPlayground/PlaygroundContext'
-import { debounce } from '@mudssky/jsutils'
+import Editor from './components/Editor/index'
+import FileNameList from './components/FileNameList/index'
 
 export default function CodeEditor() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { theme, files, setFiles, selectedFileName, setSelectedFileName } =
+  const { theme, files, setFiles, selectedFileName } =
     useContext(PlaygroundContext)
 
   const file = files[selectedFileName]

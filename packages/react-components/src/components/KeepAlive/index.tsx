@@ -12,6 +12,7 @@ type KeepAliveContextType = Omit<Required<KeepAliveLayoutProps>, 'children'>
 
 const keepElements: KeepAliveContextType['keepElements'] = {}
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const KeepAliveContext = createContext<KeepAliveContextType>({
   /** 执行keepAlive的路径 */
   keepPaths: [],

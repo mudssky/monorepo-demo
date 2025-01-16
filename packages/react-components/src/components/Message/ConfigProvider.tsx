@@ -5,6 +5,7 @@ interface ConfigProviderProps {
   messageRef?: RefObject<MessageRef>
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ConfigContext = createContext<ConfigProviderProps>({})
 
 export function ConfigProvider(props: PropsWithChildren) {

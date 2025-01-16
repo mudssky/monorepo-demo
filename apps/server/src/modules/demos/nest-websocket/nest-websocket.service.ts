@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common'
 import { CreateNestWebsocketDto } from './dto/create-nest-websocket.dto'
 import { UpdateNestWebsocketDto } from './dto/update-nest-websocket.dto'

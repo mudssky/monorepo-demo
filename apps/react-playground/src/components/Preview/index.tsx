@@ -1,10 +1,10 @@
+import { debounce } from 'lodash-es'
 import { useContext, useEffect, useRef, useState } from 'react'
+import { Message } from '../Message'
 import { PlaygroundContext } from '../ReactPlayground/PlaygroundContext'
 import { IMPORT_MAP_FILE_NAME } from '../ReactPlayground/files'
-import iframeRaw from './iframe.html?raw'
-import { Message } from '../Message'
 import CompilerWorker from './compile.worker?worker'
-import { debounce } from 'lodash-es'
+import iframeRaw from './iframe.html?raw'
 
 interface MessageData {
   data: {
@@ -77,6 +77,7 @@ export default function Preview() {
 
   useEffect(() => {
     setIframeUrl(getIframeUrl())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files[IMPORT_MAP_FILE_NAME].value, compiledCode])
 
   return (
