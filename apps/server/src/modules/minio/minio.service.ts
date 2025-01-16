@@ -17,6 +17,10 @@ export class MinioService implements OnModuleInit {
   private readonly minioProjectBucket: string
   @Inject('MINIO_CLIENT')
   private minioClient: Minio.Client
+
+  get isMinioConnectSuccess(): boolean {
+    return !!this.minioClient
+  }
   constructor(private configService: ConfigService<EnvironmentVariables>) {
     this.minioProjectBucket =
       this.configService.get('MINIO_PROJECT_BUCKET') ?? ''
@@ -27,6 +31,9 @@ export class MinioService implements OnModuleInit {
     //   this.logger.error('MINIO_PROJECT_BUCKET is not set')
     //   return
     // }
+    if (!this.isMinioConnectSuccess) {
+      return
+    }
     // bucket不存在则创建
     const isBucketExist = await this.minioClient.bucketExists(
       this.configService.get('MINIO_PROJECT_BUCKET') ?? '',
@@ -40,6 +47,9 @@ export class MinioService implements OnModuleInit {
   }
 
   async presignedPutUrl(presignedUrlParamDto: PresignedUrlParamDto) {
+    if (!this.isMinioConnectSuccess) {
+      throw new BaseException('Minio is not connect success')
+    }
     try {
       const res = await this.minioClient.presignedPutObject(
         this.minioProjectBucket,

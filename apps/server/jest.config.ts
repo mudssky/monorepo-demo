@@ -18,6 +18,7 @@ const config: Config = {
   // 添加tsconfig中的路径映射
   moduleNameMapper: {
     '@/(.*)$': '<rootDir>/$1',
+    '@lib': '<rootDir>/../libs/index',
   },
 }
 

@@ -7,8 +7,12 @@ import { GlobalExceptionFilter } from '@/common/filters/http-exception/http-exce
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
 import { EmailModule } from '@/modules/email/email.module'
-import { commonFileFormat, customLogFormat } from '@app/logger/logger.format'
-import { GlobalLoggerModule, RedisModule } from '@lib'
+import {
+  GlobalLoggerModule,
+  RedisModule,
+  commonFileFormat,
+  customLogFormat,
+} from '@lib'
 import { Global, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'

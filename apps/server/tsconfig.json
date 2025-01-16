@@ -7,9 +7,7 @@
       "@/*": ["src/*"],
       "@app/redis": ["libs/redis/src"],
       "@app/redis/*": ["libs/redis/src/*"],
-      "@lib": ["libs/index"],
-      "@app/logger": ["libs/logger/src"],
-      "@app/logger/*": ["libs/logger/src/*"]
+      "@lib": ["libs/index"]
     },
     "composite": true
   },
