@@ -69,13 +69,59 @@ Next, you can link your Turborepo to your Remote Cache by running the following 
 npx turbo link
 ```
 
-## Useful Links
+## changeset
 
-Learn more about the power of Turborepo:
+### add changeset to a new project
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+```
+pnpm add @changesets/cli -D && pnpm changeset init
+```
+
+### Adding changesets
+
+```
+pnpm changeset
+```
+
+or
+
+```
+npx @changesets/cli
+```
+
+### Versioning and publishing
+
+```
+pnpm changeset version
+```
+
+or
+
+```
+npx @changesets/cli version
+```
+
+
+
+then add a git commit 
+
+```
+git add .
+git commit
+git push
+```
+
+publish
+
+```
+pnpm changeset publish
+```
+
+or
+
+```
+npx @changesets/cli publish
+```
+
+
+

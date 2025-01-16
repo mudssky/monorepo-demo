@@ -6,7 +6,10 @@
     "build": "turbo run build --filter=!docs",
     "dev": "turbo run dev --filter=web",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format-and-lint": "biome check .",
+    "format-and-lint:fix": "biome check . --write",
     "lint": "turbo run lint",
+    "publish-packages": "turbo run build lint test && changeset version && changeset publish",
     "server:dev": "turbo run dev --filter=server"
   },
   "dependencies": {
