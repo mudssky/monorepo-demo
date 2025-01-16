@@ -16,12 +16,10 @@ export class GroupChatroomDemoGateway {
   joinRoom(client: Socket, room: string) {
     console.log({ room })
     client.join(room)
-    this.serverSocket
-      .to(room)
-      .emit('message', {
-        message: `User ${client.id} joined the room`,
-        nickName: 'system',
-      })
+    this.serverSocket.to(room).emit('message', {
+      message: `User ${client.id} joined the room`,
+      nickName: 'system',
+    })
   }
 
   @SubscribeMessage('sendMessage')

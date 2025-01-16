@@ -15,7 +15,8 @@ export type FieldType = {
 }
 
 export default function ChangePasswordForm() {
-  const { t, form, handleSubmit, handleBack,handleSendChangePasswordCaptcha } = useSetupHook()
+  const { t, form, handleSubmit, handleBack, handleSendChangePasswordCaptcha } =
+    useSetupHook()
   const currentPasswordWatch = Form.useWatch('newPassword', form)
   return (
     <div className="card glass w-[450px]">
@@ -91,7 +92,10 @@ export default function ChangePasswordForm() {
                 <Input placeholder={t('please input')} />
               </Col>
               <Col span={12}>
-                <Button type="primary" onClick={handleSendChangePasswordCaptcha}>
+                <Button
+                  type="primary"
+                  onClick={handleSendChangePasswordCaptcha}
+                >
                   {t('send_captcha')}
                 </Button>
               </Col>

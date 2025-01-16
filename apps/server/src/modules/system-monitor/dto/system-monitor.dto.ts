@@ -280,8 +280,9 @@ export class ProcessesDataDto implements Systeminformation.ProcessesData {
   list: Systeminformation.ProcessesProcessData[]
 }
 
-
-export class CurrentLoadCpuDataDto implements Systeminformation.CurrentLoadCpuData{
+export class CurrentLoadCpuDataDto
+  implements Systeminformation.CurrentLoadCpuData
+{
   load: number
   loadUser: number
   loadSystem: number
@@ -298,20 +299,19 @@ export class CurrentLoadCpuDataDto implements Systeminformation.CurrentLoadCpuDa
   rawLoadIrq: number
   rawLoadSteal: number
   rawLoadGuest: number
-  
 }
 
 // CurrentLoadData
 export class CurrentLoadDataDto implements Systeminformation.CurrentLoadData {
   avgLoad: number
-  @ApiProperty({description:"当前cpu负载%"})
+  @ApiProperty({ description: '当前cpu负载%' })
   currentLoad: number
   currentLoadUser: number
   currentLoadSystem: number
   currentLoadNice: number
-  @ApiProperty({description:"当前cpu负载空闲%"})
+  @ApiProperty({ description: '当前cpu负载空闲%' })
   currentLoadIdle: number
-    @ApiProperty({description:"当前cpu负载硬件中断%"})
+  @ApiProperty({ description: '当前cpu负载硬件中断%' })
   currentLoadIrq: number
   currentLoadSteal: number
   currentLoadGuest: number
