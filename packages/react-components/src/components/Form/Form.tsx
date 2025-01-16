@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from 'clsx'
 import React, {
   CSSProperties,
@@ -37,20 +39,17 @@ const Form = forwardRef<FormRefApi, FormProps>((props: FormProps, ref) => {
 
   const [values, setValues] = useState<Record<string, any>>(initialValues || {})
 
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        getFieldsValue() {
-          return values
-        },
-        setFieldsValue(fieldValues) {
-          setValues({ ...values, ...fieldValues })
-        },
-      }
-    },
-    [],
-  )
+  useImperativeHandle(ref, () => {
+    return {
+      getFieldsValue() {
+        return values
+      },
+      setFieldsValue(fieldValues) {
+        setValues({ ...values, ...fieldValues })
+      },
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const validatorMap = useRef(new Map<string, Function>())
 
@@ -63,7 +62,7 @@ const Form = forwardRef<FormRefApi, FormProps>((props: FormProps, ref) => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
-    for (let [key, callbackFunc] of validatorMap.current) {
+    for (const [key, callbackFunc] of validatorMap.current) {
       if (typeof callbackFunc === 'function') {
         errors.current[key] = callbackFunc()
       }

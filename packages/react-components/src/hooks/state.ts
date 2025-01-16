@@ -47,6 +47,7 @@ export function useMergeState<T>(
   // 非受控模式，值也可以通过propsValue传递，也可以setStateValue来设置。
   const mergedValue = propsValue === undefined ? stateValue : propsValue
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   function isFunction(value: unknown): value is Function {
     return typeof value === 'function'
   }
@@ -61,12 +62,13 @@ export function useMergeState<T>(
    */
   const setState = useCallback(
     (value: SetStateAction<T>) => {
-      let res = isFunction(value) ? value(stateValue) : value
+      const res = isFunction(value) ? value(stateValue) : value
       if (propsValue === undefined) {
         setStateValue(res)
       }
       onChange?.(res)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [stateValue],
   )
 

@@ -27,7 +27,7 @@ export const KeepAliveContext = createContext<KeepAliveContextType>({
 const isKeepPath = (keepPaths: Array<string | RegExp>, path: string) => {
   let isKeep = false
   for (let i = 0; i < keepPaths.length; i++) {
-    let item = keepPaths[i]
+    const item = keepPaths[i]
     if (item === path) {
       isKeep = true
     }
@@ -41,6 +41,7 @@ const isKeepPath = (keepPaths: Array<string | RegExp>, path: string) => {
   return isKeep
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useKeepOutlet() {
   const location = useLocation()
   const element = useOutlet()

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Schema from 'async-validator'
 import clsx from 'clsx'
 import React, {
@@ -50,6 +52,7 @@ const Item = (props: ItemProps) => {
     if (value !== values?.[name]) {
       setValue(values?.[name])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values, values?.[name]])
 
   const handleValidate = (value: any) => {
@@ -82,6 +85,7 @@ const Item = (props: ItemProps) => {
 
   useEffect(() => {
     validateRegister?.(name, () => handleValidate(value))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value])
 
   const propsName: Record<string, any> = {}

@@ -19,9 +19,7 @@
     "./cjs",
     "./esm"
   ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "peerDependencies": {
     "prettier": ">=3.0.0"
   },

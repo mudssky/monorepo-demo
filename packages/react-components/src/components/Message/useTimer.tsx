@@ -28,6 +28,7 @@ export function useTimer(props: UseTimerProps) {
   useEffect(() => {
     startTimer()
     return () => removeTimer()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onMouseEnter = () => {

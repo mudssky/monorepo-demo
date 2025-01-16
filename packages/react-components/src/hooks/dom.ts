@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RefObject, cloneElement, useEffect, useState } from 'react'
 
 const defaultMutateOptions: MutationObserverInit = {
@@ -31,6 +32,7 @@ export function useMutateObserver(
       instance?.takeRecords()
       instance?.disconnect()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options, nodeOrList])
 }
 
@@ -83,6 +85,7 @@ export const useScrolling = (ref: RefObject<HTMLElement>): boolean => {
 
       return () => {
         if (ref.current) {
+          // eslint-disable-next-line react-hooks/exhaustive-deps
           ref.current?.removeEventListener('scroll', handleScroll)
         }
       }

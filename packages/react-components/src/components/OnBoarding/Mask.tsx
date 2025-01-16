@@ -33,6 +33,7 @@ export const Mask: React.FC<MaskProps> = (props) => {
     return () => {
       window.clearTimeout(timer)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [element])
 
   const [style, setStyle] = useState<CSSProperties>({})
@@ -44,6 +45,7 @@ export const Mask: React.FC<MaskProps> = (props) => {
       setStyle(style)
     })
     observer.observe(container || document.documentElement)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

@@ -5,9 +5,7 @@
   "keywords": [],
   "license": "ISC",
   "author": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "devDependencies": {
     "stylelint-config-standard": "^34.0.0"
   },

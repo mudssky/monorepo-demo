@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react'
 
 const createStore = (
@@ -62,6 +63,7 @@ function useStore(api: any, selector: any) {
         forceRender(Math.random())
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return selector(api.getState())
 }

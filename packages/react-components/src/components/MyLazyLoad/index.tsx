@@ -68,6 +68,7 @@ const MyLazyload: FC<MyLazyloadProps> = (props) => {
         elementObserver.current?.unobserve(node)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

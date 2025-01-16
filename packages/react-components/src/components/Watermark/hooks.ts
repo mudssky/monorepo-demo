@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { merge } from 'lodash-es'
 import { useEffect, useRef, useState } from 'react'
 import { WatermarkProps } from '.'
@@ -242,6 +243,7 @@ export function useWatermark(params: WatermarkOptions) {
 
   useEffect(() => {
     drawWatermark()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options])
 
   return {

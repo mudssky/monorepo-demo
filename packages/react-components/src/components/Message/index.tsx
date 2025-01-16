@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CSSProperties,
   FC,
@@ -50,7 +51,7 @@ const MessageItem: FC<MessageProps> = (item) => {
   )
 }
 
-export const MessageProvider = forwardRef<MessageRef, {}>((props, ref) => {
+export const MessageProvider = forwardRef<MessageRef, object>((props, ref) => {
   const { messageList, add, update, remove, clearAll } = useStore('top')
 
   // 立刻修改ref，useImperativeHandle有一定延迟

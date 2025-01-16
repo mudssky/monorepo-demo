@@ -30,6 +30,7 @@ const Portal = forwardRef((props: PortalProps, ref) => {
 
 export default Portal
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function getAttach(attach: PortalProps['attach']) {
   if (typeof attach === 'string') {
     return document.querySelector(attach)

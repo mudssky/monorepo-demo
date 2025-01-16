@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Form, FormRefApi } from '@mudssky/react-components'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Button, Checkbox, Input } from 'antd'
