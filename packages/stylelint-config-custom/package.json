@@ -1,14 +1,17 @@
 {
-  "name": "stylelint-config-custom",
-  "version": "1.0.0",
+  "name": "@mudssky/stylelint-config-custom",
+  "version": "1.1.0",
   "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "stylelint-config-standard": "^34.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
