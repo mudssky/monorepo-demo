@@ -10,7 +10,8 @@
     "format-and-lint:fix": "biome check . --write",
     "lint": "turbo run lint",
     "publish-packages": "turbo run lint test && changeset version && changeset publish",
-    "server:dev": "turbo run dev --filter=server"
+    "server:dev": "turbo run dev --filter=server",
+    "test": "turbo run test"
   },
   "dependencies": {
     "@mudssky/jsutils": "^1.9.0",

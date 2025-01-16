@@ -1,14 +1,27 @@
-import { getEnvConfig, validate } from '@/common/config/config'
+import {
+  EnvironmentVariables,
+  getEnvConfig,
+  validate,
+} from '@/common/config/config'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
-import { GlobalLoggerModule } from '@lib'
+import {
+  commonFileFormat,
+  customLogFormat,
+  GlobalLoggerModule,
+  RedisModule,
+} from '@lib'
 import { CacheInterceptor } from '@nestjs/cache-manager'
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { ScheduleModule } from '@nestjs/schedule'
 import * as path from 'node:path'
+import winston from 'winston'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
+import { EmailModule } from '../email/email.module'
+import { SharedService } from '../global/shared.service'
 import { PrismaModule } from '../prisma/prisma.module'
 
 @Module({
@@ -23,7 +36,79 @@ import { PrismaModule } from '../prisma/prisma.module'
     }),
     CustomCacheModule,
     PrismaModule,
-    GlobalLoggerModule,
+    ScheduleModule.forRoot(),
+    GlobalLoggerModule.forRootAsync({
+      isGlobal: true,
+      useFactory: async (
+        configService: ConfigService<EnvironmentVariables>,
+      ) => {
+        return {
+          winstonConfig: {
+            level: configService.get('LOG_LEVEL') ?? 'debug',
+            transports: [
+              new winston.transports.File({
+                filename: 'log/error.log',
+                level: 'error',
+                format: commonFileFormat,
+              }),
+              new winston.transports.File({
+                filename: 'log/combined.log',
+                format: commonFileFormat,
+              }),
+              // 开发环境添加控制台输出
+              ...(process.env.NODE_ENV !== 'production'
+                ? [
+                    new winston.transports.Console({
+                      format: winston.format.combine(
+                        winston.format.colorize(),
+                        winston.format.timestamp({
+                          format: 'YYYY-MM-DD HH:mm:ss',
+                        }),
+                        customLogFormat,
+                      ),
+                    }),
+                  ]
+                : []),
+            ],
+          },
+        }
+      },
+      inject: [ConfigService],
+    }),
+    RedisModule.forRootAsync({
+      isGlobal: true,
+      useFactory: async (
+        configService: ConfigService<EnvironmentVariables>,
+      ) => {
+        return {
+          redisOptions: {
+            host: configService.get('REDIS_HOST'),
+            port: configService.get('REDIS_PORT'),
+          },
+        }
+      },
+      inject: [ConfigService],
+    }),
+    EmailModule.forRootAsync({
+      isGlobal: true,
+      useFactory: async (
+        configService: ConfigService<EnvironmentVariables>,
+      ) => {
+        return {
+          smtpOptions: {
+            // host: configService.get('MAIL_HOST'),
+            // port: configService.get('MAIL_PORT'),
+            // secure: false,
+            service: configService.get('MAIL_SERVICE_NAME'),
+            auth: {
+              user: configService.get('MAIL_USER'),
+              pass: configService.get('MAIL_PASS'),
+            },
+          },
+        }
+      },
+      inject: [ConfigService],
+    }),
   ],
   providers: [
     {
@@ -46,6 +131,8 @@ import { PrismaModule } from '../prisma/prisma.module'
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
     },
+    SharedService,
   ],
+  exports: [SharedService],
 })
 export class MockGlobalModule {}
