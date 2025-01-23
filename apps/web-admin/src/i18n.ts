@@ -1,10 +1,10 @@
 import dayjs from 'dayjs'
 import i18n from 'i18next'
-import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import { initReactI18next } from 'react-i18next'
 
-import zh_CN from '@/locales/zh-CN'
 import en_US from '@/locales/en-US'
+import zh_CN from '@/locales/zh-CN'
 import { useAppStore } from '@/store/appStore'
 import { message } from 'antd'
 import { useRef } from 'react'
@@ -53,7 +53,7 @@ export function useManageI18n() {
         },
         detection: {
           // 配置语言检测，我这里不用连接符，因为js变量不支持。
-          convertDetectedLanguage: (lng) => lng.replace('-', '_'),
+          convertDetectedLanguage: (lng: string) => lng.replace('-', '_'),
         },
       })
     const detectedLanguage = (i18n.language ?? fallBackLng) as localeKey
