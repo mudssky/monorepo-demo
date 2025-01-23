@@ -45,7 +45,7 @@ export class SystemMonitorController {
   @ApiCustomResponse({
     type: ProcessesDataDto,
   })
-  @CacheTTL(4 * SECOND)
+  @CacheTTL(30 * SECOND)
   @UseInterceptors(CacheInterceptor)
   @Get('getProcesses')
   async getProcesses() {

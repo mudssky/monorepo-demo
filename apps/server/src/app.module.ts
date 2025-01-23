@@ -45,7 +45,8 @@ import { FileModule } from './modules/upload-file/upload-file.module'
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     // 对所有路由应用
-    consumer.apply(LoggerMiddleware).forRoutes('*')
+    // 升级nest11，底层为express5，*需要替换为{*splat}表示任意路由
+    consumer.apply(LoggerMiddleware).forRoutes('{*splat}')
 
     // 路由支持通配符
     // forRoutes({ path: 'ab*cd', method: RequestMethod.ALL });
