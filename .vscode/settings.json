@@ -8,5 +8,9 @@
   //clsx针对tailwind配置
   "tailwindCSS.experimental.classRegex": [
     ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "i18n-ally.localesPaths": [
+    "apps/web-admin/src/locales",
+    "packages/react-components/src/components/Calendar/locale"
   ]
 }
