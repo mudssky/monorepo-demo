@@ -20,6 +20,9 @@ import { MinioService } from './minio.service'
             accessKey: configService.get('MINIO_ACCESS_KEY') ?? '',
             secretKey: configService.get('MINIO_SECRET_KEY') ?? '',
           })
+          // 增加一步，防止因为密钥错误连接失败，在service内报错。
+          const buckets = await client.listBuckets()
+          logger.log(`Buckets: ${buckets}`)
           return client
         } catch (error) {
           logger.error(error)
