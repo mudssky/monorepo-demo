@@ -5,13 +5,12 @@ import {
   IsBoolean,
   IsEmail,
   IsEnum,
-  IsIP,
   IsNotEmpty,
   IsNumberString,
   IsString,
   validateSync,
 } from 'class-validator'
-import { IsPortNum } from '../decorators/validators'
+import { IsPortNum, IsValidHost } from '../decorators/validators'
 enum Environment {
   Development = 'development',
   Production = 'production',
@@ -78,7 +77,7 @@ export class EnvironmentVariables {
   @IsEnum(CacheType)
   CACHE_TYPE: CacheType = CacheType.Memory
   @Expose()
-  @IsIP('4')
+  @IsValidHost()
   REDIS_HOST = '127.0.0.1'
 
   @Transform(({ value }) => parseInt(value), { toClassOnly: true })
