@@ -58,6 +58,9 @@ ENV NODE_ENV=production
 RUN npm install pm2 -g
 
 EXPOSE 33101
+
+ENV  REDIS_HOST='host.docker.internal'
+ENV MINIO_ENDPOINT = 'host.docker.internal'
 # CMD是启动命令，但是可以灵活修改
 # docker run -p 33201:33201 nest-admin echo 'hello'
 # 也可以换成ENTRYPOINT，这样必定会执行。
@@ -70,5 +73,4 @@ EXPOSE 33101
 # 暴露写入数据的两个地方
 VOLUME [ "/build/server/log","/build/server/static" ]
 ENV DATABASE_URL="postgresql://postgres:123456@host.docker.internal:5432/nestAdmin?schema=public"
-
 CMD [ "pnpm","dev" ]
