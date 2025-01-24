@@ -3,6 +3,7 @@ include:
 
 services:
   nest-admin-prod:
+    restart: always
     build:
       context: ./
       dockerfile: ./dockerfile
