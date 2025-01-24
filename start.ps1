@@ -2,7 +2,7 @@
 
 [CmdletBinding()]
 param (
-    [ValidateSet("all-containers", "nest-admin")]
+    [ValidateSet("all-infra-containers", "nest-admin")]
     $Mode
 )
     
