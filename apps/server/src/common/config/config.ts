@@ -55,6 +55,7 @@ export class EnvironmentVariables {
   // #-----------------------oss相关配置---------------
 
   @Expose()
+  @IsValidHost()
   MINIO_ENDPOINT = 'localhost'
   @Expose()
   @Transform(({ value }) => parseInt(value), { toClassOnly: true })

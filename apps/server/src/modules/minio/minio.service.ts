@@ -19,7 +19,7 @@ export class MinioService implements OnModuleInit {
   private minioClient: Minio.Client
 
   get isMinioConnectSuccess(): boolean {
-    return !!this.minioClient
+    return 'bucketExists' in (this.minioClient || {})
   }
   constructor(private configService: ConfigService<EnvironmentVariables>) {
     this.minioProjectBucket =
