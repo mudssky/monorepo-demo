@@ -29,4 +29,4 @@ services:
       - MINIO_ROOT_USER=root
       - MINIO_ROOT_PASSWORD=12345678
     volumes:
-      - C:/docker_data/redis/data:/bitnami/minio/data
+      - C:/docker_data/minio/data:/bitnami/minio/data
