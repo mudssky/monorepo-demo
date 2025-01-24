@@ -1,0 +1,32 @@
+services:
+  postgres-container:
+    image: postgres:17
+    restart: always
+    # 共享内存限制
+    shm_size: 128mb
+    ports:
+      - '5432:5432'
+    volumes:
+      - C:/docker_data/postgresql/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: nestAdmin
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+  redis-container:
+    image: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - C:/docker_data/redis/data:/data
+  minio-container:
+    image: bitnami/minio
+    restart: always
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=12345678
+    volumes:
+      - C:/docker_data/redis/data:/bitnami/minio/data

@@ -1,0 +1,17 @@
+include:
+   - compose.infra.yml
+
+services:
+  nest-admin-prod:
+    build:
+      context: ./
+      dockerfile: ./dockerfile
+      target: nest-admin-prod
+      tags:
+        - nest-admin-prod:latest
+    depends_on:
+      - postgres-container
+      - redis-container
+      - minio-container
+    ports:
+      - '33501:33101'
