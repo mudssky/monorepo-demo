@@ -5,6 +5,7 @@ import {
   FileOutlined,
   NodeIndexOutlined,
   PieChartOutlined,
+  RobotOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons'
@@ -88,6 +89,17 @@ const items: MenuItem[] = [
       {
         label: <Link to={'/chatroom'}> {'chatroom'}</Link>,
         key: '5-1',
+      },
+    ],
+  },
+  {
+    label: 'AI相关',
+    key: 'ai',
+    icon: <RobotOutlined />,
+    children: [
+      {
+        label: <Link to={'/ai-demo'}> {'贪吃蛇游戏'}</Link>,
+        key: '6-2',
       },
     ],
   },

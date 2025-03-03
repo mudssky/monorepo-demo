@@ -5,6 +5,7 @@ import { AppLayout } from '@/layout/appLayout'
 import { Login } from '@/pages/login'
 import { NotFound } from '@/pages/not-found/index'
 
+import AiDemo from '@/pages/examples/ai'
 import DndKitDemo from '@/pages/examples/dnd-kit'
 import ReactDndDemo from '@/pages/examples/react-dnd'
 import ReactFlowDemo from '@/pages/examples/react-flow'
@@ -69,6 +70,10 @@ export const routeList = [
   {
     path: '/websocket-demo',
     element: <WebsocketDemo />,
+  },
+  {
+    path: '/ai-demo',
+    element: <AiDemo />,
   },
   chatroomRouter,
 ] as const satisfies CustomRouteObject[]
