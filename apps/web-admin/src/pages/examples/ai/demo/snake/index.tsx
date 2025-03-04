@@ -1,3 +1,4 @@
+import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
 import { Button, Card } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 
@@ -6,12 +7,14 @@ interface Position {
   y: number
 }
 
+// 在 GameState 接口中添加暂停状态
 interface GameState {
   snake: Position[]
   food: Position
   direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT'
   score: number
   gameOver: boolean
+  isPaused: boolean // 新增
 }
 
 const initialGameState: GameState = {
@@ -20,7 +23,9 @@ const initialGameState: GameState = {
   direction: 'RIGHT',
   score: 0,
   gameOver: false,
+  isPaused: false, // 新增
 }
+
 export default function SnakeGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationFrameRef = useRef<number>()
@@ -34,6 +39,13 @@ export default function SnakeGame() {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
+      // 添加空格键暂停功能
+      if (e.code === 'Space') {
+        gameStateRef.current.isPaused = !gameStateRef.current.isPaused
+        setGameStateOrigin({ ...gameStateRef.current })
+        return
+      }
+
       const currentDirection = gameStateRef.current.direction
       switch (e.key) {
         case 'ArrowUp':
@@ -134,6 +146,18 @@ export default function SnakeGame() {
 
     ctx.clearRect(0, 0, canvasSize, canvasSize)
 
+    const borderSize = 1
+    // 绘制墙壁
+    ctx.fillStyle = '#34495e'
+    // 上墙
+    ctx.fillRect(0, 0, canvasSize, borderSize)
+    // 下墙
+    ctx.fillRect(0, canvasSize - borderSize, canvasSize, borderSize)
+    // 左墙
+    ctx.fillRect(0, 0, borderSize, canvasSize)
+    // 右墙
+    ctx.fillRect(canvasSize - borderSize, 0, borderSize, canvasSize)
+
     ctx.fillStyle = '#4CAF50'
     state.snake.forEach((segment) => {
       ctx.fillRect(
@@ -152,38 +176,38 @@ export default function SnakeGame() {
       gridSize - 2,
     )
   }
-
+  function updateUI() {
+    setGameStateOrigin({ ...gameStateRef.current })
+  }
   const startGame = () => {
     // 重置游戏状态
-    gameStateRef.current = {
-      snake: [{ x: 10, y: 10 }],
-      food: { x: 15, y: 15 },
-      direction: 'RIGHT',
-      score: 0,
-      gameOver: false,
-    }
+    gameStateRef.current = { ...initialGameState }
     generateFood()
 
     let lastTime = 0
     const frameInterval = 150
 
     const animate = (timestamp: number) => {
-      if (!gameStateRef.current.gameOver) {
+      // 增加暂停判断
+      if (!gameStateRef.current.isPaused) {
         drawGame()
         const deltaTime = timestamp - lastTime
         if (deltaTime >= frameInterval) {
           moveSnake()
           lastTime = timestamp
-          setGameStateOrigin({ ...gameStateRef.current })
+          updateUI()
         }
+        animationFrameRef.current = requestAnimationFrame(animate)
+      } else if (gameStateRef.current.isPaused) {
+        // 暂停时继续保持动画循环
         animationFrameRef.current = requestAnimationFrame(animate)
       }
     }
-
     animationFrameRef.current = requestAnimationFrame(animate)
   }
 
   useEffect(() => {
+    drawGame()
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
@@ -191,9 +215,27 @@ export default function SnakeGame() {
     }
   }, [])
 
+  // 在返回的 JSX 中替换空 div
   return (
     <Card title="贪吃蛇游戏" className="w-[1200px]">
       <div className="flex flex-col items-center gap-4">
+        <div className="flex items-center gap-4 justify-end w-full mr-[10px]">
+          {!gameStateOrigin.gameOver && (
+            <div
+              className="text-2xl cursor-pointer"
+              onClick={() => {
+                gameStateRef.current.isPaused = !gameStateRef.current.isPaused
+                updateUI()
+              }}
+            >
+              {gameStateOrigin.isPaused ? (
+                <PlayCircleOutlined className="text-green-500" />
+              ) : (
+                <PauseCircleOutlined className="text-blue-500" />
+              )}
+            </div>
+          )}
+        </div>
         <div className="text-lg">得分: {gameStateOrigin.score}</div>
         <canvas
           ref={canvasRef}
@@ -204,10 +246,15 @@ export default function SnakeGame() {
         {gameStateOrigin.gameOver && (
           <div className="text-red-500 text-lg">游戏结束！</div>
         )}
+        {gameStateOrigin.isPaused && !gameStateOrigin.gameOver && (
+          <div className="text-yellow-500 text-lg">游戏暂停</div>
+        )}
         <Button type="primary" onClick={startGame}>
-          {gameStateOrigin.gameOver ? '开始游戏' : '重新开始'}
+          {gameStateOrigin.gameOver ? '重新开始' : '开始游戏'}
         </Button>
-        <div className="text-gray-500 text-sm">使用键盘方向键控制蛇的移动</div>
+        <div className="text-gray-500 text-sm">
+          使用键盘方向键控制蛇的移动，空格键暂停/继续
+        </div>
       </div>
     </Card>
   )
