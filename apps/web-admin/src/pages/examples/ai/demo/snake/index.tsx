@@ -1,5 +1,5 @@
 import { Button, Card } from 'antd'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface Position {
   x: number
@@ -14,19 +14,21 @@ interface GameState {
   gameOver: boolean
 }
 
+const initialGameState: GameState = {
+  snake: [{ x: 10, y: 10 }],
+  food: { x: 15, y: 15 },
+  direction: 'RIGHT',
+  score: 0,
+  gameOver: false,
+}
 export default function SnakeGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationFrameRef = useRef<number>()
-
+  // const [, forceUpdate] = useState(undefined)
   // 使用单个 gameState 存储所有游戏状态
-  const gameStateRef = useRef<GameState>({
-    snake: [{ x: 10, y: 10 }],
-    food: { x: 15, y: 15 },
-    direction: 'RIGHT',
-    score: 0,
-    gameOver: false,
-  })
-
+  const gameStateRef = useRef<GameState>(initialGameState)
+  const [gameStateOrigin, setGameStateOrigin] =
+    useState<GameState>(initialGameState)
   const gridSize = 20
   const canvasSize = 600
 
@@ -173,6 +175,7 @@ export default function SnakeGame() {
           drawGame()
           lastTime = timestamp
         }
+        setGameStateOrigin({ ...gameStateRef.current })
         animationFrameRef.current = requestAnimationFrame(animate)
       }
     }
@@ -188,24 +191,21 @@ export default function SnakeGame() {
     }
   }, [])
 
-  const state = gameStateRef.current
   return (
     <Card title="贪吃蛇游戏" className="w-[1200px]">
       <div className="flex flex-col items-center gap-4">
-        <div className="text-lg">得分: {state.score}</div>
+        <div className="text-lg">得分: {gameStateOrigin.score}</div>
         <canvas
           ref={canvasRef}
           width={canvasSize}
           height={canvasSize}
           className="border border-gray-300"
         />
-        {state.gameOver && (
+        {gameStateOrigin.gameOver && (
           <div className="text-red-500 text-lg">游戏结束！</div>
         )}
         <Button type="primary" onClick={startGame}>
-          {state.gameOver || !animationFrameRef.current
-            ? '开始游戏'
-            : '重新开始'}
+          {gameStateOrigin.gameOver ? '开始游戏' : '重新开始'}
         </Button>
         <div className="text-gray-500 text-sm">使用键盘方向键控制蛇的移动</div>
       </div>
