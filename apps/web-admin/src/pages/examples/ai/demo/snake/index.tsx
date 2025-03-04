@@ -169,13 +169,13 @@ export default function SnakeGame() {
 
     const animate = (timestamp: number) => {
       if (!gameStateRef.current.gameOver) {
+        drawGame()
         const deltaTime = timestamp - lastTime
         if (deltaTime >= frameInterval) {
           moveSnake()
-          drawGame()
           lastTime = timestamp
+          setGameStateOrigin({ ...gameStateRef.current })
         }
-        setGameStateOrigin({ ...gameStateRef.current })
         animationFrameRef.current = requestAnimationFrame(animate)
       }
     }
