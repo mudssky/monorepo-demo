@@ -97,6 +97,11 @@ export default function SnakeGame() {
 
   const moveSnake = () => {
     const state = gameStateRef.current
+    // 如果游戏结束，直接返回
+    if (state.gameOver) {
+      return
+    }
+
     const newSnake = [...state.snake]
     const head = { ...newSnake[0] }
 
