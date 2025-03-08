@@ -17,7 +17,7 @@
     "do-admin-dev": "pnpm dev:quick",
     "doc:generate-metadata": "tsx src/generate-metadata.ts",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
-    "postinstall": "pnpm prisma:generate",
+    "postinstall": "pnpm prisma:generate&& pnpm doc:generate-metadata",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "prisma:doc-serve": "pwsh -File start.ps1 -Mode prisma-doc",
     "prisma:generate": "prisma generate",
