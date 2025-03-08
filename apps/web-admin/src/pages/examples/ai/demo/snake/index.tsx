@@ -14,7 +14,7 @@ interface GameState {
   direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT'
   score: number
   gameOver: boolean
-  isPaused: boolean // 新增
+  isPaused: boolean
 }
 
 const initialGameState: GameState = {
@@ -23,19 +23,125 @@ const initialGameState: GameState = {
   direction: 'RIGHT',
   score: 0,
   gameOver: false,
-  isPaused: false, // 新增
+  isPaused: false,
 }
 
 export default function SnakeGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationFrameRef = useRef<number>()
-  // const [, forceUpdate] = useState(undefined)
-  // 使用单个 gameState 存储所有游戏状态
   const gameStateRef = useRef<GameState>(initialGameState)
   const [gameStateOrigin, setGameStateOrigin] =
     useState<GameState>(initialGameState)
   const gridSize = 20
   const canvasSize = 600
+
+  // 抽离绘制边界的函数
+  const drawBorders = (ctx: CanvasRenderingContext2D) => {
+    const borderSize = 1
+    ctx.fillStyle = '#34495e'
+    // 上墙
+    ctx.fillRect(0, 0, canvasSize, borderSize)
+    // 下墙
+    ctx.fillRect(0, canvasSize - borderSize, canvasSize, borderSize)
+    // 左墙
+    ctx.fillRect(0, 0, borderSize, canvasSize)
+    // 右墙
+    ctx.fillRect(canvasSize - borderSize, 0, borderSize, canvasSize)
+  }
+
+  // 抽离绘制蛇头的函数
+  const drawSnakeHead = (
+    ctx: CanvasRenderingContext2D,
+    segment: Position,
+    direction: string,
+  ) => {
+    ctx.fillStyle = '#2E7D32' // 深绿色蛇头
+    // 绘制圆角矩形作为蛇头
+    const radius = 4
+    const x = segment.x * gridSize
+    const y = segment.y * gridSize
+    const width = gridSize - 2
+    const height = gridSize - 2
+
+    ctx.beginPath()
+    ctx.moveTo(x + radius, y)
+    ctx.lineTo(x + width - radius, y)
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius)
+    ctx.lineTo(x + width, y + height - radius)
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height)
+    ctx.lineTo(x + radius, y + height)
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius)
+    ctx.lineTo(x, y + radius)
+    ctx.quadraticCurveTo(x, y, x + radius, y)
+    ctx.closePath()
+    ctx.fill()
+
+    // 添加眼睛
+    ctx.fillStyle = 'white'
+    const eyeSize = 3
+    const eyeOffset = 5
+    // 根据方向调整眼睛位置
+    switch (direction) {
+      case 'RIGHT':
+        ctx.fillRect(x + width - eyeOffset, y + eyeOffset, eyeSize, eyeSize)
+        ctx.fillRect(
+          x + width - eyeOffset,
+          y + height - eyeOffset - eyeSize,
+          eyeSize,
+          eyeSize,
+        )
+        break
+      case 'LEFT':
+        ctx.fillRect(x + eyeOffset - eyeSize, y + eyeOffset, eyeSize, eyeSize)
+        ctx.fillRect(
+          x + eyeOffset - eyeSize,
+          y + height - eyeOffset - eyeSize,
+          eyeSize,
+          eyeSize,
+        )
+        break
+      case 'UP':
+        ctx.fillRect(x + eyeOffset, y + eyeOffset - eyeSize, eyeSize, eyeSize)
+        ctx.fillRect(
+          x + width - eyeOffset - eyeSize,
+          y + eyeOffset - eyeSize,
+          eyeSize,
+          eyeSize,
+        )
+        break
+      case 'DOWN':
+        ctx.fillRect(x + eyeOffset, y + height - eyeOffset, eyeSize, eyeSize)
+        ctx.fillRect(
+          x + width - eyeOffset - eyeSize,
+          y + height - eyeOffset,
+          eyeSize,
+          eyeSize,
+        )
+        break
+    }
+  }
+
+  // 抽离绘制蛇身的函数
+  const drawSnakeBody = (ctx: CanvasRenderingContext2D, segment: Position) => {
+    ctx.fillStyle = '#4CAF50'
+    ctx.fillRect(
+      segment.x * gridSize,
+      segment.y * gridSize,
+      gridSize - 2,
+      gridSize - 2,
+    )
+  }
+
+  // 抽离绘制食物的函数
+  const drawFood = (ctx: CanvasRenderingContext2D, food: Position) => {
+    ctx.fillStyle = '#FF5722'
+    ctx.fillRect(
+      food.x * gridSize,
+      food.y * gridSize,
+      gridSize - 2,
+      gridSize - 2,
+    )
+  }
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -151,39 +257,28 @@ export default function SnakeGame() {
 
     ctx.clearRect(0, 0, canvasSize, canvasSize)
 
-    const borderSize = 1
-    // 绘制墙壁
-    ctx.fillStyle = '#34495e'
-    // 上墙
-    ctx.fillRect(0, 0, canvasSize, borderSize)
-    // 下墙
-    ctx.fillRect(0, canvasSize - borderSize, canvasSize, borderSize)
-    // 左墙
-    ctx.fillRect(0, 0, borderSize, canvasSize)
-    // 右墙
-    ctx.fillRect(canvasSize - borderSize, 0, borderSize, canvasSize)
+    // 绘制边界
+    drawBorders(ctx)
 
-    ctx.fillStyle = '#4CAF50'
-    state.snake.forEach((segment) => {
-      ctx.fillRect(
-        segment.x * gridSize,
-        segment.y * gridSize,
-        gridSize - 2,
-        gridSize - 2,
-      )
+    // 绘制蛇
+    state.snake.forEach((segment, index) => {
+      if (index === 0) {
+        // 绘制蛇头
+        drawSnakeHead(ctx, segment, state.direction)
+      } else {
+        // 绘制蛇身
+        drawSnakeBody(ctx, segment)
+      }
     })
 
-    ctx.fillStyle = '#FF5722'
-    ctx.fillRect(
-      state.food.x * gridSize,
-      state.food.y * gridSize,
-      gridSize - 2,
-      gridSize - 2,
-    )
+    // 绘制食物
+    drawFood(ctx, state.food)
   }
+
   function updateUI() {
     setGameStateOrigin({ ...gameStateRef.current })
   }
+
   const startGame = () => {
     // 重置游戏状态
     gameStateRef.current = { ...initialGameState }
@@ -218,9 +313,9 @@ export default function SnakeGame() {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // 在返回的 JSX 中替换空 div
   return (
     <Card title="贪吃蛇游戏" className="w-[1200px]">
       <div className="flex flex-col items-center gap-4">
