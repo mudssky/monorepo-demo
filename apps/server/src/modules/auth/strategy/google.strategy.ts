@@ -12,10 +12,11 @@ export interface GoogleAuthInfo {
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(private configService: ConfigService) {
     super({
-      clientID: configService.get<string>('GOOGLE_OAUTH_CLIENT_ID'),
-      clientSecret: configService.get<string>('GOOGLE_OAUTH_CLIENT_SECRET'),
-      callbackURL: configService.get('GOOGLE_OAUTH_CALLBACK_URL'),
-      scope: configService.get('GOOGLE_OAUTH_SCOPE'),
+      clientID: configService.get<string>('GOOGLE_OAUTH_CLIENT_ID')!,
+      clientSecret: configService.get<string>('GOOGLE_OAUTH_CLIENT_SECRET')!,
+      callbackURL: configService.get('GOOGLE_OAUTH_CALLBACK_URL')!,
+      scope: configService.get('GOOGLE_OAUTH_SCOPE')!,
+      passReqToCallback: true,
     })
   }
 

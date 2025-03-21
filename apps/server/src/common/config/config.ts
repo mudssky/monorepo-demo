@@ -118,7 +118,7 @@ export class EnvironmentVariables {
 
   // ----------------------------jwt相关配置---------------
   @Expose()
-  JWT_SECRET: string
+  JWT_SECRET: string = '测试字符串'
   @IsNumberString()
   @Expose()
   JWT_EXPIRATION: string
