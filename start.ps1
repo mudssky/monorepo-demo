@@ -10,11 +10,11 @@ param (
 switch ($Mode) {
 
     'all-infra-containers' {
-        docker-compose --env-file compose.env -f compose.infra.yml up -d
+        docker compose --env-file compose.env -f compose.infra.yml up -d
     }
 
     'nest-admin' {
-        docker-compose --env-file compose.env -f compose.nest-admin.yml up -d
+        docker compose --env-file compose.env -f compose.nest-admin.yml up -d
     }
      
 
