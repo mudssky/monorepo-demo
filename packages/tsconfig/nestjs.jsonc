@@ -11,12 +11,12 @@
     "target": "ES2021",
     "sourceMap": true,
     "incremental": true,
-
+    // "strict": false,严格模式会导致Dto的报错，影响依赖注入，因为属性没有初始化
     "skipLibCheck": true,
-    "strictNullChecks": true,
+    "strictNullChecks": true, //使用zod库需要开启
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+  },
 }
