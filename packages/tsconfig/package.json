@@ -2,6 +2,14 @@
   "name": "@mudssky/tsconfig",
   "version": "0.1.0",
   "license": "MIT",
+  "scripts": {
+    "build": "pwsh -File ./build.ps1",
+    "postbuild": "pnpm format",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "strip-json-comments-cli": "^3.0.0"
+  },
   "publishConfig": {
     "access": "public"
   }

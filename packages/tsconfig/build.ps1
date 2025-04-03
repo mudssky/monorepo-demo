@@ -1,0 +1,1 @@
+Get-ChildItem *.jsonc | ForEach-Object { pnpm strip-json-comments  $_.Name  $_.Name.Replace('.jsonc', '.json') --no-whitespace }
