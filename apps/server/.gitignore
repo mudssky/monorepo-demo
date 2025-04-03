@@ -48,3 +48,7 @@ src/metadata.ts
 uploadTemp/
 
 prisma/docs/
+
+# 生产环境配置不能上传
+.env.production
+.env.production.local

@@ -1,12 +1,5 @@
 import winston from 'winston'
 
-export const commonFileFormat = winston.format.combine(
-  winston.format.json(),
-  winston.format.timestamp({
-    format: 'YYYY-MM-DD HH:mm:ss',
-  }),
-)
-
 export const customLogFormat = winston.format.printf(
   ({ level, message, timestamp, ...meta }) => {
     const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : ''
@@ -14,4 +7,10 @@ export const customLogFormat = winston.format.printf(
       typeof message === 'object' ? JSON.stringify(message) : message
     return `${timestamp} [${level}]: ${messageStr} ${metaStr}`
   },
+)
+export const commonFileFormat = winston.format.combine(
+  winston.format.timestamp({
+    format: 'YYYY-MM-DD HH:mm:ss',
+  }),
+  winston.format.json(),
 )

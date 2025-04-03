@@ -72,7 +72,8 @@ export class EnvironmentVariables {
   @Expose()
   @IsEnum(LogLevel)
   LOG_LEVEL: LogLevel = LogLevel.Debug
-
+  @Expose()
+  LOG_DIR = 'log'
   // -----------------------缓存和redis配置-------------
   @Expose()
   @IsEnum(CacheType)
@@ -158,6 +159,28 @@ export class EnvironmentVariables {
   @Expose()
   @IsString()
   MAIL_PASS
+
+  // #--------------------------- 阿里云API配置 ------------------------------------------
+  @Expose()
+  @IsString()
+  ALIYUN_ACCESS_KEY_ID
+  @Expose()
+  @IsString()
+  ALIYUN_ACCESS_KEY_SECRET
+  @Expose()
+  @IsString()
+  ALIYUN_ZIYAN_DBINSTANCE_ID
+  @Expose()
+  @IsString()
+  ALIYUN_MALL_DBINSTANCE_ID
+  @Expose()
+  DINGDING_WEBHOOK_URL1
+  // #--------------------------- AI相关配置 ------------------------------------------
+  @Expose()
+  @IsString()
+  SILICONFLOW_API_KEY
+  @Expose()
+  SILICONFLOW_MODEL
 }
 
 export type GlobalEnvConfigKey = keyof EnvironmentVariables
@@ -208,8 +231,8 @@ export function validate(config: Record<string, unknown>) {
 
   const errors = validateSync(validatedConfig, { skipMissingProperties: false })
   if (errors.length > 0) {
-    console.log({ errors })
-    console.log({ validatedConfig })
+    // console.log({ errors })
+    // console.log({ validatedConfig })
     throw new Error(errors.toString())
   }
   return validatedConfig

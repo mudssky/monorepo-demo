@@ -26,7 +26,13 @@ import { CustomCacheModule } from '../custom-cache/custom-cache.module'
 import { MinioModule } from '../minio/minio.module'
 import { PrismaModule } from '../prisma/prisma.module'
 import { SharedService } from './shared.service'
+import { MB } from '@/common/constant'
 
+const commonFileLoggerConfig = {
+  format: commonFileFormat,
+  maxsize: 10 * MB, // 10MB
+  maxFiles: 5,
+}
 @Global()
 @Module({
   imports: [
@@ -34,10 +40,12 @@ import { SharedService } from './shared.service'
     ConfigModule.forRoot({
       envFilePath:
         process.env.NODE_ENV === 'production'
-          ? ['.env.production.local', '.env.production', '.env']
-          : ['.env.development.local', '.env.development'],
+          ? ['.env.production.local', '.env.production']
+          : ['.env.local', '.env.development.local', '.env.development'],
       isGlobal: true,
       load: [getEnvConfig],
+      // 会默认加载.env文件，即使配置了envFilePath
+      //  ignoreEnvFile: true, // 明确禁止自动加载 .env 文件
       cache: true, //缓存，提升访问.env的性能
       validate,
     }),
@@ -87,33 +95,47 @@ import { SharedService } from './shared.service'
       useFactory: async (
         configService: ConfigService<EnvironmentVariables>,
       ) => {
+        const isProduction = process.env.NODE_ENV === 'production'
+        const logDir = configService.get('LOG_DIR') || 'log'
+        const logLevel = configService.get('LOG_LEVEL') ?? 'debug'
+
         return {
           winstonConfig: {
-            level: configService.get('LOG_LEVEL') ?? 'debug',
+            level: logLevel,
             transports: [
               new winston.transports.File({
-                filename: 'log/error.log',
+                filename: path.join(logDir, 'error.log'),
                 level: 'error',
-                format: commonFileFormat,
+                ...commonFileLoggerConfig,
               }),
               new winston.transports.File({
-                filename: 'log/combined.log',
-                format: commonFileFormat,
+                filename: path.join(logDir, 'combined.log'),
+                level: 'debug',
+                ...commonFileLoggerConfig,
               }),
-              // 开发环境添加控制台输出
-              ...(process.env.NODE_ENV !== 'production'
-                ? [
-                    new winston.transports.Console({
-                      format: winston.format.combine(
-                        winston.format.colorize(),
-                        winston.format.timestamp({
-                          format: 'YYYY-MM-DD HH:mm:ss',
-                        }),
-                        customLogFormat,
-                      ),
-                    }),
-                  ]
-                : []),
+              new winston.transports.Console({
+                format: winston.format.combine(
+                  winston.format.colorize(),
+                  winston.format.timestamp({
+                    format: 'YYYY-MM-DD HH:mm:ss',
+                  }),
+                  isProduction
+                    ? winston.format.simple() // 生产环境使用简单格式
+                    : customLogFormat,
+                ),
+              }),
+            ],
+            exceptionHandlers: [
+              new winston.transports.File({
+                filename: path.join(logDir, 'exceptions.log'),
+                ...commonFileLoggerConfig,
+              }),
+            ],
+            rejectionHandlers: [
+              new winston.transports.File({
+                filename: path.join(logDir, 'rejections.log'),
+                ...commonFileLoggerConfig,
+              }),
             ],
           },
         }

@@ -33,7 +33,8 @@ export class GlobalLoggerService implements LoggerService {
     this.logger.info(message, optionalParams)
   }
   error(message: any, ...optionalParams: any[]) {
-    this.logger.error(message, optionalParams)
+    const stack = new Error().stack
+    this.logger.error(message, { stack }, optionalParams)
   }
   warn(message: any, ...optionalParams: any[]) {
     this.logger.error(message, optionalParams)
@@ -45,7 +46,8 @@ export class GlobalLoggerService implements LoggerService {
     this.logger.verbose(message, optionalParams)
   }
   fatal(message: any, ...optionalParams: any[]) {
-    this.logger.error(message, { level: 'fatal' }, optionalParams)
+    const stack = new Error().stack
+    this.logger.error(message, { level: 'fatal', stack }, optionalParams)
   }
   setLogLevels(levels: LogLevel[]) {
     if (levels && levels.length > 0) {
