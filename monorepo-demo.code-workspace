@@ -5,6 +5,10 @@
       "name": "web-admin",
     },
     {
+      "path": "apps/ai-cli",
+      "name": "ai-cli",
+    },
+    {
       "path": "apps/react-playground",
       "name": "react-playground",
     },
