@@ -47,7 +47,7 @@ export function useMergeState<T>(
   // 非受控模式，值也可以通过propsValue传递，也可以setStateValue来设置。
   const mergedValue = propsValue === undefined ? stateValue : propsValue
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   function isFunction(value: unknown): value is Function {
     return typeof value === 'function'
   }
