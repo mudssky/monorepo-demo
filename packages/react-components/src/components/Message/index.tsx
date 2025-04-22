@@ -51,7 +51,7 @@ const MessageItem: FC<MessageProps> = (item) => {
   )
 }
 
-export const MessageProvider = forwardRef<MessageRef, object>((props, ref) => {
+export const MessageProvider = forwardRef<MessageRef, object>((_props, ref) => {
   const { messageList, add, update, remove, clearAll } = useStore('top')
 
   // 立刻修改ref，useImperativeHandle有一定延迟

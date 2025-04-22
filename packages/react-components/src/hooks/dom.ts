@@ -40,7 +40,7 @@ export type Element =
   | ((state: boolean) => React.ReactElement)
   | React.ReactElement
 
-export const useHover = (element: Element): [React.ReactElement, boolean] => {
+export const useHover = (element: any): [React.ReactElement, boolean] => {
   const [state, setState] = useState(false)
 
   const onMouseEnter = (originalOnMouseEnter?: any) => (event: any) => {

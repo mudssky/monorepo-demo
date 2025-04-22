@@ -204,7 +204,7 @@ export function useWatermark(params: WatermarkOptions) {
   const [options, setOptions] = useState(params || {})
 
   const mergedOptions = getMergedOptions(options)
-  const watermarkDiv = useRef<HTMLDivElement>()
+  const watermarkDiv = useRef<HTMLDivElement>(null)
 
   const container = mergedOptions.getContainer()
   const { zIndex, gap } = mergedOptions

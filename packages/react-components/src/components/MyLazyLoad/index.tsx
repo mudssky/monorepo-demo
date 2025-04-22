@@ -34,7 +34,7 @@ const MyLazyload: FC<MyLazyloadProps> = (props) => {
   const [visible, setVisible] = useState(false)
 
   const styles = { height, width, ...style }
-  const elementObserver = useRef<IntersectionObserver>()
+  const elementObserver = useRef<IntersectionObserver>(null)
 
   function lazyLoadHandler(entries: IntersectionObserverEntry[]) {
     const [entry] = entries

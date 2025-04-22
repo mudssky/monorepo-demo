@@ -24,7 +24,8 @@ const MutateObserver: React.FC<MutationObserverProps> = (props) => {
     return null
   }
 
-  return React.cloneElement(children, { ref: elementRef })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return React.cloneElement(children, { ref: elementRef } as any)
 }
 
 export default MutateObserver

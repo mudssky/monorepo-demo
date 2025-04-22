@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MessageRef, OnBoarding } from '@mudssky/react-components'
+import { OnBoarding } from '@mudssky/react-components'
 import type { Meta, StoryObj } from '@storybook/react'
-import { useRef } from 'react'
 
 const meta = {
   title: 'OnBoarding',
@@ -24,8 +23,7 @@ export const Primary: Story = {
   args: {
     steps: [],
   },
-  render(args) {
-    const messageRef = useRef<MessageRef>(null)
+  render() {
     return (
       <div className="App">
         <div id="btn-group1">

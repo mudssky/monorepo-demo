@@ -107,7 +107,7 @@ const Item = (props: ItemProps) => {
 
             handleValidate(value)
           },
-        })
+        } as any)
 
   const cls = clsx('ant-form-item', className)
 

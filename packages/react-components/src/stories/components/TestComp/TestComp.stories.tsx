@@ -36,7 +36,7 @@ export default meta
 
 export const TestReactChildren = {
   args: {},
-  render(args: any) {
+  render() {
     return (
       <Aaa>
         <a href="#">111</a>

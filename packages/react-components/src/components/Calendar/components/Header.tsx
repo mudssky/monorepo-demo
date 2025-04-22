@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import LocaleContext from '../LocaleContext'
 import allLocales from '../locale'
 

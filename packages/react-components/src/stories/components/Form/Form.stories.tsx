@@ -24,7 +24,7 @@ export default meta
 
 export const Primary: Story = {
   args: {},
-  render(args) {
+  render(_args) {
     const onFinish = (values: any) => {
       console.log('Success:', values)
     }

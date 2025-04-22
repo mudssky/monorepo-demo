@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { Dayjs } from 'dayjs'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { CalendarProps } from '..'
 import LocaleContext from '../LocaleContext'
 import allLocales from '../locale'

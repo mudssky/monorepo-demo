@@ -18,7 +18,8 @@ const CopyToClipboard: FC<CopyToClipboardProps> = (props) => {
   const elem = React.Children.only(children)
 
   function onClick(event: MouseEvent) {
-    const elem = React.Children.only(children)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const elem: any = React.Children.only(children)
 
     const result = copy(text, options)
 
@@ -31,7 +32,8 @@ const CopyToClipboard: FC<CopyToClipboardProps> = (props) => {
     }
   }
 
-  return React.cloneElement(elem, { onClick })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return React.cloneElement(elem, { onClick } as any)
 }
 
 export default CopyToClipboard
