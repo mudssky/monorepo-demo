@@ -1,0 +1,13 @@
+// casbin 权限规则表
+model CasbinRule {
+  id    String  @id @default(uuid(7))
+  ptype String
+  v0    String?
+  v1    String?
+  v2    String?
+  v3    String?
+  v4    String?
+  v5    String?
+
+  @@map("casbin_rule")
+}

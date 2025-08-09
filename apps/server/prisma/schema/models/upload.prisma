@@ -1,0 +1,37 @@
+enum FileTag {
+  AVATAR //用户头像
+  NOTAG //无标签，默认值,也就是临时文件
+}
+
+enum StorageType {
+  LOCAL //本地存储
+  ALIOSS //阿里云OSS
+  QINIU //七牛云OSS
+  TENCENT //腾讯云OSS
+  UCLOUD //UCloud OSS
+  HUOBI //华为云OSS
+  AWS //AWS S3
+  GCP //GCP Storage
+  MINIO //MinIO
+}
+
+/// 文件上传表
+model UploadFiles {
+  id               String      @id @default(uuid(7))
+  /// 文件名
+  fileName         String
+  /// 原始文件名
+  originalFilename String
+  /// 短路径
+  filePath         String
+  /// 文件大小
+  fileSize         Int
+  /// 创建时间
+  createdAt        DateTime    @default(now())
+  /// 更新时间
+  updatedAt        DateTime    @updatedAt
+  /// 表示文件使用模块的标签
+  fileTag          FileTag?    @default(NOTAG)
+  /// 存储类型，可以区分存储在本地还是oss
+  storageType      StorageType @default(LOCAL)
+}

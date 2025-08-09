@@ -1,0 +1,19 @@
+// 短链服务
+
+enum ShortURLStatus {
+  ENABLE
+  DISABLE
+}
+
+/// 短链服务表
+model ShortUrl {
+  id      String         @id @default(uuid(7))
+  /// 压缩码启用状态
+  status  ShortURLStatus @default(DISABLE)
+  /// 压缩码
+  code    String         @unique
+  /// 原始链接
+  longUrl String?        @unique
+
+  @@index([code])
+}
