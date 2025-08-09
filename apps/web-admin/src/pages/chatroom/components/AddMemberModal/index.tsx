@@ -5,6 +5,7 @@ import { SyntheticEvent } from 'react'
 
 interface AddMemberModalProps extends ModalProps {
   chatroomId: string
+  onClose?: (e: SyntheticEvent<Element, Event>) => void
 }
 
 const layout = {

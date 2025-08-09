@@ -3,7 +3,9 @@ import { Form, Input, Modal, ModalProps, message } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { SyntheticEvent } from 'react'
 
-interface CreateGroupModalProps extends ModalProps {}
+interface CreateGroupModalProps extends ModalProps {
+  onClose?: (e?: SyntheticEvent<Element, Event>) => void
+}
 
 const layout = {
   labelCol: { span: 6 },

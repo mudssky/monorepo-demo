@@ -55,7 +55,7 @@ type Reply =
 export function ChatPage() {
   const [roomList, setRoomList] = useState<Array<ChatRoomListResDto>>()
   const [chatHistory, setChatHistory] = useState<Array<ChatHistoryRes>>()
-  const socketRef = useRef<Socket>()
+  const socketRef = useRef<Socket | null>(null)
   const userInfo = useAppStore((state) => state.userInfo)
 
   const location = useLocation()

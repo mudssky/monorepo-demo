@@ -28,7 +28,7 @@ const initialGameState: GameState = {
 
 export default function SnakeGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationFrameRef = useRef<number>()
+  const animationFrameRef = useRef<number | null>(null)
   const gameStateRef = useRef<GameState>(initialGameState)
   const [gameStateOrigin, setGameStateOrigin] =
     useState<GameState>(initialGameState)

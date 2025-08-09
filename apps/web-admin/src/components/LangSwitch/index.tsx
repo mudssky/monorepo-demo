@@ -1,8 +1,5 @@
 import { localeKey, useManageI18n } from '@/i18n'
-import {
-  languageSwitchMenu,
-  LanguageSwitchMenuItem,
-} from '@/locales/switchList'
+import { languageSwitchMenu } from '@/locales/switchList'
 import { TranslationOutlined } from '@ant-design/icons'
 import { Dropdown } from 'antd'
 
@@ -12,7 +9,7 @@ export function LangSwitch() {
     <Dropdown
       menu={{
         items: languageSwitchMenu,
-        onClick: (item: LanguageSwitchMenuItem) => {
+        onClick: (item) => {
           if (item?.key === currentLocaleKey) {
             return
           }
