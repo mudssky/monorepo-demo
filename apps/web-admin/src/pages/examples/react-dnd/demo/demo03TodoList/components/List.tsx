@@ -33,7 +33,8 @@ export const List: FC<ListProps> = (props) => {
       {list.length
         ? transitions((style, item) => {
             return (
-              <animated.div style={style}>
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              <animated.div key={item.id} style={style} {...({} as any)}>
                 <Gap id={item.id} />
                 <Item data={item} />
               </animated.div>

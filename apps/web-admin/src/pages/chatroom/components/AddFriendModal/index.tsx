@@ -2,6 +2,7 @@ import { SEND_FRIEND_REQUEST } from '@/api'
 import { Form, Input, message, Modal, ModalProps } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface AddFriendModalProps extends ModalProps {}
 
 const layout = {
