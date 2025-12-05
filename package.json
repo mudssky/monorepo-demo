@@ -11,25 +11,26 @@
     "lint": "turbo run lint",
     "publish-packages": "turbo run lint test && changeset version && changeset publish",
     "server:dev": "turbo run dev --filter=server",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "turbo:upgrade": "pnpm dlx @turbo/codemod migrate"
   },
   "dependencies": {
-    "@mudssky/jsutils": "^1.29.0",
-    "dayjs": "^1.11.10",
+    "@mudssky/jsutils": "^1.31.0",
+    "dayjs": "^1.11.19",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.4",
-    "@changesets/cli": "^2.29.5",
+    "@biomejs/biome": "^2.3.8",
+    "@changesets/cli": "^2.29.8",
     "@mudssky/prettier-config-custom": "workspace:*",
     "@mudssky/tsconfig": "workspace:*",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^24.2.0",
+    "@types/node": "^24.10.1",
     "eslint": "^8.56.0",
-    "prettier": "^3.6.2",
-    "prettier-plugin-organize-imports": "^4.2.0",
-    "prettier-plugin-packagejson": "^2.5.19",
-    "rimraf": "^6.0.1",
+    "prettier": "^3.7.4",
+    "prettier-plugin-organize-imports": "^4.3.0",
+    "prettier-plugin-packagejson": "^2.5.20",
+    "rimraf": "^6.1.2",
     "turbo": "^2.5.5"
   },
   "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a"
