@@ -16,7 +16,6 @@ import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
-import { v4 as uuidV4 } from 'uuid'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { UserService } from '../user/user.service'
 import {
@@ -178,7 +177,7 @@ export class AuthService implements OnModuleInit {
       const isUsernameExists =
         await this.userSevice.checkUserNameExists(userName)
       if (isUsernameExists) {
-        userName = uuidV4()
+        userName = crypto.randomUUID()
         this.logger.warn({
           msg: '用户名已存在,生成uuid替代',
           username: gitbubAuthInfo.profile.username,
@@ -225,7 +224,7 @@ export class AuthService implements OnModuleInit {
       const isUsernameExists =
         await this.userSevice.checkUserNameExists(userName)
       if (isUsernameExists) {
-        userName = uuidV4()
+        userName = crypto.randomUUID()
         this.logger.warn({
           msg: '用户名已存在,生成uuid替代',
           username: googleAuthInfo.profile.username,

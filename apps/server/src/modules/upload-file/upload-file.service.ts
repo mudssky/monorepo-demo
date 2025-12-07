@@ -5,7 +5,6 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import fs from 'fs'
 import path from 'path'
-import { v4 as uuidv4 } from 'uuid'
 import {
   FileUploadDto,
   FilesUploadDto,
@@ -42,7 +41,7 @@ export class UploadFileService {
     fileTag: FileTag
   }) {
     const { originalFileName, fileTag } = options
-    const fileId = uuidv4()
+    const fileId = crypto.randomUUID()
     const finalFileName = `${fileId}${path.extname(originalFileName)}`
     const folderPath = path.join(this.imagePath, fileTag)
     this.sharedService.ensureDirectoryExists(folderPath)
