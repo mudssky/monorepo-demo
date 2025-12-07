@@ -1,5 +1,3 @@
-import { DatabaseException } from '@/common/exceptions'
-import { PrismaService } from '@/modules/prisma/prisma.service'
 import { GlobalLoggerService } from '@lib'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -7,6 +5,8 @@ import { Reflector } from '@nestjs/core'
 import * as casbin from 'casbin'
 import { PrismaAdapter } from 'casbin-prisma-adapter'
 import { Request } from 'express'
+import { DatabaseException } from '@/common/exceptions'
+import { PrismaService } from '@/modules/prisma/prisma.service'
 import { JwtPayload } from '../types'
 import { checkIsPublic } from './jwt-auth/jwt-auth.guard'
 
@@ -46,7 +46,8 @@ export class CasbinAuthGuard implements CanActivate {
     }
 
     const casbinModalPath = this.configService.get('CASBIN_MODAL_PATH')
-    const a = await PrismaAdapter.newAdapter()
+    // 这里需要any类型，因为casbin新版还没更新，和prisma7类型有冲突
+    const a = await PrismaAdapter.newAdapter(this.prismaService as any)
     const e = await casbin.newEnforcer(casbinModalPath, a)
     const canPass = await e.enforce(currentRole, request.url, request.method)
     return canPass
