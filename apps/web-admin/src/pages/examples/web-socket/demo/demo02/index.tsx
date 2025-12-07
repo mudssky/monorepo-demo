@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { App, Button, Form, Input, Space } from 'antd'
 import { useEffect, useMemo, useState } from 'react'
 import { io } from 'socket.io-client'
+
 interface FieldType {
   roomName: string
   nickName: string
@@ -113,7 +115,7 @@ export default function ChatDemo() {
           <Input
             placeholder="请输入要发送的消息"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e: any) => setInputValue(e.target.value)}
           ></Input>
           <Button type="primary" onClick={sendMessage}>
             发送消息

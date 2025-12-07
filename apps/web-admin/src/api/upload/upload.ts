@@ -1,6 +1,7 @@
+import type { $Enums } from '@server/prisma/generated/client'
 import request, { CustomRequestConfig } from '@/request/request'
-import { $Enums } from '@server/node_modules/#prisma/index'
 import { FileInfo, PresignedUrlParam } from './types'
+
 interface UploadSingleParam {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   file: any

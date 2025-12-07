@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
-        '@server/*': path.resolve(__dirname, '。。/server/*'),
+        '@server/*': path.resolve(__dirname, '../server/*'),
       },
     },
     server: {
@@ -72,19 +72,13 @@ export default defineConfig(({ mode }) => {
     },
     css: {
       preprocessorOptions: {
-        scss: {
-          api: 'modern-compiler',
-        },
+        scss: {},
       },
     },
     plugins: [
       react(),
       tsChecker({
         typescript: true,
-        eslint: {
-          lintCommand:
-            'eslint "./src/**/*.{ts,tsx} --report-unused-disable-directives --max-warnings 0',
-        },
       }),
       // visualizer({
       //   open: true, //在默认用户代理中打开生成的文件

@@ -1,6 +1,7 @@
-import { calcPercent, percentColor } from '@/utils/calc'
 import { bytesInstance } from '@mudssky/jsutils'
-import { Card, Col, Row, Statistic } from 'antd'
+import { Col, Row, Statistic } from 'antd'
+import Card from 'antd/es/card/Card'
+import { calcPercent, percentColor } from '@/utils/calc'
 import { useSetupHook } from './hooks'
 
 export default function PerformanceView() {

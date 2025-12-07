@@ -1,18 +1,31 @@
 {
-  "extends": ["@mudssky/tsconfig/vite.json"],
+  "extends": [
+    "@mudssky/tsconfig/vite.json"
+  ],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@server/*": ["../server/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@server/*": [
+        "../server/*"
+      ]
     },
     "jsx": "react-jsx",
     "experimentalDecorators": true
   },
-  "include": ["src"],
-  "exclude": ["../server/"],
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "../server/"
+  ],
   "references": [
-    { "path": "./tsconfig.node.json" },
-    { "path": "../server/tsconfig.json" }
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "../server/tsconfig.json"
+    }
   ]
 }

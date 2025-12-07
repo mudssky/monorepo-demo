@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   addEdge,
   Background,
@@ -56,7 +57,7 @@ export default function Demo01() {
 
   const onConnect = (params: Connection) => {
     connect(params.source, params.target)
-    setEdges((eds) => addEdge(params, eds))
+    setEdges((eds: any) => addEdge(params, eds))
   }
 
   function addOscNode() {
@@ -88,12 +89,12 @@ export default function Demo01() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
-        onNodesDelete={(nodes) => {
+        onNodesDelete={(nodes: any) => {
           for (const { id } of nodes) {
             removeAudioNode(id)
           }
         }}
-        onEdgesDelete={(edges) => {
+        onEdgesDelete={(edges: any) => {
           for (const item of edges) {
             const { source, target } = item
             disconnect(source, target)

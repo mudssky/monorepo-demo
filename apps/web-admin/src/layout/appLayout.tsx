@@ -1,4 +1,3 @@
-import { debugRenderLog } from '@/global/debug'
 import {
   DesktopOutlined,
   DragOutlined,
@@ -13,6 +12,7 @@ import type { MenuProps } from 'antd'
 import { Layout, Menu } from 'antd'
 import { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
+import { debugRenderLog } from '@/global/debug'
 import HeaderLayout from './headerLayout'
 import styles from './style.module.css'
 
@@ -126,7 +126,7 @@ export function AppLayout() {
       <Layout.Sider
         collapsible
         collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
+        onCollapse={(value: boolean) => setCollapsed(value)}
       >
         <div className="demo-logo-vertical" />
         <Menu

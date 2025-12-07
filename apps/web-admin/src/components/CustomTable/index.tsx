@@ -10,7 +10,7 @@ export default function CustomTable<RecordType extends object = any>(
     <Table
       {...props}
       pagination={{
-        showTotal: (total) => `Total ${total} items`,
+        showTotal: (total: number) => `Total ${total} items`,
         ...props.pagination,
       }}
     ></Table>

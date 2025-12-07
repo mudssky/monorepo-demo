@@ -1,14 +1,16 @@
-import { MERGE_CHUNKS, UPLOAD_CHUNK } from '@/api'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { generateUUID } from '@mudssky/jsutils'
 import { Button, Upload } from 'antd'
 import { RcFile } from 'antd/es/upload'
 import dayjs from 'dayjs'
+import { MERGE_CHUNKS, UPLOAD_CHUNK } from '@/api'
 
 export default function Demo01() {
   return (
     <div>
       <Upload
-        customRequest={async (options) => {
+        customRequest={async (options: any) => {
           console.log({ options })
           const { file } = options
           if (typeof file !== 'string') {

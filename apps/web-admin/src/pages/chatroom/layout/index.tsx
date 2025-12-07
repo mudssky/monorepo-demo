@@ -1,8 +1,7 @@
-import { chatroomRouter } from '@/router/chatroom'
 import { Divider, Menu, MenuProps } from 'antd'
 import { useEffect } from 'react'
-
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { chatroomRouter } from '@/router/chatroom'
 
 export default function ChatroomLayout() {
   const { pathname } = useLocation()
@@ -27,7 +26,8 @@ export default function ChatroomLayout() {
         ?.map((item) => item.path) ?? []
     )
   }
-  const handleMenuItemClick: MenuProps['onClick'] = (info) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleMenuItemClick: MenuProps['onClick'] = (info: any) => {
     const currentPath = chatroomRouter.children?.find(
       (item) => item.path === info.key,
     )?.path

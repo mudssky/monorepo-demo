@@ -1,5 +1,5 @@
 import { PauseCircleOutlined, PlayCircleOutlined } from '@ant-design/icons'
-import { Button, Card } from 'antd'
+import { Button } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 
 interface Position {
@@ -317,7 +317,8 @@ export default function SnakeGame() {
   }, [])
 
   return (
-    <Card title="贪吃蛇游戏" className="w-[1200px]">
+    <div className="w-[1200px]">
+      <div className="text-xl font-bold mb-4">贪吃蛇游戏</div>
       <div className="flex flex-col items-center gap-4">
         <div className="flex items-center gap-4 justify-end w-full mr-[10px]">
           {!gameStateOrigin.gameOver && (
@@ -356,6 +357,6 @@ export default function SnakeGame() {
           使用键盘方向键控制蛇的移动，空格键暂停/继续
         </div>
       </div>
-    </Card>
+    </div>
   )
 }

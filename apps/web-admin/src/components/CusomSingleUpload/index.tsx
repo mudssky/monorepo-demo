@@ -1,19 +1,20 @@
-import { PRESIGNED_PUT_URL, UPLOAD_SINGLE } from '@/api'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { generateBase62Code, getFileExt } from '@mudssky/jsutils'
-import { Upload, UploadProps, message } from 'antd'
+import { message, Upload, UploadProps } from 'antd'
 import axios, { AxiosProgressEvent } from 'axios'
 import { ReactNode, useState } from 'react'
+import { PRESIGNED_PUT_URL, UPLOAD_SINGLE } from '@/api'
 
 export interface AvaterInfo {
   avatarUrl: string | null //段路径
   avatarFullUrl: string | null //长路径
 }
-export interface Props extends UploadProps {
+export interface Props extends Omit<UploadProps, 'capture'> {
   uploadButton?: ReactNode
   value?: AvaterInfo
   ossPrefix: 'avatar' | 'chatroomImage' | 'chatroomFile'
   uploaderType?: 'image' | 'file'
+  capture?: boolean | 'user' | 'environment'
 }
 
 /**
@@ -50,6 +51,7 @@ export default function CustomUpload(props: Props) {
   const currentButton = uploadButton ?? defaultButton
 
   const customProps: UploadProps = {
+    capture: false,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     customRequest: async (options: any) => {
       const fileExt = getFileExt(options?.file?.name ?? '')

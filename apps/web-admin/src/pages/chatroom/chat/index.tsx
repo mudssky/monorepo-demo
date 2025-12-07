@@ -1,10 +1,3 @@
-import {
-  ChatHistoryRes,
-  ChatRoomListResDto,
-  GET_CHATROOM_HISTORY_LIST,
-  GET_CHATROOM_LIST,
-} from '@/api'
-import { useAppStore } from '@/store/appStore'
 import data from '@emoji-mart/data'
 import EmojiPicker from '@emoji-mart/react'
 import { Avatar, Button, Input, message, Popover } from 'antd'
@@ -14,6 +7,13 @@ import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { io, Socket } from 'socket.io-client'
+import {
+  ChatHistoryRes,
+  ChatRoomListResDto,
+  GET_CHATROOM_HISTORY_LIST,
+  GET_CHATROOM_LIST,
+} from '@/api'
+import { useAppStore } from '@/store/appStore'
 import { UploadFileModal } from '../components/UploadFileModal'
 import { UploadImageModal } from '../components/UploadImageModal'
 import './styles.scss'
@@ -286,7 +286,7 @@ export function ChatPage() {
           <Input.TextArea
             className="message-input-box"
             value={inputText}
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
               setInputText(e.target.value)
             }}
           />
