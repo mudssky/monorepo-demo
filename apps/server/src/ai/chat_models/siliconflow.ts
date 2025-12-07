@@ -3,8 +3,8 @@ import {
   BaseChatModelCallOptions,
   BaseChatModelParams,
 } from '@langchain/core/language_models/chat_models'
+import { AIMessageChunk, BaseMessage } from '@langchain/core/messages'
 import { ChatResult } from '@langchain/core/outputs'
-import { BaseMessage, AIMessageChunk } from '@langchain/core/messages'
 
 export interface ChatSiliconFlowOptions extends BaseChatModelCallOptions {
   // Some required or optional inner args
@@ -38,6 +38,7 @@ export class ChatSiliconFlow extends BaseChatModel<ChatSiliconFlowOptions> {
     messages: BaseMessage[],
     options?: this['ParsedCallOptions'],
   ): Promise<ChatResult> {
+    void options
     const formattedMessages = messages.map((msg) => ({
       role: this._mapMessageType(msg.getType()),
       content: msg.content,
