@@ -380,6 +380,7 @@ export class MemDataDto implements Systeminformation.MemData {
   swapfree: number
   writeback: number | null
   dirty: number | null
+  reclaimable: number
 }
 
 // BatteryData

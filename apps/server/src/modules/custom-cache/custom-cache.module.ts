@@ -17,20 +17,15 @@ import { ConfigService } from '@nestjs/config/dist/config.service'
             isGlobal: true, //注册为全局模块，这样就不需要在其他模块导入了
           }
         }
-        // const redisUrl = `redis://${configService.get('REDIS_HOST') ?? 'localhost'}:${configService.get('REDIS_PORT') ?? 6379}`
+
+        const host = configService.get<string>('REDIS_HOST') ?? 'localhost'
+        const port = Number(configService.get<string>('REDIS_PORT') ?? 6379)
+        const redisUrl = `redis://${host}:${port}`
         return {
-          stores: [
-            new KeyvRedis({
-              // url: redisUrl,
-              socket: {
-                host: configService.get('REDIS_HOST') ?? 'localhost',
-                port: configService.get('REDIS_PORT') ?? 6379,
-              },
-            }),
-          ],
-          ttl: 5 * SECOND, //5秒过期时间
-          max: 1000, //最多缓存项目数
-          isGlobal: true, //注册为全局模块，这样就不需要在其他模块导入了
+          stores: [new KeyvRedis(redisUrl)],
+          ttl: 5 * SECOND,
+          max: 1000,
+          isGlobal: true,
         }
       },
       inject: [ConfigService],
