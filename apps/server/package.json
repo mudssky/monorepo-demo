@@ -76,7 +76,6 @@
     "cache-manager": "^7.2.6",
     "casbin": "^5.41.0",
     "casbin-prisma-adapter": "^1.7.0",
-    "chalk": "^4.1.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "dotenv": "^17.2.3",

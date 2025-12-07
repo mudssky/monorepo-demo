@@ -272,9 +272,6 @@ importers:
       casbin-prisma-adapter:
         specifier: ^1.7.0
         version: 1.8.0(@prisma/client@7.1.0(prisma@7.1.0(@types/react@19.2.7)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3))(typescript@5.9.3))(casbin@5.41.0)(prisma@7.1.0(@types/react@19.2.7)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.3))
-      chalk:
-        specifier: ^4.1.2
-        version: 4.1.2
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
@@ -21559,7 +21556,7 @@ snapshots:
 
   axios@1.13.2:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11
       form-data: 4.0.5
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -24086,6 +24083,8 @@ snapshots:
   flatted@3.3.3: {}
 
   fn.name@1.1.0: {}
+
+  follow-redirects@1.15.11: {}
 
   follow-redirects@1.15.11(debug@4.3.7):
     optionalDependencies:
