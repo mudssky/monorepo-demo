@@ -45,7 +45,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit",
-    "typecheck:fast": "tsgo --noEmit"
+    "typecheck:fast": "tsgo --noEmit",
+    "qa": "pnpm typecheck:fast && pnpm lint"
   },
   "dependencies": {
     "@alicloud/openapi-client": "^0.4.15",
