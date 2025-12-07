@@ -1,6 +1,6 @@
-import { BaseException } from '@/common/exceptions'
 import { generateBase62Code } from '@mudssky/jsutils'
 import { Injectable } from '@nestjs/common'
+import { BaseException } from '@/common/exceptions'
 import { PrismaService } from '../prisma/prisma.service'
 import {
   ChatRoomListResDto,
@@ -111,13 +111,12 @@ export class ChatroomService {
       throw new BaseException('一对一聊天室不能加人')
     }
 
-    await this,
-      this.prismaService.userChatroom.create({
-        data: {
-          userId,
-          chatroomId,
-        },
-      })
+    await this.prismaService.userChatroom.create({
+      data: {
+        userId,
+        chatroomId,
+      },
+    })
     return '加入成功'
   }
 

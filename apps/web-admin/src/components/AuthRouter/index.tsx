@@ -1,5 +1,5 @@
-import { checkLogin } from '@/api'
 import { ReactNode, useEffect, useState } from 'react'
+import { checkLogin } from '@/api'
 
 interface Props {
   children: ReactNode
@@ -12,11 +12,17 @@ export default function AuthRouter(props: Props) {
 
   //目前只进行登录鉴权
   useEffect(() => {
+    let isMounted = true
     if (checkLogin()) {
-      setIsLogin(true)
+      if (isMounted) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setIsLogin(true)
+      }
     }
 
-    return () => {}
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   return <> {isLogin ? children : null}</>

@@ -1,8 +1,8 @@
-import { GuardException } from '@/common/exceptions/guard'
 import { GlobalLoggerService } from '@lib'
 import { ExecutionContext, HttpStatus, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { AuthGuard } from '@nestjs/passport'
+import { GuardException } from '@/common/exceptions/guard'
 import { IS_PUBLIC_KEY } from '../../auth.decorator'
 
 export function checkIsPublic(
@@ -38,7 +38,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleRequest(err, user, info) {
     // You can throw an exception based on either "info" or "err" arguments
     if (err || !user) {

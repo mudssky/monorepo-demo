@@ -84,6 +84,8 @@ function Container() {
       },
     }
   })
+
+  // eslint-disable-next-line react-hooks/refs
   drop(ref)
 
   return (

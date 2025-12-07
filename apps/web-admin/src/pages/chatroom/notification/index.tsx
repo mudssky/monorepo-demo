@@ -1,3 +1,6 @@
+import { Avatar, message, Tabs, TabsProps } from 'antd'
+import Table, { ColumnsType } from 'antd/es/table'
+import { useEffect, useState } from 'react'
 import {
   ACCEPT_FRIEND_REQUEST,
   FriendReuqestListRes,
@@ -7,9 +10,6 @@ import {
   ToUser,
 } from '@/api'
 import AsyncButton from '@/components/AsyncButton'
-import { Avatar, message, Tabs, TabsProps } from 'antd'
-import Table, { ColumnsType } from 'antd/es/table'
-import { useEffect, useState } from 'react'
 
 function UserAvatar(props: { user: ToUser | FromUser }) {
   const { user } = props
@@ -198,6 +198,7 @@ export function NotificationPage() {
     },
   ]
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     queryFriendRequestList()
 
     return () => {}
