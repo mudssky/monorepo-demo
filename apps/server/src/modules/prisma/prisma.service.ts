@@ -1,10 +1,17 @@
+import { PrismaClient } from '#prisma'
+import { resolveDatabaseURL } from '@/common/config'
 import { Injectable, OnModuleInit } from '@nestjs/common'
-import { PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+import 'dotenv/config'
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor() {
+    const adapter = new PrismaPg({
+      connectionString: resolveDatabaseURL(process.env.DATABASE_URL!),
+    })
     super({
+      adapter,
       // 创建时指定全局omitAPI
       omit: {
         user: {

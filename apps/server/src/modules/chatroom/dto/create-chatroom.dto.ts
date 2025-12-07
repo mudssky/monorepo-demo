@@ -1,5 +1,5 @@
+import { $Enums, Chatroom } from '#prisma'
 import { ApiProperty } from '@nestjs/swagger'
-import { $Enums, Chatroom } from '@prisma/client'
 import { IsNotEmpty } from 'class-validator'
 
 export class CreateSingleChatroomDto {

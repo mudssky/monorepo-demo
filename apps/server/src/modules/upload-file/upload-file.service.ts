@@ -15,9 +15,9 @@ import {
   UploadResDtoPickList,
 } from './dto/create-file.dto'
 
+import { FileTag } from '#prisma'
 import { EnvironmentVariables } from '@/common/config/config'
 import { pick, range } from '@mudssky/jsutils'
-import { FileTag } from '@prisma/client'
 import { SharedService } from '../global/shared.service'
 
 @Injectable()

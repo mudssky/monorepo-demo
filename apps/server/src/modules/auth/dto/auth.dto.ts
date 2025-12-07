@@ -1,6 +1,6 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger'
 
-import { $Enums } from '@prisma/client'
+import { $Enums } from '#prisma'
 import { IsEmail, IsNotEmpty, Length } from 'class-validator'
 import type { LoginReq, LoginRes } from '../types'
 

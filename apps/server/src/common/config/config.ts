@@ -31,6 +31,13 @@ enum CacheType {
 export class EnvironmentVariables {
   // @IsUrl()
   @Expose()
+  @Transform(
+    ({ value }) =>
+      typeof value === 'string'
+        ? value.trim().replace(/^['"]|['"]$/g, '')
+        : value,
+    { toClassOnly: true },
+  )
   DATABASE_URL =
     'postgresql://postgres:123456@localhost:5432/nestAdmin?schema=public'
 
@@ -154,8 +161,9 @@ export class EnvironmentVariables {
   // @IsString()
   // MAIL_PORT
   @Expose()
+  @Transform(({ value }) => resolveDatabaseURL(value), { toClassOnly: true })
   @IsEmail()
-  MAIL_USER
+  MAIL_USER = 'test@example.com'
   @Expose()
   @IsString()
   MAIL_PASS
@@ -236,4 +244,10 @@ export function validate(config: Record<string, unknown>) {
     throw new Error(errors.toString())
   }
   return validatedConfig
+}
+
+export function resolveDatabaseURL(value: string) {
+  return typeof value === 'string'
+    ? value.trim().replace(/^['"]|['"]$/g, '')
+    : value
 }

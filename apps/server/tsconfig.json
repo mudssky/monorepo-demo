@@ -1,17 +1,40 @@
 {
   "extends": "@mudssky/tsconfig/nestjs.json",
   "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ES2023",
+    "esModuleInterop": true,
     "outDir": "./dist",
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@app/redis": ["libs/redis/src"],
-      "@app/redis/*": ["libs/redis/src/*"],
-      "@lib": ["libs/index"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@app/redis": [
+        "./libs/redis/src"
+      ],
+      "@app/redis/*": [
+        "./libs/redis/src/*"
+      ],
+      "@lib": [
+        "./libs/index"
+      ],
+      "@root/*": [
+        "./*"
+      ],
+      "#prisma": [
+        "./prisma/generated/client"
+      ]
     },
     "composite": true
   },
-  "include": ["test", "src/**/*.ts", "libs/**/*.ts", "src/**/*.json"],
+  "include": [
+    "test",
+    "src/**/*.ts",
+    "libs/**/*.ts",
+    "src/**/*.json",
+    "prisma/**/*.ts",
+  ],
   "watchOptions": {
     "excludeFiles": [
       "node_modules",

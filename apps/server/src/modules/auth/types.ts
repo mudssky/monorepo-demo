@@ -1,4 +1,4 @@
-import { $Enums, User } from '@prisma/client'
+import { $Enums, User } from '#prisma'
 export type LoginReq = Pick<User, 'password'>
 
 export interface LoginRes extends Omit<User, 'password'> {

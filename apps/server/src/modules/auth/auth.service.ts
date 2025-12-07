@@ -1,3 +1,4 @@
+import { Prisma, User } from '#prisma'
 import { EnvironmentVariables } from '@/common/config'
 import { MINUTE } from '@/common/constant'
 import { BaseException } from '@/common/exceptions'
@@ -13,8 +14,6 @@ import {
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
-import { User } from '@prisma/client'
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import * as bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
 import { v4 as uuidV4 } from 'uuid'
@@ -104,7 +103,7 @@ export class AuthService implements OnModuleInit {
       return data
     } catch (error) {
       if (
-        error instanceof PrismaClientKnownRequestError &&
+        error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2002'
       ) {
         throw new DatabaseException('姓名或邮箱已存在')

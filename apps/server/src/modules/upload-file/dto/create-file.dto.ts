@@ -1,5 +1,5 @@
+import { $Enums, UploadFiles } from '#prisma'
 import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
-import { $Enums, FileTag, UploadFiles } from '@prisma/client'
 import { Transform } from 'class-transformer'
 import { IsEnum, IsInt, IsOptional } from 'class-validator'
 
@@ -27,7 +27,7 @@ export class FileUploadDto {
   file: Express.Multer.File
   @ApiProperty({ type: 'string' })
   // 校验器
-  @IsEnum(FileTag, {
+  @IsEnum(['NOTAG', 'AVATAR'], {
     message: 'invalid fileTag',
   })
   @IsOptional()
