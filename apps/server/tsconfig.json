@@ -27,7 +27,8 @@
         "./prisma/generated/client"
       ]
     },
-    "composite": true
+    "composite": true,
+    "declaration": true,
   },
   "include": [
     "test",
