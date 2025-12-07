@@ -1,23 +1,36 @@
-module.exports = {
-  root: true,
-  env: {
-    browser: true,
-    es2020: true,
-    node: true, //配置文件会报错（因为是node的commonjs）
+const { FlatCompat } = require('@eslint/eslintrc')
+const js = require('@eslint/js')
+const tseslint = require('typescript-eslint')
+const globals = require('globals')
+const reactRefresh = require('eslint-plugin-react-refresh')
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+})
+
+module.exports = [
+  {
+    ignores: ['**/dist', '**/*.cjs'],
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
-    'prettier',
-  ],
-  ignorePatterns: ['dist', '*.cjs'],
-  parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh'],
-  rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...compat.extends('plugin:react-hooks/recommended', 'prettier'),
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.es2020,
+        ...globals.node,
+      },
+    },
+    plugins: {
+      'react-refresh': reactRefresh,
+    },
+    rules: {
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    },
   },
-}
+]

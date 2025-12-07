@@ -1,4 +1,11 @@
 const { resolve } = require('node:path')
+const { FlatCompat } = require('@eslint/eslintrc')
+const js = require('@eslint/js')
+const globals = require('globals')
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+})
 
 const project = resolve(process.cwd(), 'tsconfig.json')
 
@@ -11,32 +18,40 @@ const project = resolve(process.cwd(), 'tsconfig.json')
  *
  */
 
-module.exports = {
-  extends: [
+module.exports = [
+  {
+    ignores: ['**/node_modules/', '**/dist/'],
+  },
+  js.configs.recommended,
+  ...compat.extends(
     '@vercel/style-guide/eslint/node',
     '@vercel/style-guide/eslint/browser',
     '@vercel/style-guide/eslint/typescript',
     '@vercel/style-guide/eslint/react',
     '@vercel/style-guide/eslint/next',
     'eslint-config-turbo',
-  ].map(require.resolve),
-  parserOptions: {
-    project,
-  },
-  globals: {
-    React: true,
-    JSX: true,
-  },
-  settings: {
-    'import/resolver': {
-      typescript: {
+  ),
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        React: true,
+        JSX: true,
+      },
+      parserOptions: {
         project,
       },
     },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project,
+        },
+      },
+    },
+    rules: {
+      'import/no-default-export': 'off',
+    },
   },
-  ignorePatterns: ['node_modules/', 'dist/'],
-  // add rules configurations here
-  rules: {
-    'import/no-default-export': 'off',
-  },
-}
+]

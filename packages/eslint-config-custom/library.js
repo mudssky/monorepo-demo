@@ -1,4 +1,10 @@
 const { resolve } = require('node:path')
+const { FlatCompat } = require('@eslint/eslintrc')
+const js = require('@eslint/js')
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+})
 
 const project = resolve(process.cwd(), 'tsconfig.json')
 
@@ -11,24 +17,31 @@ const project = resolve(process.cwd(), 'tsconfig.json')
  *
  */
 
-module.exports = {
-  extends: [
+module.exports = [
+  {
+    ignores: ['**/node_modules/', '**/dist/'],
+  },
+  js.configs.recommended,
+  ...compat.extends(
     '@vercel/style-guide/eslint/node',
     '@vercel/style-guide/eslint/typescript',
-  ].map(require.resolve),
-  parserOptions: {
-    project,
-  },
-  globals: {
-    React: true,
-    JSX: true,
-  },
-  settings: {
-    'import/resolver': {
-      typescript: {
+  ),
+  {
+    languageOptions: {
+      globals: {
+        React: true,
+        JSX: true,
+      },
+      parserOptions: {
         project,
       },
     },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project,
+        },
+      },
+    },
   },
-  ignorePatterns: ['node_modules/', 'dist/'],
-}
+]

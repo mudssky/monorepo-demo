@@ -1,7 +1,7 @@
 import js from '@eslint/js'
+import { defineConfig } from 'eslint/config'
 import pluginReact from 'eslint-plugin-react'
 import pluginReactHooks from 'eslint-plugin-react-hooks'
-import { defineConfig } from 'eslint/config'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
@@ -30,6 +30,6 @@ export default defineConfig([
     },
   },
   {
-    ignores: ['*.cjs'],
+    ignores: ['*.cjs', '**/dist/', '**/node_modules/'],
   },
 ])
