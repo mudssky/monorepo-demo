@@ -6,6 +6,7 @@
     "target": "ES2023",
     "esModuleInterop": true,
     "outDir": "./dist",
+    "resolveJsonModule": true,
     "paths": {
       "@/*": [
         "./src/*"
