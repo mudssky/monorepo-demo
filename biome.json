@@ -1,15 +1,12 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "vcs": {
-    "enabled": false,
+    "enabled": true,
     "clientKind": "git",
-    "useIgnoreFile": false
+    "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
-    "ignore": [
-      "dist/**/*"
-    ]
+    "ignoreUnknown": true
   },
   "formatter": {
     "enabled": true,
@@ -21,9 +18,6 @@
     "lineWidth": 80,
     "attributePosition": "auto",
     "bracketSpacing": true
-  },
-  "organizeImports": {
-    "enabled": false
   },
   "linter": {
     "enabled": false,
@@ -50,6 +44,18 @@
   "json": {
     "formatter": {
       "enabled": false
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
     }
   }
 }

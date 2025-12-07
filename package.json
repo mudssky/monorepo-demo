@@ -12,7 +12,8 @@
     "publish-packages": "turbo run lint test && changeset version && changeset publish",
     "server:dev": "turbo run dev --filter=server",
     "test": "turbo run test",
-    "turbo:upgrade": "pnpm dlx @turbo/codemod migrate"
+    "turbo:upgrade": "pnpm dlx @turbo/codemod migrate",
+    "prepare": "husky"
   },
   "dependencies": {
     "@mudssky/jsutils": "^1.31.0",
@@ -28,6 +29,8 @@
     "@types/node": "^24.10.1",
     "@typescript/native-preview": "7.0.0-dev.20251206.1",
     "eslint": "^8.56.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-packagejson": "^2.5.20",
