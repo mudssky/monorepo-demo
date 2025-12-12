@@ -1,5 +1,5 @@
-import { $Enums, UploadFiles } from '#prisma'
 import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
+import { $Enums, UploadFiles } from '@prisma/client'
 import { Transform } from 'class-transformer'
 import { IsEnum, IsInt, IsOptional } from 'class-validator'
 

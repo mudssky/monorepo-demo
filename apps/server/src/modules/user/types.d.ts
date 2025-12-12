@@ -1,4 +1,4 @@
-import { User } from '#prisma'
+import { User } from '@prisma/client'
 
 type UserDtoType = Omit<User, 'password' | 'status'> & {
   avatarFullUrl: srting | null

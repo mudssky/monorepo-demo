@@ -1,23 +1,22 @@
-import { FileException } from '@/common/exceptions'
-import { PrismaService } from '@/modules/prisma/prisma.service'
 import { GlobalLoggerService } from '@lib'
+import { pick, range } from '@mudssky/jsutils'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { FileTag } from '@prisma/client'
 import fs from 'fs'
 import path from 'path'
+import { EnvironmentVariables } from '@/common/config/config'
+import { FileException } from '@/common/exceptions'
+import { PrismaService } from '@/modules/prisma/prisma.service'
+import { SharedService } from '../global/shared.service'
 import {
-  FileUploadDto,
   FilesUploadDto,
+  FileUploadDto,
   MergeChunkDto,
   UploadChunkDto,
   UploadResDto,
   UploadResDtoPickList,
 } from './dto/create-file.dto'
-
-import { FileTag } from '#prisma'
-import { EnvironmentVariables } from '@/common/config/config'
-import { pick, range } from '@mudssky/jsutils'
-import { SharedService } from '../global/shared.service'
 
 @Injectable()
 export class UploadFileService {

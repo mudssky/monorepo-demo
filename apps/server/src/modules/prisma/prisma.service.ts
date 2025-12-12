@@ -1,7 +1,7 @@
-import { PrismaClient } from '#prisma'
-import { resolveDatabaseURL } from '@/common/config'
 import { Injectable, OnModuleInit } from '@nestjs/common'
 import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaClient } from '@prisma/client'
+import { resolveDatabaseURL } from '@/common/config'
 import 'dotenv/config'
 
 @Injectable()

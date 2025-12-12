@@ -8,27 +8,15 @@
     "outDir": "./dist",
     "resolveJsonModule": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@app/redis": [
-        "./libs/redis/src"
-      ],
-      "@app/redis/*": [
-        "./libs/redis/src/*"
-      ],
-      "@lib": [
-        "./libs/index"
-      ],
-      "@root/*": [
-        "./*"
-      ],
-      "#prisma": [
-        "./prisma/generated/client"
-      ]
+      "@/*": ["./src/*"],
+      "@app/redis": ["./libs/redis/src"],
+      "@app/redis/*": ["./libs/redis/src/*"],
+      "@lib": ["./libs/index"],
+      "@root/*": ["./*"],
+      "@prisma/*": ["./prisma/generated/*"]
     },
     "composite": true,
-    "declaration": true,
+    "declaration": true
   },
   "include": [
     "test",
@@ -36,6 +24,7 @@
     "libs/**/*.ts",
     "src/**/*.json",
     "prisma/**/*.ts",
+    "prisma.config.ts"
   ],
   "watchOptions": {
     "excludeFiles": [

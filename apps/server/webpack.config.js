@@ -17,6 +17,7 @@ module.exports = {
       '@lib': path.resolve(__dirname, 'libs/index'),
       '@root': path.resolve(__dirname),
       '#prisma': path.resolve(__dirname, 'prisma/generated/client'),
+      '@prisma/client': path.resolve(__dirname, 'prisma/generated/client'),
     },
   },
   module: {

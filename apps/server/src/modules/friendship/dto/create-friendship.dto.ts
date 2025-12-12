@@ -1,11 +1,10 @@
-import { FriendRequest } from '#prisma'
 import { ApiProperty, PickType } from '@nestjs/swagger'
+import { FriendRequest } from '@prisma/client'
 import { IsNotEmpty } from 'class-validator'
 
-export class CreateFriendshipDto implements Pick<
-  FriendRequest,
-  'toUserId' | 'reason'
-> {
+export class CreateFriendshipDto
+  implements Pick<FriendRequest, 'toUserId' | 'reason'>
+{
   @ApiProperty({
     description: '添加的好友id',
   })

@@ -1,6 +1,3 @@
-import { User } from '#prisma'
-import { ApiCustomResponse } from '@/common/decorators/swagger'
-import { BaseException } from '@/common/exceptions'
 import {
   Body,
   Controller,
@@ -11,6 +8,9 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger'
+import { User } from '@prisma/client'
+import { ApiCustomResponse } from '@/common/decorators/swagger'
+import { BaseException } from '@/common/exceptions'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { Public, UserInfo } from './auth.decorator'
 import { AuthService } from './auth.service'

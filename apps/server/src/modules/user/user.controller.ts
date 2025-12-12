@@ -1,4 +1,3 @@
-import type { User as UserModel } from '#prisma'
 import {
   Body,
   Controller,
@@ -9,6 +8,7 @@ import {
   Request,
 } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import type { User as UserModel } from '@prisma/client'
 
 import {
   ApiCustomResponse,

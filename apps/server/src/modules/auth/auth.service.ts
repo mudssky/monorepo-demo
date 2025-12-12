@@ -1,10 +1,3 @@
-import { Prisma, User } from '#prisma'
-import { EnvironmentVariables } from '@/common/config'
-import { MINUTE } from '@/common/constant'
-import { BaseException } from '@/common/exceptions'
-import { DatabaseException } from '@/common/exceptions/database'
-import { EmailService } from '@/modules/email/email.service'
-import { PrismaService } from '@/modules/prisma/prisma.service'
 import { RedisService } from '@lib'
 import {
   calculatePasswordStrengthLevel,
@@ -14,8 +7,15 @@ import {
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
+import { Prisma, User } from '@prisma/client'
 import * as bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
+import { EnvironmentVariables } from '@/common/config'
+import { MINUTE } from '@/common/constant'
+import { BaseException } from '@/common/exceptions'
+import { DatabaseException } from '@/common/exceptions/database'
+import { EmailService } from '@/modules/email/email.service'
+import { PrismaService } from '@/modules/prisma/prisma.service'
 import { CreateUserDto } from '../user/dto/user.dto'
 import { UserService } from '../user/user.service'
 import {
