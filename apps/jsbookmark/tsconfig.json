@@ -3,7 +3,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist/tsoutput",
-    "removeComments": true
+    "removeComments": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src"]
+  "include": ["src", "rollup.config.ts"],
+  "ts-node": {
+    "esm": true
+  }
 }
