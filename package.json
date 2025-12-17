@@ -16,12 +16,12 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@mudssky/jsutils": "^1.31.0",
+    "@mudssky/jsutils": "^1.32.0",
     "dayjs": "^1.11.19",
     "lodash-es": "^4.17.22"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.9",
+    "@biomejs/biome": "^2.3.10",
     "@changesets/cli": "^2.29.8",
     "@mudssky/prettier-config-custom": "workspace:*",
     "@mudssky/tsconfig": "workspace:*",
