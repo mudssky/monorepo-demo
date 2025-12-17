@@ -1,7 +1,7 @@
-import { OutputChunk, Plugin } from 'rollup'
 import fs from 'fs'
 import path from 'path'
-import terser from 'terser'
+import { OutputChunk, Plugin } from 'rollup'
+import { minify } from 'terser'
 
 /**
  * 生成书签代码，建议在pnpm tsc，然后把生成的js拷贝到rollup config 里面用
@@ -32,7 +32,7 @@ export default function jsBookmarkPlugin(options?: {
         if (!fs.existsSync(outputDir)) {
           fs.mkdirSync(outputDir, { recursive: true })
         }
-        const minifiedCode = (await terser.minify(code)).code
+        const minifiedCode = (await minify(code)).code
         const bookmarkletCode = `javascript:${minifiedCode}`
         fs.writeFileSync(outputPath, bookmarkletCode)
       }
