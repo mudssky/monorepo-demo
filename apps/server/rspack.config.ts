@@ -102,6 +102,14 @@ const config: Configuration = {
       module: /src\/modules\/.*\.controller\.ts$/,
       message: /ESModulesLinkingWarning/,
     },
+    {
+      module: /packages\/.*\.ts$/,
+      message: /ESModulesLinkingWarning/,
+    },
+    {
+      message:
+        /Critical dependency: the request of a dependency is an expression/,
+    },
   ],
   devtool: isDev ? 'eval-source-map' : 'source-map',
 }
