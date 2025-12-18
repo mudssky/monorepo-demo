@@ -30,7 +30,7 @@
 
 ## 方案四：使用 `@prisma/client` 的类型
 - 在 web-admin 安装 dev 依赖：`pnpm add -D @prisma/client`
-- 修改导入：`import type { $Enums } from '@prisma/client'`
+- 修改导入：`import type { $Enums } from '#prisma/client'`
 - 注意：`@prisma/client` 的具体枚举类型来自 `prisma generate`，若前端项目没有对应 schema 或未生成，枚举可能不完整。
 - 优点：不再跨包引用 server。
 - 缺点：仍可能需要生成，且前端不应在运行时依赖 Prisma 客户端。

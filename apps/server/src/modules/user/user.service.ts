@@ -1,6 +1,6 @@
 import { getRandomItemFromArray } from '@mudssky/jsutils'
 import { Injectable, Logger } from '@nestjs/common'
-import { Prisma, User } from '@prisma/client'
+import { Prisma, User } from '#prisma/client'
 import { PaginationDto, PaginationVo, parsePaginationDto } from '@/common/dto'
 import { BaseException } from '@/common/exceptions'
 import { PrismaService } from '@/modules/prisma/prisma.service'

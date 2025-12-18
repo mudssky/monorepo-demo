@@ -3,7 +3,7 @@ import {
   ExecutionContext,
   SetMetadata,
 } from '@nestjs/common'
-import { $Enums } from '@prisma/client'
+import { $Enums } from '#prisma/client'
 import { JwtPayload } from './types'
 
 export const IS_PUBLIC_KEY = 'isPublic'

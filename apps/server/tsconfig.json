@@ -13,7 +13,7 @@
       "@app/redis/*": ["./libs/redis/src/*"],
       "@lib": ["./libs/index"],
       "@root/*": ["./*"],
-      "@prisma/*": ["./prisma/generated/*"]
+      "#prisma/*": ["./prisma/generated/*"]
     },
     "composite": true,
     "declaration": true
