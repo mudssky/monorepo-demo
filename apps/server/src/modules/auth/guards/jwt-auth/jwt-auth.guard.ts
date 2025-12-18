@@ -1,4 +1,4 @@
-import { GlobalLoggerService } from '@lib'
+import { GlobalLoggerService } from '@monorepo-demo/logger'
 import { ExecutionContext, HttpStatus, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { AuthGuard } from '@nestjs/passport'

@@ -49,6 +49,8 @@
     "qa": "pnpm typecheck:fast && pnpm lint"
   },
   "dependencies": {
+    "@monorepo-demo/redis": "workspace:*",
+    "@monorepo-demo/logger": "workspace:*",
     "@alicloud/openapi-client": "^0.4.15",
     "@alicloud/rds20140815": "^13.0.1",
     "@alicloud/tea-util": "^1.4.11",

@@ -1,4 +1,4 @@
-import { GlobalLoggerService } from '@lib'
+import { GlobalLoggerService } from '@monorepo-demo/logger'
 import { pick, range } from '@mudssky/jsutils'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'

@@ -1,4 +1,4 @@
-import { RedisService } from '@lib'
+import { RedisService } from '@monorepo-demo/redis'
 import {
   calculatePasswordStrengthLevel,
   generateBase62Code,

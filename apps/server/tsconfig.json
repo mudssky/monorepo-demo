@@ -9,9 +9,6 @@
     "resolveJsonModule": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@app/redis": ["./libs/redis/src"],
-      "@app/redis/*": ["./libs/redis/src/*"],
-      "@lib": ["./libs/index"],
       "@root/*": ["./*"],
       "#prisma/*": ["./prisma/generated/*"]
     },
@@ -21,7 +18,6 @@
   "include": [
     "test",
     "src/**/*.ts",
-    "libs/**/*.ts",
     "src/**/*.json",
     "prisma/**/*.ts",
     "prisma.config.ts"

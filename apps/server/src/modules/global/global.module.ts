@@ -1,18 +1,9 @@
 import {
-  EnvironmentVariables,
-  getEnvConfig,
-  validate,
-} from '@/common/config/config'
-import { GlobalExceptionFilter } from '@/common/filters/http-exception/http-exception.filter'
-import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
-import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
-import { EmailModule } from '@/modules/email/email.module'
-import {
-  GlobalLoggerModule,
-  RedisModule,
   commonFileFormat,
   customLogFormat,
-} from '@lib'
+  GlobalLoggerModule,
+} from '@monorepo-demo/logger'
+import { RedisModule } from '@monorepo-demo/redis'
 import { Global, Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
@@ -20,13 +11,22 @@ import { ScheduleModule } from '@nestjs/schedule'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import path from 'path'
 import winston from 'winston'
+import {
+  EnvironmentVariables,
+  getEnvConfig,
+  validate,
+} from '@/common/config/config'
+import { MB } from '@/common/constant'
+import { GlobalExceptionFilter } from '@/common/filters/http-exception/http-exception.filter'
+import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
+import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
+import { EmailModule } from '@/modules/email/email.module'
 import { CasbinAuthGuard } from '../auth/guards/casbin-auth.guard'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
 import { MinioModule } from '../minio/minio.module'
 import { PrismaModule } from '../prisma/prisma.module'
 import { SharedService } from './shared.service'
-import { MB } from '@/common/constant'
 
 const commonFileLoggerConfig = {
   format: commonFileFormat,

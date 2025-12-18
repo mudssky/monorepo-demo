@@ -1,4 +1,4 @@
-import { GlobalLoggerService } from '@lib'
+import { GlobalLoggerService } from '@monorepo-demo/logger'
 import { INestApplication } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
@@ -6,8 +6,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import helmet from 'helmet'
 import { AppModule } from './app.module'
 import { CustomResponseDto } from './common/dto/response.dto'
-import metadata from './metadata'
 import { getServerIp } from './common/utils'
+import metadata from './metadata'
 
 declare const module: any
 function configHotReload(app: INestApplication<any>) {

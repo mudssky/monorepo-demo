@@ -1,8 +1,12 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2022",
     "declaration": true,
-    "outDir": "../../dist/libs/redis"
+    "outDir": "dist",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
