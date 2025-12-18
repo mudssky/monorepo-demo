@@ -44,12 +44,8 @@ const config: Configuration = {
       // 开发环境如果你想利用 Rspack 的 HMR 能力，部分包可能需要 allowlist
       // 但通常后端直接排除所有 node_modules 最稳
       allowlist: isDev
-        ? [
-            'webpack/hot/poll?100',
-            '@monorepo-demo/logger',
-            '@monorepo-demo/redis',
-          ]
-        : ['@monorepo-demo/logger', '@monorepo-demo/redis'],
+        ? ['webpack/hot/poll?100', /^@monorepo-demo\//]
+        : [/^@monorepo-demo\//],
     }) as any,
   ],
   externalsType: 'commonjs',

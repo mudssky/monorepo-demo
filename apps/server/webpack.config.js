@@ -30,11 +30,7 @@ module.exports = {
   },
   externals: [
     nodeExternals({
-      allowlist: [
-        'webpack/hot/poll?100',
-        '@monorepo-demo/logger',
-        '@monorepo-demo/redis',
-      ],
+      allowlist: ['webpack/hot/poll?100', /^@monorepo-demo\//],
     }),
   ],
   module: {
