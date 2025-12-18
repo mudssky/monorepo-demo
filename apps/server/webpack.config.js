@@ -3,8 +3,7 @@ const swcDefaultConfig =
     .swcOptions
 const path = require('path')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-
-import nodeExternals from 'webpack-node-externals'
+const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
   devtool: 'source-map',
@@ -30,11 +29,7 @@ module.exports = {
   },
   externals: [
     nodeExternals({
-      allowlist: [
-        'webpack/hot/poll?100',
-        '@monorepo-demo/logger',
-        '@monorepo-demo/redis',
-      ],
+      allowlist: ['webpack/hot/poll?100', /^@monorepo-demo\//],
     }),
   ],
   module: {
