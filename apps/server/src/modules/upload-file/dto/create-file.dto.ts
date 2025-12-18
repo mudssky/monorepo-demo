@@ -1,7 +1,7 @@
 import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
-import { $Enums, UploadFiles } from '@prisma/client'
 import { Transform } from 'class-transformer'
 import { IsEnum, IsInt, IsOptional } from 'class-validator'
+import { $Enums, UploadFiles } from '#prisma/client'
 
 export class CreateFileDto implements Omit<UploadFiles, 'storageType'> {
   @ApiProperty()

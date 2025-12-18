@@ -29,30 +29,5 @@
       }
     ],
     "webpack": true
-  },
-  "monorepo": true,
-  "projects": {
-    "redis": {
-      "type": "library",
-      "root": "libs/redis",
-      "entryFile": "index",
-      "sourceRoot": "libs/redis/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/redis/tsconfig.lib.json",
-        "builder": "swc",
-        "typeCheck": true
-      }
-    },
-    "logger": {
-      "type": "library",
-      "root": "libs/logger",
-      "entryFile": "index",
-      "sourceRoot": "libs/logger/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/logger/tsconfig.lib.json",
-        "builder": "swc",
-        "typeCheck": true
-      }
-    }
   }
 }

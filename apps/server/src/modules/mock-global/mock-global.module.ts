@@ -1,3 +1,16 @@
+import * as path from 'node:path'
+import {
+  commonFileFormat,
+  customLogFormat,
+  GlobalLoggerModule,
+} from '@monorepo-demo/logger'
+import { RedisModule } from '@monorepo-demo/redis'
+import { CacheInterceptor } from '@nestjs/cache-manager'
+import { Module } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { ScheduleModule } from '@nestjs/schedule'
+import winston from 'winston'
 import {
   EnvironmentVariables,
   getEnvConfig,
@@ -5,19 +18,6 @@ import {
 } from '@/common/config/config'
 import { ResponseInterceptor } from '@/common/interceptors/response/response.interceptor'
 import { GlobalValidationPipe } from '@/common/pipes/global-validation/global-validation.pipe'
-import {
-  commonFileFormat,
-  customLogFormat,
-  GlobalLoggerModule,
-  RedisModule,
-} from '@lib'
-import { CacheInterceptor } from '@nestjs/cache-manager'
-import { Module } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
-import { ScheduleModule } from '@nestjs/schedule'
-import * as path from 'node:path'
-import winston from 'winston'
 import { JwtAuthGuard } from '../auth/guards/jwt-auth/jwt-auth.guard'
 import { CustomCacheModule } from '../custom-cache/custom-cache.module'
 import { EmailModule } from '../email/email.module'

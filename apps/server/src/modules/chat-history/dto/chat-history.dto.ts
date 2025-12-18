@@ -1,4 +1,4 @@
-import { ChatHistory } from '@prisma/client'
+import { ChatHistory } from '#prisma/client'
 
 export class ChatHistoryDto
   implements Omit<ChatHistory, 'createTime' | 'updateTime' | 'id'>

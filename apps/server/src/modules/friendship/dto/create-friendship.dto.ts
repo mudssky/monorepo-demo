@@ -1,6 +1,6 @@
 import { ApiProperty, PickType } from '@nestjs/swagger'
-import { FriendRequest } from '@prisma/client'
 import { IsNotEmpty } from 'class-validator'
+import { FriendRequest } from '#prisma/client'
 
 export class CreateFriendshipDto
   implements Pick<FriendRequest, 'toUserId' | 'reason'>

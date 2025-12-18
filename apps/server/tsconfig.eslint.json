@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "noEmit": true
+  },
+  "include": [
+    "test",
+    "src/**/*.ts",
+    "libs/**/*.ts",
+    "src/**/*.json",
+    "prisma/**/*.ts",
+    "prisma.config.ts",
+    "webpack.config.js",
+    "webpack-hmr.config.js",
+    "ecosystem.config.js",
+    "eslint.config.js",
+    "jest.config.ts",
+    "rspack.config.ts"
+  ]
+}

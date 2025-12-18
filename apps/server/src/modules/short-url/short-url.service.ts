@@ -1,7 +1,7 @@
 import { generateBase62Code } from '@mudssky/jsutils'
 import { Injectable } from '@nestjs/common'
 import { Cron, CronExpression } from '@nestjs/schedule'
-import { ShortUrl } from '@prisma/client'
+import { ShortUrl } from '#prisma/client'
 import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()
