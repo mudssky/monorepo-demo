@@ -23,19 +23,21 @@ const config: Configuration = {
     extensionAlias: {
       '.js': ['.ts', '.js'],
     },
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@root': path.resolve(__dirname, './'),
-      '#prisma': path.resolve(__dirname, './prisma/generated'),
-      '@monorepo-demo/logger': path.resolve(
-        __dirname,
-        '../../packages/nest-logger/src/index.ts',
-      ),
-      '@monorepo-demo/redis': path.resolve(
-        __dirname,
-        '../../packages/nest-redis/src/index.ts',
-      ),
-    },
+    // 自动解析tsconfig配置，避免重复定义别名
+    tsConfig: path.resolve(__dirname, './tsconfig.json'),
+    // alias: {
+    //   '@': path.resolve(__dirname, './src'),
+    //   '@root': path.resolve(__dirname, './'),
+    //   '#prisma': path.resolve(__dirname, './prisma/generated'),
+    //   '@monorepo-demo/logger': path.resolve(
+    //     __dirname,
+    //     '../../packages/nest-logger/src/index.ts',
+    //   ),
+    //   '@monorepo-demo/redis': path.resolve(
+    //     __dirname,
+    //     '../../packages/nest-redis/src/index.ts',
+    //   ),
+    // },
   },
   externals: [
     nodeExternals({
