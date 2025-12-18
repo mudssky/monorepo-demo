@@ -27,13 +27,27 @@ const config: Configuration = {
       '@': path.resolve(__dirname, './src'),
       '@root': path.resolve(__dirname, './'),
       '#prisma': path.resolve(__dirname, './prisma/generated'),
+      '@monorepo-demo/logger': path.resolve(
+        __dirname,
+        '../../packages/nest-logger/src/index.ts',
+      ),
+      '@monorepo-demo/redis': path.resolve(
+        __dirname,
+        '../../packages/nest-redis/src/index.ts',
+      ),
     },
   },
   externals: [
     nodeExternals({
       // 开发环境如果你想利用 Rspack 的 HMR 能力，部分包可能需要 allowlist
       // 但通常后端直接排除所有 node_modules 最稳
-      allowlist: isDev ? ['webpack/hot/poll?100'] : [],
+      allowlist: isDev
+        ? [
+            'webpack/hot/poll?100',
+            '@monorepo-demo/logger',
+            '@monorepo-demo/redis',
+          ]
+        : ['@monorepo-demo/logger', '@monorepo-demo/redis'],
     }) as any,
   ],
   externalsType: 'commonjs',

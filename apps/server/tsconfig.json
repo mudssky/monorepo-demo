@@ -10,7 +10,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "@root/*": ["./*"],
-      "#prisma/*": ["./prisma/generated/*"]
+      "#prisma/*": ["./prisma/generated/*"],
+      "@monorepo-demo/logger": ["../../packages/nest-logger/src/index.ts"],
+      "@monorepo-demo/redis": ["../../packages/nest-redis/src/index.ts"]
     },
     "composite": true,
     "declaration": true
