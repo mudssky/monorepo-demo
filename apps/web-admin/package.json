@@ -12,11 +12,11 @@
     "lint": "eslint .  --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint .  --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview",
+    "qa": "pnpm typecheck && pnpm lint",
     "server:genType": "pnpm --filter server prisma:generate&&pnpm --filter server exec tsc --emitDeclarationOnly",
     "server:genTypeFast": "pnpm --filter server prisma:generate&&pnpm --filter server exec tsgo --emitDeclarationOnly",
     "typecheck": "tsc --noEmit",
-    "typecheck:fast": "pnpm server:genType && tsgo --noEmit",
-    "ci:check": "pnpm typecheck && pnpm lint"
+    "typecheck:fast": "pnpm server:genType && tsgo --noEmit"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
