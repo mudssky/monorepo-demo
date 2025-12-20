@@ -204,8 +204,10 @@ const Demo05: React.FC = () => {
             columns={columns}
             dataSource={dataSource}
             components={{
-              header: { cell: TableHeaderCell },
-              body: { cell: TableBodyCell },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              header: { cell: TableHeaderCell as any },
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              body: { cell: TableBodyCell as any },
             }}
           />
         </DragIndexContext.Provider>

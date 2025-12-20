@@ -10,7 +10,8 @@ export default function CustomQueryClientProvider(props: Props) {
   const { children } = props
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      {children as any}
       {/* 开发工具配置 */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

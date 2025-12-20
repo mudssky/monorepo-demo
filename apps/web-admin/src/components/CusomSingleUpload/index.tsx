@@ -112,7 +112,8 @@ export default function CustomUpload(props: Props) {
       {currentImageUrl && uploaderType === 'image' ? (
         <img src={currentImageUrl} alt="avatar" style={{ width: '100%' }} />
       ) : (
-        currentButton
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (currentButton as any)
       )}
     </Upload>
   )

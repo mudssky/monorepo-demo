@@ -45,7 +45,8 @@ const DraggableTag: React.FC<DraggableTagProps> = (props) => {
     : commonStyle
 
   return (
-    <Tag style={style} ref={setNodeRef} {...listeners}>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <Tag style={style as any} ref={setNodeRef} {...listeners}>
       {tag.text}
     </Tag>
   )
@@ -83,7 +84,8 @@ const Demo03: React.FC = () => {
     >
       <SortableContext items={items} strategy={horizontalListSortingStrategy}>
         <Flex gap="4px 0" wrap>
-          {items.map<React.ReactNode>((item) => (
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {items.map<any>((item) => (
             <DraggableTag tag={item} key={item.id} />
           ))}
         </Flex>
