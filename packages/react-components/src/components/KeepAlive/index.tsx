@@ -52,7 +52,10 @@ export function useKeepOutlet() {
 
   /**如果是keepPath指定的组件，进行缓存 */
   if (isKeep) {
-    keepElements![location.pathname] = element
+    if (keepElements) {
+      // eslint-disable-next-line react-hooks/immutability
+      keepElements[location.pathname] = element
+    }
   }
 
   return (

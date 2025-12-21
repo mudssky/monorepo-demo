@@ -1,5 +1,7 @@
-import { useMutateObserver } from '@/hooks/dom'
+/* eslint-disable react-hooks/refs */
+
 import React, { useLayoutEffect } from 'react'
+import { useMutateObserver } from '@/hooks/dom'
 
 interface MutationObserverProps {
   options?: MutationObserverInit

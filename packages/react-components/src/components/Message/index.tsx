@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CSSProperties,
-  FC,
-  ReactNode,
   createRef,
+  FC,
   forwardRef,
+  ReactNode,
+  useImperativeHandle,
   useMemo,
 } from 'react'
+import { createPortal } from 'react-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import useStore from './useStore'
-
-import { createPortal } from 'react-dom'
 import './styles.scss'
 import { useTimer } from './useTimer'
 
@@ -54,15 +54,14 @@ const MessageItem: FC<MessageProps> = (item) => {
 export const MessageProvider = forwardRef<MessageRef, object>((_props, ref) => {
   const { messageList, add, update, remove, clearAll } = useStore('top')
 
-  // 立刻修改ref，useImperativeHandle有一定延迟
-  if ('current' in ref!) {
-    ref.current = {
+  useImperativeHandle(ref, () => {
+    return {
       add,
       update,
       remove,
       clearAll,
     }
-  }
+  }, [add, update, remove, clearAll])
 
   // useImperativeHandle(
   //   ref,

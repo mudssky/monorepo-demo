@@ -9,5 +9,6 @@ export function useMessage(): MessageRef {
     throw new Error('请在最外层添加 ConfigProvider 组件')
   }
 
+  // eslint-disable-next-line react-hooks/refs
   return messageRef.current!
 }
