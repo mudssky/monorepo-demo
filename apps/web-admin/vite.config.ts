@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { defineConfig, loadEnv } from 'vite'
@@ -80,6 +81,7 @@ export default defineConfig(({ mode }) => {
       tsChecker({
         typescript: true,
       }),
+      tailwindcss(),
       // visualizer({
       //   open: true, //在默认用户代理中打开生成的文件
       //   gzipSize: true, // 收集 gzip 大小并将其显示

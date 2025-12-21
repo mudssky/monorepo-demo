@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import { useDrag, useDragLayer, useDrop } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
-import styles from './styles.module.scss'
+import styles from './styles.module.css'
 
 /**
  * 更改拖拽预览的组件

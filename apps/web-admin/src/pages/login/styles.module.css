@@ -1,15 +1,15 @@
+@reference "../../index.css";
+
 .login-container {
-  @apply flex h-screen w-screen items-center justify-center bg-primary-content;
+  @apply bg-primary-content flex h-screen w-screen items-center justify-center;
+}
 
-  .login-form-container {
-    /* @apply flex h-[400px] w-1/4 flex-col items-center justify-center rounded-lg bg-slate-100; */
-    @apply card;
-  }
+.login-container .login-form-container {
+  /* @apply flex h-[400px] w-1/4 flex-col items-center justify-center rounded-lg bg-slate-100; */
+  @apply card;
+}
 
-  :global {
-    /* 表单验证信息靠左 */
-    .ant-form-item-explain-error {
-      @apply text-left;
-    }
-  }
+/* 表单验证信息靠左 */
+.login-container :global .ant-form-item-explain-error {
+  @apply text-left;
 }

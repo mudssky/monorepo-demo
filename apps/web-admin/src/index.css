@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
+
+@plugin "daisyui";
+@plugin "@tailwindcss/typography";
 
 /* 简化的重置css样式 */
 *,

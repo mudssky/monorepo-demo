@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import styles from './styles.module.scss'
+import styles from './styles.module.css'
 
 interface CardItem {
   id: number

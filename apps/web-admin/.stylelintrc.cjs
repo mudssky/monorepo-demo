@@ -1,4 +1,4 @@
 module.exports = {
-  extends: ['@mudssky/stylelint-config-custom/tailwind'],
+  extends: ['stylelint-config-standard', 'stylelint-config-tailwindcss'],
   ignoreFiles: ['dist/**'],
 }

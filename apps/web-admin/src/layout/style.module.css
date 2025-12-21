@@ -1,3 +1,5 @@
+@reference "../index.css";
+
 .layout-container {
   @apply h-screen w-screen;
 }

@@ -1,3 +1,5 @@
+@reference "../../../../index.css";
+
 .table-cell {
   @apply p-0 !important;
 }

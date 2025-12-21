@@ -16,7 +16,7 @@ import {
 import { useAppStore } from '@/store/appStore'
 import { UploadFileModal } from '../components/UploadFileModal'
 import { UploadImageModal } from '../components/UploadImageModal'
-import './styles.scss'
+import './styles.css'
 
 interface JoinRoomPayload {
   chatroomId: string
