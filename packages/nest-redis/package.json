@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc -b tsconfig.json"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.9",
