@@ -11,8 +11,8 @@
       "@/*": ["./src/*"],
       "@root/*": ["./*"],
       "#prisma/*": ["./prisma/generated/*"],
-      "@monorepo-demo/logger": ["../../packages/nest-logger/src/index.ts"],
-      "@monorepo-demo/redis": ["../../packages/nest-redis/src/index.ts"]
+      "@monorepo-demo/logger": ["../../packages/nest-logger/dist/index.d.ts"],
+      "@monorepo-demo/redis": ["../../packages/nest-redis/dist/index.d.ts"]
     },
     "composite": true,
     "declaration": true

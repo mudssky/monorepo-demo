@@ -2,6 +2,7 @@ const swcDefaultConfig =
   require('@nestjs/cli/lib/compiler/defaults/swc-defaults').swcDefaultsFactory()
     .swcOptions
 const path = require('path')
+const { exec } = require('child_process')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
 
@@ -18,6 +19,18 @@ module.exports = {
         // 指定 tsconfig.json 文件的位置（可选，默认会查找项目根目录）
         configFile: path.resolve(__dirname, './tsconfig.json'),
       }),
+      {
+        apply: (compiler) => {
+          compiler.hooks.afterEmit.tap('GenerateDtsPlugin', () => {
+            console.log('Generating .d.ts files...')
+            exec('npx tsc --emitDeclarationOnly', (err, stdout, stderr) => {
+              if (stdout) process.stdout.write(stdout)
+              if (stderr) process.stderr.write(stderr)
+              if (!err) console.log('Declaration files generated successfully.')
+            })
+          })
+        },
+      },
     ],
     // alias: {
     //   '@': path.resolve(__dirname, 'src'),
