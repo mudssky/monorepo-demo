@@ -1,5 +1,5 @@
 import { Calendar, CalendarProps } from '@mudssky/react-components'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import dayjs from 'dayjs'
 
 const meta = {

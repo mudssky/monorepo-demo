@@ -1,5 +1,5 @@
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import Watermark from '@/components/Watermark'
-import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
   title: 'Watermark',

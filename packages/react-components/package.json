@@ -3,13 +3,28 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc && vite build",
     "build-storybook": "storybook build",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "preview": "vite preview",
-    "storybook": "storybook dev -p 36006"
+    "qa": "pnpm typecheck && pnpm lint && pnpm format",
+    "storybook": "storybook dev -p 36006",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "async-validator": "^4.2.5",
@@ -26,13 +41,12 @@
     "@eslint/compat": "^1.2.8",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.25.1",
-    "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-interactions": "^8.6.12",
-    "@storybook/addon-links": "^8.6.12",
-    "@storybook/addon-onboarding": "^8.6.12",
+    "@storybook/addon-docs": "^10.1.10",
+    "@storybook/addon-links": "^10.1.10",
+    "@storybook/addon-onboarding": "^10.1.10",
     "@storybook/blocks": "^8.6.12",
-    "@storybook/react": "^8.6.12",
-    "@storybook/react-vite": "^8.6.12",
+    "@storybook/react": "^10.1.10",
+    "@storybook/react-vite": "^10.1.10",
     "@storybook/test": "^8.6.12",
     "@storybook/testing-library": "0.2.2",
     "@types/lodash-es": "^4.17.12",
@@ -46,11 +60,12 @@
     "eslint": "^9.25.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
-    "eslint-plugin-storybook": "^0.12.0",
+    "eslint-plugin-storybook": "^10.1.10",
     "globals": "^16.0.0",
     "rollup": "^4.3.0",
-    "storybook": "^8.6.12",
+    "storybook": "^10.1.10",
     "typescript": "^5.8.3",
-    "vite": "^6.3.2"
+    "vite": "^7.3.0",
+    "vite-plugin-dts": "^4.5.4"
   }
 }

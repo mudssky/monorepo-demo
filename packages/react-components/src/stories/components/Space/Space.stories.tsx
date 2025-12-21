@@ -1,5 +1,5 @@
 import { Space } from '@mudssky/react-components'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import './styles.scss'
 
 const meta = {

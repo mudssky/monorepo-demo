@@ -1,5 +1,5 @@
 import { MessageProvider, MessageRef } from '@mudssky/react-components'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useRef } from 'react'
 
 const meta = {
