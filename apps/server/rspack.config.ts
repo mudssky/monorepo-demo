@@ -1,5 +1,4 @@
 import { Configuration } from '@rspack/cli'
-import { exec } from 'child_process'
 import * as path from 'path'
 import { RunScriptWebpackPlugin } from 'run-script-webpack-plugin'
 import nodeExternals from 'webpack-node-externals'
@@ -26,19 +25,6 @@ const config: Configuration = {
     },
     // 自动解析tsconfig配置，避免重复定义别名
     tsConfig: path.resolve(__dirname, './tsconfig.json'),
-    // alias: {
-    //   '@': path.resolve(__dirname, './src'),
-    //   '@root': path.resolve(__dirname, './'),
-    //   '#prisma': path.resolve(__dirname, './prisma/generated'),
-    //   '@monorepo-demo/logger': path.resolve(
-    //     __dirname,
-    //     '../../packages/nest-logger/src/index.ts',
-    //   ),
-    //   '@monorepo-demo/redis': path.resolve(
-    //     __dirname,
-    //     '../../packages/nest-redis/src/index.ts',
-    //   ),
-    // },
   },
   externals: [
     nodeExternals({
@@ -94,18 +80,19 @@ const config: Configuration = {
         name: 'main.js',
         autoRestart: false, // 让 Nest 的 HMR 逻辑接管，或者设为 true 暴力重启
       }),
-    {
-      apply: (compiler: any) => {
-        compiler.hooks.afterEmit.tap('GenerateDtsPlugin', () => {
-          console.log('Generating .d.ts files...')
-          exec('npx tsc --emitDeclarationOnly', (err, stdout, stderr) => {
-            if (stdout) process.stdout.write(stdout)
-            if (stderr) process.stderr.write(stderr)
-            if (!err) console.log('Declaration files generated successfully.')
-          })
-        })
-      },
-    },
+    // 生成 .d.ts 文件
+    //  {
+    //     apply: (compiler: any) => {
+    //       compiler.hooks.afterEmit.tap('GenerateDtsPlugin', () => {
+    //         console.log('Generating .d.ts files...')
+    //         exec('npx tsc --emitDeclarationOnly', (err, stdout, stderr) => {
+    //           if (stdout) process.stdout.write(stdout)
+    //           if (stderr) process.stderr.write(stderr)
+    //           if (!err) console.log('Declaration files generated successfully.')
+    //         })
+    //       })
+    //     },
+    //   },
   ].filter(Boolean),
   ignoreWarnings: [
     // 这些 Warning 是因为 NestJS 的元数据反射机制与 Rspack/SWC 的打包行为存在细微冲突导致的，但 不影响程序正常运行 。
