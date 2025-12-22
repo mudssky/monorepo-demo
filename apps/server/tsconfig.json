@@ -15,14 +15,17 @@
       "@monorepo-demo/redis": ["../../packages/nest-redis/src/index.ts"]
     },
     "composite": true,
-    "declaration": true
+    "declaration": true,
+    "rootDir": "../.."
   },
   "include": [
     "test",
     "src/**/*.ts",
     "src/**/*.json",
     "prisma/**/*.ts",
-    "prisma.config.ts"
+    "prisma.config.ts",
+    "../../packages/nest-logger/src/**/*.ts",
+    "../../packages/nest-redis/src/**/*.ts"
   ],
   "watchOptions": {
     "excludeFiles": [
