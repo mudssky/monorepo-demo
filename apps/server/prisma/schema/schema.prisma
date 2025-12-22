@@ -9,7 +9,3 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-
-model MeetingRooms {
-  id String @id @default(uuid(7))
-}
