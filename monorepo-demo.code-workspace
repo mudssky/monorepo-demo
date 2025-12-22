@@ -1,6 +1,10 @@
 {
   "folders": [
     {
+      "path": "apps/server",
+      "name": "backend",
+    },
+    {
       "path": "apps/web-admin",
       "name": "web-admin",
     },
@@ -15,10 +19,6 @@
     {
       "path": "apps/jsbookmark",
       "name": "jsbookmark",
-    },
-    {
-      "path": "apps/server",
-      "name": "backend",
     },
     {
       "path": "packages/eslint-config-custom",
